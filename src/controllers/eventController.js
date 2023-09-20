@@ -1,11 +1,13 @@
+const Events = require('../models/events')
+
 const getEvents = async (req, res) => {
-  const events = 'All Events';
-  res.json({ events });
-};
+  try {
+    const events = await Events.findAndCountAll({ limit: 10 })
 
-const getEvent = async (req, res) => {
-  const events = 'All Events';
-  res.json({ events });
-};
+    res.send(events)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-module.exports = { getEvents, getEvent };
+module.exports = { getEvents }
