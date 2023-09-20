@@ -1,18 +1,18 @@
 const Sequelize = require('sequelize')
 
-const sequelize = require('../utils/database')
+const sequelize = require('../utils/database.js')
 
-const Comment = sequelize.define('comment', {
+const Image = sequelize.define('image', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
-  body: {
+  image_url: {
     type: Sequelize.STRING,
     allowNull: false,
   },
 })
 
-module.exports = Comment
+module.exports = Image
