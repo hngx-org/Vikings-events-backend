@@ -27,7 +27,7 @@ InterestedEvents.init(
     modelName: 'InterestedEvents',
     tableName: 'interested_events',
     timestamps: false,
-  }
+  },
 );
 
 module.exports = InterestedEvents;

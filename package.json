@@ -9,7 +9,9 @@
     "lint": "eslint --fix src",
     "test": "jest",
     "migrate:up": "npx sequelize-cli db:migrate",
-    "migrate:undo": "npx sequelize-cli db:migrate:undo"
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "migrate:create": "npx sequelize-cli migration:create --name",
+    "migrate:generate": "npx sequelize-cli migration:generate --name"
   },
   "keywords": [],
   "author": "",
