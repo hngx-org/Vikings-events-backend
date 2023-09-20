@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require('sequelize')
-const sequelize = require('../config/config')
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../config/config');
 
 class GroupImage extends Model {}
 
@@ -26,7 +26,7 @@ GroupImage.init(
     modelName: 'GroupImage',
     tableName: 'group_image',
     timestamps: false,
-  }
-)
+  },
+);
 
-module.exports = GroupImage
+module.exports = GroupImage;

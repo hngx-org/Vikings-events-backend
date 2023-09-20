@@ -1,6 +1,6 @@
-const Events = require('../models/events')
+const Events = require('../models/events');
 
-const createEventController = async (req, res) => {
+const createEventController = async (req, res, next) => {
   try {
     const {
       title,
@@ -10,7 +10,7 @@ const createEventController = async (req, res) => {
       end_date,
       start_time,
       end_time,
-    } = req.body
+    } = req.body;
 
     const newEvent = {
       title,
@@ -20,13 +20,13 @@ const createEventController = async (req, res) => {
       end_date,
       start_time,
       end_time,
-    }
-    const events = await Events.create(newEvent)
+    };
+    const event = await Events.create(newEvent);
 
-    res.send(events)
+    res.json(event);
   } catch (error) {
-    console.log(error)
+    next(error);
   }
-}
+};
 
-module.exports = { createEventController }
+module.exports = { createEventController };
