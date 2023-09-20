@@ -3,4 +3,16 @@ const getGroups = async (req, res) => {
   res.json({ groups });
 };
 
-module.exports = { getGroups }
+const getCommentImages = async (req, res) => {
+
+  try {
+    const images = [];
+    return res.json({ images })
+
+  } catch (e) {
+    return res.status(500).json({ message: "Internal server error" })
+  }
+  
+}
+
+export { getGroups, getCommentImages }
