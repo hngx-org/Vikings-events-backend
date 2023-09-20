@@ -7,7 +7,7 @@ Groups.init(
   {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,  
+      autoIncrement: true,
       allowNull: false,
       primaryKey: true,
     },
@@ -21,7 +21,7 @@ Groups.init(
     modelName: 'Groups',
     tableName: 'groups',
     timestamps: false,
-  }
+  },
 );
 
 module.exports = Groups;

@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require('sequelize')
-const sequelize = require('../config/config')
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../config/config');
 
 class EventThumbnail extends Model {}
 
@@ -26,7 +26,9 @@ EventThumbnail.init(
     modelName: 'EventThumbnail',
     tableName: 'event_thumbnail',
     timestamps: false,
-  }
-)
+  },
+);
 
-module.exports = EventThumbnail
+EventThumbnail.removeAttribute('id');
+
+module.exports = EventThumbnail;

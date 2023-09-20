@@ -1,5 +1,3 @@
-'use strict'
-
 /** @type {import('sequelize-cli').Migration} */
 
 module.exports = {
@@ -22,9 +20,10 @@ module.exports = {
       avatar: {
         type: Sequelize.TEXT,
       },
-    })
+    });
   },
+  // eslint-disable-next-line no-unused-vars
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('user')
+    await queryInterface.dropTable('user');
   },
-}
+};
