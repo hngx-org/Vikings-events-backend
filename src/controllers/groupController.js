@@ -1,6 +1,4 @@
-import Group from '../models/group.js';
-
-export const createGroup = async (req, res) => {
+const createGroup = async (req, res) => {
   try {
     const {title} = req.body;
 
@@ -19,12 +17,11 @@ catch(error) {
 }
 };
 
-export const getGroups = async (req, res) => {
+const getGroups = async (req, res) => {
   const groups = 'All Groups'
   res.json({ groups })
 }
 
-module.exports = { 
-  getGroups,
-  createGroup,
- };
+export {  getGroups, createGroup, };
+ 
+

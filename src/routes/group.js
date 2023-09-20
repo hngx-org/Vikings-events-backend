@@ -1,13 +1,13 @@
-import express from 'express';
-import { getGroups, createGroup } from '../controllers/groupController.js';
+import Router from 'express'
+import { createGroup, getGroups } from '../controllers/groupController.js'
 
-const router = express.Router();
+const router = Router()
 
 // Create a group
-router.post('/', createGroup);
+router.post('/', createGroup)
 
 // get all groups
-router.get('/', getGroups);
+router.get('/', getGroups)
 
 // Get a group detail
 // router.get("/:groupId", );
@@ -21,5 +21,4 @@ router.get('/', getGroups);
 // Remove user from a group
 // router.delete("/:groupId/members/:userId", );
 
-
-export default router;
+export default router
