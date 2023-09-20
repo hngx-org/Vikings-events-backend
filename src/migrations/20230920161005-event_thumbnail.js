@@ -7,14 +7,14 @@ module.exports = {
       event_id: {
         type: Sequelize.INTEGER,
         references: {
-          tableName: 'events',
+          model: 'events',
           key: 'id',
         },
       },
       image_id: {
         type: Sequelize.INTEGER,
         references: {
-          tableName: 'images',
+          model: 'images',
           key: 'id',
         },
       },
