@@ -8,7 +8,7 @@ const router = express.Router()
 // router.post("/", );
 
 // get all groups
-router.get('/', getGroups)
+router.get('/', getGroups);
 
 // Get a group detail
 // router.get("/:groupId", );
@@ -22,4 +22,4 @@ router.get('/', getGroups)
 // Remove user from a group
 // router.delete("/:groupId/members/:userId", );
 
-module.exports = router
+module.exports = router;

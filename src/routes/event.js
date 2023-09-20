@@ -4,7 +4,7 @@ const  { getEvents } = require('../controllers/eventController.js')
 const router = express.Router()
 
 // Get all events
-router.get('/', getEvents)
+router.get('/', getEvents);
 
 // Create an event
 // router.post("/", );
@@ -30,4 +30,4 @@ router.get('/', getEvents)
 // get event comment image
 // router.get("/:eventId/comments/:commentId/images", );
 
-module.exports = router
+module.exports = router;
