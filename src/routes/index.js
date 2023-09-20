@@ -1,5 +1,5 @@
-import eventRoutes from './event.js'
-import userRoutes from './user.js'
-import groupRoutes from './group.js'
+const eventRoutes = require('./event.js')
+const userRoutes = require('./user.js')
+const groupRoutes = require('./group.js')
 
-export { eventRoutes, userRoutes, groupRoutes }
+module.exports = { eventRoutes, userRoutes, groupRoutes }
