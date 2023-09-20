@@ -1,33 +1,26 @@
-'use strict';
+'use strict'
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('comments', {
-      id: {
+    await queryInterface.createTable('comment_images', {
+      comment_id: {
         type: Sequelize.UUID,
-        primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
-      },
-      body: {
-        type: Sequelize.TEXT,
-      },
-      user_id: {
-        type: Sequelize.UUID,
         references: {
-          model: 'user',
+          model: 'comments',
           key: 'id',
         },
       },
-      event_id: {
+      image_id: {
         type: Sequelize.UUID,
+        allowNull: false,
         references: {
-          model: 'events',
+          model: 'images',
           key: 'id',
         },
       },
-    });
+    })
   },
 
   async down(queryInterface, Sequelize) {
@@ -38,4 +31,4 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
   },
-};
+}

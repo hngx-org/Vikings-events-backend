@@ -2,40 +2,31 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('comments', {
-      id: {
-        type: Sequelize.UUID,
-        primaryKey: true,
-        defaultValue: Sequelize.UUIDV4,
-        allowNull: false,
-      },
-      body: {
-        type: Sequelize.TEXT,
-      },
+  async up (queryInterface, Sequelize) {
+    await queryInterface.createTable('likes', {
       user_id: {
         type: Sequelize.UUID,
         references: {
-          model: 'user',
+          tableName: 'user',
           key: 'id',
         },
       },
-      event_id: {
+      comment_id: {
         type: Sequelize.UUID,
         references: {
-          model: 'events',
+          tableName: 'comments',
           key: 'id',
         },
       },
     });
   },
 
-  async down(queryInterface, Sequelize) {
+  async down (queryInterface, Sequelize) {
     /**
      * Add reverting commands here.
      *
      * Example:
      * await queryInterface.dropTable('users');
      */
-  },
+  }
 };
