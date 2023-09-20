@@ -4,7 +4,6 @@ const sequelize = require('../config/database');
 class InterestedEvents extends Model {}
 
 InterestedEvents.init(
-  'InterestedEvents',
   {
     user_id: {
       type: DataTypes.UUID,

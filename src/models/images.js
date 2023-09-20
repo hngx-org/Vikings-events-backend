@@ -4,7 +4,6 @@ const sequelize = require('../config/database');
 class Images extends Model {}
 
 Images.init(
-  'Images',
   {
     id: {
       type: DataTypes.UUID,

@@ -3,7 +3,6 @@ const sequelize = require('../config/database');
 
 class UserGroups extends Model {}
 UserGroup.init(
-  'UserGroups',
   {
     user_id: {
       type: DataTypes.STRING,

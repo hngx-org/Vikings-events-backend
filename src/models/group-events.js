@@ -3,8 +3,7 @@ const sequelize = require('../config/database');
 
 class GroupEvents extends Model {}
 
-GroupEventsi.nit(
-  'GroupEvents',
+GroupEventsi.init(
   {
     user_id: {
       type: DataTypes.UUID,

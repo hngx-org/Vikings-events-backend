@@ -4,7 +4,6 @@ const sequelize = require('../config/database');
 class Comments extends Model {}
 
 Comments.init(
-  'Comments',
   {
     id: {
       type: DataTypes.UUID,
