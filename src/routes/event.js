@@ -1,10 +1,10 @@
-import Router from 'express'
-import { getEvents } from '../controllers/eventController.js'
+const Router = require('express');
+const { getEvents } = require('../controllers/eventController');
 
-const router = Router()
+const router = Router();
 
 // Get all events
-router.get('/', getEvents)
+router.get('/', getEvents);
 
 // Create an event
 // router.post("/", );
@@ -30,4 +30,4 @@ router.get('/', getEvents)
 // get event comment image
 // router.get("/:eventId/comments/:commentId/images", );
 
-export default router
+module.exports = router;

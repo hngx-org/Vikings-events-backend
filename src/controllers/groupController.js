@@ -1,6 +1,11 @@
 const getGroups = async (req, res) => {
-  const groups = 'All Groups'
-  res.json({ groups })
-}
+  const groups = 'All Groups';
+  res.json({ groups });
+};
 
-export { getGroups }
+const getGroup = async (req, res) => {
+  const group = 'A Group with id';
+  res.json({ group });
+};
+
+module.exports = { getGroups, getGroup };
