@@ -1,5 +1,8 @@
-import Router from 'express'
-import { getGroups } from '../controllers/groupController.js'
+const Router = require('express')
+const {
+  addUserToGroup,
+  getGroups,
+} = require('../controllers/groupController.js')
 
 const router = Router()
 
@@ -16,9 +19,9 @@ router.get('/', getGroups)
 // router.put("/:groupId", );
 
 // Add user to a group
-// router.post("/:groupId/members/:userId", );
+router.post('/:groupId/members/:userId', addUserToGroup)
 
 // Remove user from a group
 // router.delete("/:groupId/members/:userId", );
 
-export default router
+module.exports = router
