@@ -1,9 +1,9 @@
-import Router from 'express'
-import { getUser } from '../controllers/userController.js'
+const Router = require('express');
+const { getUser } = require('../controllers/userController');
 
-const router = Router()
+const router = Router();
 
-router.get('/', getUser)
+router.get('/', getUser);
 
 // router.post("/register", );
 
@@ -19,4 +19,4 @@ router.get('/', getUser)
 // Delete interest in an event
 // router.delete("/:userId/interests/:eventId", );
 
-export default router
+module.exports = router;
