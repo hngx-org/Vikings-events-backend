@@ -1,24 +1,24 @@
-'use strict';
+'use strict'
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('group_events', {
       user_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'user',
           key: 'id',
         },
       },
       event_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: 'events',
           key: 'id',
         },
       },
-    });
+    })
   },
 
   async down(queryInterface, Sequelize) {
@@ -29,4 +29,4 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
   },
-};
+}

@@ -1,11 +1,11 @@
-'use strict';
+'use strict'
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('interested_events', {
       user_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: {
             tableName: 'user',
@@ -14,7 +14,7 @@ module.exports = {
         },
       },
       event_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
           model: {
             tableName: 'events',
@@ -22,9 +22,8 @@ module.exports = {
           key: 'id',
         },
       },
-    });
+    })
   },
-
 
   async down(queryInterface, Sequelize) {
     /**
@@ -34,4 +33,4 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
   },
-};
+}
