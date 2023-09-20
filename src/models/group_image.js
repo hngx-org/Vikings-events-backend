@@ -6,14 +6,14 @@ class GroupImage extends Model {}
 GroupImage.init(
   {
     comment_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'Comments',
         key: 'id',
       },
     },
     image_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'Images',
         key: 'id',
