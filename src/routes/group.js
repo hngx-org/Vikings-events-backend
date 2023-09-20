@@ -7,7 +7,7 @@ const router = Router()
 router.post('/', createGroup)
 
 // get all groups
-router.get('/', getGroups)
+router.get('/', getGroups);
 
 // Get a group detail
 // router.get("/:groupId", );
@@ -21,4 +21,4 @@ router.get('/', getGroups)
 // Remove user from a group
 // router.delete("/:groupId/members/:userId", );
 
-export default router
+module.exports = router;
