@@ -6,14 +6,14 @@ class Likes extends Model {}
 Likes.init(
   {
     comment_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'Comments',
         key: 'id',
       },
     },
     user_id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       references: {
         model: 'User',
         key: 'id',

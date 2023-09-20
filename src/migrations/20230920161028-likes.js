@@ -5,16 +5,16 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('likes', {
       user_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
-          tableName: 'user',
+          model: 'user',
           key: 'id',
         },
       },
       comment_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references: {
-          tableName: 'comments',
+          model: 'comments',
           key: 'id',
         },
       },
