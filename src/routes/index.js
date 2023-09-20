@@ -1,8 +1,5 @@
-const express = require("express");
-const { getIndex } = require("../controllers/index");
+import eventRoutes from './event.js'
+import userRoutes from './user.js'
+import groupRoutes from './group.js'
 
-const router = express.Router();
-
-router.get("/", getIndex);
-
-module.exports = router;
+export { eventRoutes, userRoutes, groupRoutes }
