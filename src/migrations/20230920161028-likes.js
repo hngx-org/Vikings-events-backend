@@ -7,14 +7,14 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         references: {
-          tableName: 'user',
+          model: 'user',
           key: 'id',
         },
       },
       comment_id: {
         type: Sequelize.INTEGER,
         references: {
-          tableName: 'comments',
+          model: 'comments',
           key: 'id',
         },
       },
