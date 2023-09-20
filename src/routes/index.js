@@ -1,11 +1,5 @@
-// /* eslint-disable */
-// const express = require("express");
-// const { getIndex } = require("../controllers/index");
-// const userRouter = require('./user.route');
-// const router = express.Router();
+import eventRoutes from './event.js'
+import userRoutes from './user.js'
+import groupRoutes from './group.js'
 
-// router.get("/", getIndex);
-// router.get('/users/:user_id', userRouter);
-
-// module.exports = router;
-
+export { eventRoutes, userRoutes, groupRoutes }
