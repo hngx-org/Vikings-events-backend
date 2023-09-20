@@ -28,7 +28,7 @@ async function eventController(req, res) {
 
     await newEvent.save();
 
-    res.send({ msg: 'User created', newEvent });
+    res.send({ msg: 'Event created', newEvent });
   } catch (error) {
     console.log(error, 'error');
     res.send(error, 'error');
