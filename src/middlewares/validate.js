@@ -1,5 +1,5 @@
-import Joi from 'joi'
-import pick from '../utils/pick.js'
+const Joi = require('joi');
+const pick = require('../utils/pick');
 
 const validate = (schema) => (req, res, next) => {
   const validSchema = pick(schema, ['params', 'query', 'body'])
@@ -16,4 +16,4 @@ const validate = (schema) => (req, res, next) => {
   return next()
 }
 
-export default validate
+module.exports = validate;

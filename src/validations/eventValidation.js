@@ -1,4 +1,4 @@
-import Joi from 'joi'
+const Joi = require('joi')
 
 const createEventValidation = {
   body: Joi.object().keys({
@@ -14,4 +14,4 @@ const getEventValidation = {
   }),
 }
 
-export { createEventValidation, getEventValidation }
+module.exports = { createEventValidation, getEventValidation }
