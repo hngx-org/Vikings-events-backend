@@ -1,3 +1,5 @@
+## I modelled the db and created various relationships, run and confirm if it seems fit for the project
+
 # VIKINGS EVENTS BACKEND
 ## Installation
 
