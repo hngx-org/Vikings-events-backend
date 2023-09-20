@@ -39,4 +39,4 @@ const getCommentImages = async (req, res) => {
   
 }
 
-export { getGroups, getCommentImages }
+module.exports = { getGroups, getCommentImages  };

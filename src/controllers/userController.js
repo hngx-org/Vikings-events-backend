@@ -3,4 +3,4 @@ const getUser = async (req, res) => {
   res.json({ users });
 };
 
-module.exports = { getUser }
+module.exports = { getUser };

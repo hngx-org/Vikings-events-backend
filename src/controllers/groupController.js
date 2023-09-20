@@ -1,20 +1,20 @@
+const Groups = require('../models/groups');
+
 const createGroup = async (req, res) => {
   try {
-    const {title} = req.body;
+    const { title } = req.body;
 
-  if (!title){
-    return res.status(400).json({error: 'Title is required'});
+    if (!title) {
+      return res.status(400).json({ error: 'Title is required' });
+    }
+
+    const newGroup = await Groups.create({
+      title,
+    });
+    return res.status(201).json(newGroup);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
-
-  const newGroup = await Group.create({
-    title,
-  });
-  res.status(201).json(newGroup);
-}
-catch(error) {
-  console.error(error);
-  res.status(500).json({error: 'Internal server error'});
-}
 };
 
 const getGroups = async (req, res) => {
@@ -32,6 +32,5 @@ const getGroupDetails = async (req, res) => {
   }
 
 }
-
-export { getGroups, createGroup, getGroupDetails };
  
+module.exports = { createGroup, getGroups, getGroupDetails };

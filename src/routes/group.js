@@ -1,10 +1,11 @@
-const { Router } = require('express')
-const { createGroup, getGroups } = require('../controllers/groupController.js');
+const express = require('express');
 
-const router = Router()
+const { createGroup, getGroups } = require('../controllers/groupController');
+
+const router = express.Router();
 
 // Create a group
-router.post('/', createGroup)
+router.post('/', createGroup);
 
 // get all groups
 router.get('/', getGroups);

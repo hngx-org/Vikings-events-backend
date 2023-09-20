@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require('sequelize')
-const sequelize = require('../config/config')
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../config/config');
 
 class UserGroup extends Model {}
 UserGroup.init(
@@ -26,7 +26,7 @@ UserGroup.init(
     modelName: 'UserGroups',
     tableName: 'user_groups',
     timestamps: false,
-  }
-)
+  },
+);
 
-module.exports = UserGroup
+module.exports = UserGroup;
