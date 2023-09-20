@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../config/config');
+const { DataTypes, Model } = require('sequelize')
+const sequelize = require('../config/config')
 
 class Events extends Model {}
 
@@ -12,22 +12,14 @@ Events.init(
       primaryKey: true,
     },
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING,
-    },
-    creator_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'Users',
-        key: 'id',
-      },
+      type: DataTypes.TEXT,
     },
     location: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     start_date: {
       type: DataTypes.DATE,
@@ -38,11 +30,11 @@ Events.init(
       allowNull: false,
     },
     start_time: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       allowNull: false,
     },
     end_time: {
-      type: DataTypes.DATE,
+      type: DataTypes.TIME,
       allowNull: false,
     },
   },
@@ -52,6 +44,6 @@ Events.init(
     tableName: 'events',
     timestamps: false,
   }
-);
+)
 
-module.exports = Events;
+module.exports = Events

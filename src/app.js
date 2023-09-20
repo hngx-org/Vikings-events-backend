@@ -1,15 +1,16 @@
-import express from 'express'
-import morgan from 'morgan'
-import cors from 'cors'
-import dotenv from 'dotenv'
+const express  = require('express')
+const morgan  = require('morgan')
+const cors  = require('cors')
+
+require('dotenv').config()
 
 // import middlewares
-import { notFound, errorHandler } from './middlewares/error.js'
+const { notFound, errorHandler } = require('./middlewares/error.js')
 
 // import routes
-import { eventRoutes, userRoutes, groupRoutes } from './routes/index.js'
+const { eventRoutes, userRoutes, groupRoutes } = require('./routes/index.js')
 
-dotenv.config()
+// dotenv.config()
 
 const app = express()
 
@@ -32,4 +33,4 @@ app.use('/api/groups', groupRoutes)
 app.use(notFound)
 app.use(errorHandler)
 
-export default app
+module.exports = app

@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../config/config');
+const { DataTypes, Model } = require('sequelize')
+const sequelize = require('../config/config')
 
 class Images extends Model {}
 
@@ -11,16 +11,8 @@ Images.init(
       allowNull: false,
       primaryKey: true,
     },
-    comment_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'Comments',
-        key: 'id',
-      },
-    },
-    image_url: {
-      type: DataTypes.STRING,
+    url: {
+      type: DataTypes.TEXT,
     },
   },
   {
@@ -29,6 +21,6 @@ Images.init(
     tableName: 'images',
     timestamps: false,
   }
-);
+)
 
-module.exports = Images;
+module.exports = Images

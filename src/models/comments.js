@@ -12,7 +12,7 @@ Comments.init(
       primaryKey: true,
     },
     body: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     user_id: {
       type: DataTypes.UUID,

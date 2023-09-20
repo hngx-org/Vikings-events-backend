@@ -11,8 +11,8 @@ Groups.init(
       allowNull: false,
       primaryKey: true,
     },
-    name: {
-      type: DataTypes.STRING,
+    title: {
+      type: DataTypes.TEXT,
       allowNull: false,
     },
   },

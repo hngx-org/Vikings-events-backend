@@ -1,7 +1,7 @@
-import Router from 'express'
-import { getEvents } from '../controllers/eventController.js'
+const express = require('express') 
+const  { getEvents } = require('../controllers/eventController.js') 
 
-const router = Router()
+const router = express.Router()
 
 // Get all events
 router.get('/', getEvents)
@@ -30,4 +30,4 @@ router.get('/', getEvents)
 // get event comment image
 // router.get("/:eventId/comments/:commentId/images", );
 
-export default router
+module.exports = router

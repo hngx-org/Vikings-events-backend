@@ -11,21 +11,14 @@ module.exports = {
         allowNull: false,
       },
       title: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       description: {
-        type: Sequelize.STRING,
-      },
-      creator_id: {
-        type: Sequelize.UUID,
-        references: {
-          model: 'user',
-          key: 'id',
-        },
+        type: Sequelize.TEXT,
       },
       location: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       start_date: {
         type: Sequelize.DATE,

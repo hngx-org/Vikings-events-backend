@@ -11,7 +11,7 @@ module.exports = {
         allowNull: false,
       },
       body: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       user_id: {
         type: Sequelize.UUID,

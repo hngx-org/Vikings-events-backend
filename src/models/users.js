@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require('sequelize');
-const sequelize = require('../config/config');
+const { DataTypes, Model } = require('sequelize')
+const sequelize = require('../config/config')
 
 class User extends Model {}
 
@@ -12,22 +12,15 @@ User.init(
       primaryKey: true,
     },
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     email: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
-    access_token: {
-      type: DataTypes.STRING,
-      unique: true,
-    },
-    refresh_token: {
-      type: DataTypes.STRING,
-    },
     avatar: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
   },
 
@@ -38,6 +31,6 @@ User.init(
     tableName: 'user',
     timestamps: false,
   }
-);
+)
 
-module.exports = User;
+module.exports = User

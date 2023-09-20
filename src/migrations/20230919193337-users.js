@@ -13,20 +13,14 @@ module.exports = {
       },
       name: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       email: {
         allowNull: false,
-        type: Sequelize.STRING,
-      },
-      access_token: {
-        type: Sequelize.STRING,
-      },
-      refresh_token: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       avatar: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
     });
   },
