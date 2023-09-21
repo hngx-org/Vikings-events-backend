@@ -13,7 +13,7 @@ Likes.init(
       },
     },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TEXT,
       references: {
         model: 'User',
         key: 'id',
@@ -28,5 +28,8 @@ Likes.init(
     timestamps: false,
   },
 );
+
+// Remove the 'id' attribute from the UserGroup model
+Likes.removeAttribute('id');
 
 module.exports = Likes;

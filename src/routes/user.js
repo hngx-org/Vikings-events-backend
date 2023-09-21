@@ -1,15 +1,22 @@
 const express = require('express');
-const { profile } = require('../controllers/userController');
+// router.post("/register", );
+const {
+    getUsers,
+    getProfile,
+  updateUserProfile,
+} = require('../controllers/userController');
 
 const router = express.Router();
 
-// router.post("/register", );
+router.get('/', getUsers);
+
+// router.post('/register', );
 
 // router.post("/login", );
 
-router.get('/:profileId', profile);
+router.get('/:profileId', getProfile);
 
-// router.put("/:profileId",);
+router.put('/:profileId', updateUserProfile);
 
 // Create interest in an event
 // router.post("/userId/interests/:eventId", );
