@@ -21,7 +21,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
-app.use(cookieSession({ httpOnly: true }));
+app.use(cookieSession({ httpOnly: true, keys: process.env.JWT_KEY }));
 
 app.get('/', (req, res) => {
   res.json({
