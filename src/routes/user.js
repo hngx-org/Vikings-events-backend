@@ -1,6 +1,8 @@
 const express = require('express');
+// router.post("/register", );
 const {
-  getUsers,
+    getUsers,
+    getProfile,
   updateUserProfile,
 } = require('../controllers/userController');
 
@@ -12,7 +14,7 @@ router.get('/', getUsers);
 
 // router.post("/login", );
 
-// router.get("/:profileId", );
+router.get('/:profileId', getProfile);
 
 router.put('/:profileId', updateUserProfile);
 
