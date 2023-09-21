@@ -1,40 +1,40 @@
 const Comments = require('../models/comments');
-const Events = require('../models/events');
-const User = require('../models/users');
+const Likes = require('../models/likes');
 
-const getGroups = async (req, res) => {
-  const groups = 'All Groups';
-  res.json({ groups });
+const getComments = async (req, res) => {
+  const comments = 'All comments';
+  res.json({ comments });
 };
 
-// eslint-disable-next-line consistent-return
-const getComments = async (req, res) => {
-  // We first check if the event exist
-  const event = await Events.findByPk(req.params.eventId);
+const createComment = async (req, res) => {};
 
-  if (!event) {
-    return res.status(500).send({ error: 'Event Not found' });
-  }
-
+const likeComment = async (req, res) => {
   try {
-    // We find all the comments where that is related to the event
-    // and we also include the user and event full details
+    const { commentId } = req.params;
+    // const { userId } = req.user;
+    const { userId } = req.params;
 
-    // Todo: Also include the comment images, but there is a problem with
-    // the table for a comment_images table the table does not have a comment_id
-
-    const comments = await Comments.findAll({
-      where: {
-        event_id: req.params.eventId,
-      },
-      limit: 10,
-      include: [User, Events],
+    //  Check if the user has already liked the comment
+    const existingLike = await Likes.findOne({
+      where: { user_id: userId, comment_id: commentId },
     });
 
-    return res.send(comments);
+    if (existingLike) {
+      return res
+        .status(400)
+        .json({ error: 'User has already liked the comment' });
+    }
+
+    // Create a new like record
+    await Likes.create({ user_id: userId, comment_id: commentId });
+
+    res.json({ message: 'Comment liked successfully' });
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: 'An internal error occurred while liking the comment' });
   }
 };
 
-module.exports = { getGroups, getComments };
+module.exports = { getComments, likeComment, createComment };
