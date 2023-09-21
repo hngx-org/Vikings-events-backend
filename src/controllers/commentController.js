@@ -1,9 +1,37 @@
+const CommentImages = require('../models/comment_images');
 const Comments = require('../models/comments');
+const Events = require('../models/events');
+const Images = require('../models/images');
 const Likes = require('../models/likes');
+const User = require('../models/users');
 
+// eslint-disable-next-line consistent-return
 const getComments = async (req, res) => {
-  const comments = 'All comments';
-  res.json({ comments });
+  // We first check if the event exist
+  const event = await Events.findByPk(req.params.eventId);
+
+  if (!event) {
+    return res.status(500).send({ error: 'Event Not found' });
+  }
+
+  try {
+    // const event_id = event.dataValues.id;
+
+    const comments = await Comments.findAll({
+      include: Images,
+    });
+
+    // const comments = await Comments.findAll({
+    //   where: {
+    //     event_id: eventId,
+    //   },
+    //   include: { model: Images },
+    // });
+
+    return res.send(comments);
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
 };
 
 const createComment = async (req, res) => {};
