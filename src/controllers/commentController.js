@@ -15,18 +15,12 @@ const getComments = async (req, res) => {
   }
 
   try {
-    // const event_id = event.dataValues.id;
+    const eventId = event.dataValues.id;
 
     const comments = await Comments.findAll({
-      include: Images,
+      where: { event_id: eventId },
+      include: [User, Events, Images],
     });
-
-    // const comments = await Comments.findAll({
-    //   where: {
-    //     event_id: eventId,
-    //   },
-    //   include: { model: Images },
-    // });
 
     return res.send(comments);
   } catch (error) {

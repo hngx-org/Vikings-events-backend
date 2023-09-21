@@ -9,9 +9,15 @@ const syncDBRelations = () => {
   Comments.belongsTo(Events, { foreignKey: 'event_id' });
 
   Comments.belongsToMany(Images, {
-    through: { model: CommentImages, scope: 'comment_id' },
+    through: { model: CommentImages },
+    otherKey: 'comment_id',
+    foreignKey: 'comment_id',
   });
-  Images.belongsToMany(Comments, { through: CommentImages, scope: 'image_id' });
+  Images.belongsToMany(Comments, {
+    through: CommentImages,
+    otherKey: 'image_id',
+    foreignKey: 'image_id',
+  });
 };
 
 module.exports = syncDBRelations;
