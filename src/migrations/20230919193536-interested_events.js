@@ -5,7 +5,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('interested_events', {
       user_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.TEXT,
         references: {
           model: {
             tableName: 'user',
