@@ -1,4 +1,4 @@
-# Person API Documentation
+# GET EVENT BY ID API Documentation
 
 ## Introduction
 
