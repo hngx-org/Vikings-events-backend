@@ -27,7 +27,7 @@ GroupEvents.init(
     modelName: 'GroupEvents',
     tableName: 'group_events',
     timestamps: false,
-  }
+  },
 );
 
 module.exports = GroupEvents;

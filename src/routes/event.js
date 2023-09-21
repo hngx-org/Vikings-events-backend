@@ -1,16 +1,17 @@
-const express = require('express')
-const { getEvents } = require('../controllers/eventController.js')
+const express = require('express');
 const {
+  getEvents,
   createEventController,
-} = require('../controllers/createEventController.js')
+  deleteEventController,
+} = require('../controllers/eventController');
 
-const router = express.Router()
+const router = express.Router();
 
 // Get all events
-router.get('/', getEvents)
+router.get('/', getEvents);
 
 // Create an event
-router.post('/', createEventController)
+router.post('/', createEventController);
 
 // Get an event by ID/ get event details
 // router.get("/:eventId", );
@@ -19,7 +20,7 @@ router.post('/', createEventController)
 // router.put("/:eventId", );
 
 // Delete an event by ID/ Delete event
-// router.delete("/:eventId", );
+router.delete('/:eventId', deleteEventController);
 
 // Create an event comment
 // router.post("/:eventId/comments", );
@@ -33,4 +34,4 @@ router.post('/', createEventController)
 // get event comment image
 // router.get("/:eventId/comments/:commentId/images", );
 
-module.exports = router
+module.exports = router;
