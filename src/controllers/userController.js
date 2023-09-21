@@ -6,7 +6,6 @@ const getUser = async (req, res) => {
 };
 const profile = async (req, res) => {
   const userProfileId = req.params.profileId;
-  // console.log(userProfileId);
   try {
     const userProfile = await User.findByPk(userProfileId);
 
@@ -14,10 +13,9 @@ const profile = async (req, res) => {
       return res.status(404).json({ error: 'User profile not found' });
     }
 
-    res.status(200).json(userProfile);
+    return res.status(200).json(userProfile);
   } catch (error) {
-    console.error('Error fetching user profile:', error);
-    res.status(500).json({ error: 'Unable to fetch user profile' });
+    return res.status(500).json({ error: 'Unable to fetch user profile' });
   }
 };
 

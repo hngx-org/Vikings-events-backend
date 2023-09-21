@@ -19,10 +19,7 @@ module.exports = {
     });
   },
 
-<<<<<<< HEAD
-=======
   // eslint-disable-next-line no-unused-vars
->>>>>>> 606a4532c1cf1e82b01b1534b0d069b06c7e1c45
   async down(queryInterface, Sequelize) {
     /**
      * Add reverting commands here.
