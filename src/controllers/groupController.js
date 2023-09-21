@@ -22,17 +22,5 @@ const getGroups = async (req, res) => {
   res.json({ groups });
 };
 
-const groupDetials = async (req, res) => {
-  const { groupId } = req.params;
-  try {
-    const detials = await Groups.findByPk(groupId);
-    if (!detials) {
-      return res.status(404).json({ error: 'Group profile not found!' });
-    }
-    return res.status(200).json(detials);
-  } catch (error) {
-    return res.status(500).json({ error: 'Unable to fetch group profile' });
-  }
-};
 
-module.exports = { getGroups, groupDetials, createGroup };
+module.exports = { getGroups, createGroup };

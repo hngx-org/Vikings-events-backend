@@ -3,7 +3,6 @@ const express = require('express');
 const {
   createGroup,
   getGroups,
-  groupDetials,
 } = require('../controllers/groupController');
 
 const router = express.Router();
@@ -15,7 +14,7 @@ router.post('/', createGroup);
 router.get('/', getGroups);
 
 // Get a group detail
-router.get('/:groupId', groupDetials);
+// router.get('/:groupId',);
 
 // Get a group detail
 // router.put("/:groupId", );
