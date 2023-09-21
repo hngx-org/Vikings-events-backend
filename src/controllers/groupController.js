@@ -75,7 +75,7 @@ const getGroups = async (req, res) => {
 };
 
 const getGroupDetails = async (req, res) => {
-  const groupId = req.params.groupId;
+  const { groupId } = req.params;
   try {
     const group = await Groups.findByPk(groupId);
     if (group) {
@@ -89,4 +89,6 @@ const getGroupDetails = async (req, res) => {
   }
 };
 
-module.exports = { createGroup, getGroups, addUserToGroup, getGroupDetails };
+module.exports = {
+  createGroup, getGroups, addUserToGroup, getGroupDetails,
+};
