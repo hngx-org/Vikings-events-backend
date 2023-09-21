@@ -22,4 +22,11 @@ const getGroups = async (req, res) => {
   res.json({ groups });
 };
 
-module.exports = { createGroup, getGroups };
+const updateGroupDetails = async (req, res) => {
+  const { groupId } = req.params;
+  const groupDetail = await Groups.findOne({ where: { id: groupId } });
+  if (!groupDetail) return res.status(400).json({ error: 'invalid Id' });
+  await groupDetail.update({ ...req.body }, { where: { id: groupId } });
+  return res.status(200).json({ groupDetail });
+};
+module.exports = { createGroup, getGroups, updateGroupDetails };

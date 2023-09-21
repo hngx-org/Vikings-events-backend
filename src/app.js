@@ -1,3 +1,5 @@
+// To handle try and catch errors
+require('express-async-errors');
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');

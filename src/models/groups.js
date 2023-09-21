@@ -25,3 +25,4 @@ Groups.init(
 );
 
 module.exports = Groups;
+// sequelize.sync()
