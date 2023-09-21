@@ -1,4 +1,9 @@
 const Groups = require('../models/groups');
+const GroupImage = require('../models/group_image');
+const UserGroup = require('../models/user-groups');
+const Images = require('../models/images');
+const Events = require('../models/events');
+const GroupEvents = require('../models/group-events');
 
 const createGroup = async (req, res) => {
   try {
@@ -23,9 +28,38 @@ const getGroups = async (req, res) => {
 };
 
 const getGroupDetails = async (req, res) => {
+  const { groupId } = req.params;
+
 
   try {
-    const groupDetails = {};
+    //Get all the values for normalized tables first
+    const [groupEvents, groupUsers, groupImage] = await Promise.allSettled([
+      await GroupEvents.findAll({
+        where: {
+          group_id: groupId
+        }
+      }),
+      await UserGroup.findAndCountAll({
+        where: {
+          group_id: groupId
+        }
+      }),
+      await GroupImage.findOne({
+        where: {
+          group_id: groupId
+        }
+      })
+    ]);
+
+    await Promise.allSettled([
+      await Images.findByPk(groupImage.value.image_id),
+    ])
+
+    const groupDetails = {
+      memberCount: groupUsers.value.count,
+    }
+
+
     return res.json({ groupDetails })
   } catch {
     return res.status(500).json({ message: "Internal server error" });
