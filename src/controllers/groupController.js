@@ -70,6 +70,20 @@ const addUserToGroup = async (req, res) => {
 };
 
 const getGroups = async (req, res) => {
+  try {
+    const groups = await Groups.findAll();
+
+    if (groups.length < 1) {
+      return res.status(400).json({ error: 'No group(s) found' });
+    }
+
+    res.status(201).json(groups);
+  } catch (error) {
+    res.status(500).json({
+      error: 'An error occured while fetching groups',
+    });
+  }
+
   const groups = 'All Groups';
   res.json({ groups });
 };
@@ -90,5 +104,8 @@ const getGroupDetails = async (req, res) => {
 };
 
 module.exports = {
-  createGroup, getGroups, addUserToGroup, getGroupDetails,
+  createGroup,
+  getGroups,
+  addUserToGroup,
+  getGroupDetails,
 };

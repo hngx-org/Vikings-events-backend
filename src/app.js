@@ -12,7 +12,7 @@ const eventRoutes = require('./routes/event');
 const groupRoutes = require('./routes/group');
 const commentRoutes = require('./routes/comment');
 
-// dotenv.config()
+// dotenv.config();
 
 const app = express();
 
