@@ -8,13 +8,13 @@ const {
 const router = express.Router();
 
 // Get all events
-router.get('/', getEvents);
+// router.get('/', getEvents);
 
 // Create an event
-router.post('/', createEventController);
+router.post('/', createEventControllercreateEvent);
 
 // Get an event by ID/ get event details
-// router.get("/:eventId", );
+router.get('/:eventId', getEvent)
 
 // Update an event by ID/ update event
 // router.put("/:eventId", );
