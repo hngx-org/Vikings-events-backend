@@ -30,6 +30,25 @@ const createUser = async ({ name, email, picture }) => {
   return user;
 };
 
+const getUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      res.status(400).json({ message: 'Invalid User ID' });
+    }
+
+    const user = await User.findOne({ where: { id } });
+    if (!user) {
+      res.status(404).json({ message: `User with id ${id} not found` });
+    }
+    res.status(200).json(user);
+    //for authentication purposes - generating JWT token
+    return user;
+  } catch (error) {
+    next(error);
+  }
+};
+
 // eslint-disable-next-line consistent-return
 const updateUserProfile = async (req, res, next) => {
   const userId = req.params.profileId;
@@ -69,4 +88,5 @@ module.exports = {
   getUserByEmail,
   createUser,
   updateUserProfile,
+  getUserById,
 };

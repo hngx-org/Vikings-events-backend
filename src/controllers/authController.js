@@ -1,10 +1,10 @@
 const { getUserByEmail, createUser } = require('./userController');
 const { signToken } = require('../middlewares/auth');
 
-const getToken = async ({ email, picture, name }) => {
+const getToken = async ({ email, avatar, name }) => {
   let user = await getUserByEmail(email);
   if (!user) {
-    user = await createUser({ email, picture, name });
+    user = await createUser({ email, avatar, name });
   }
 
   const token = await signToken({ id: user.id, email: user.email });

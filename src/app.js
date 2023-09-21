@@ -6,6 +6,7 @@ const cookieSession = require('cookie-session');
 
 // import middlewares
 const { notFound, errorHandler } = require('./middlewares/error');
+const { isUserAuthenticated, verify } = require('./middlewares/auth');
 
 // import routes
 const userRoutes = require('./routes/user');
@@ -32,7 +33,7 @@ app.get('/', (req, res) => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api/users', isUserAuthenticated, verify, userRoutes);
 app.use('/api/groups', groupRoutes);
 app.use('/api/comments', commentRoutes);
 
