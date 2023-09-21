@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const Events = require('../models/events');
+const Comments = require('../models/comments');
 const Images = require('../models/images');
 const EventThumbnail = require('../models/event_thumbnail');
 
@@ -123,4 +124,27 @@ const deleteEventController = async (req, res) => {
   }
 };
 
-module.exports = { getEvents, createEventController, deleteEventController };
+const addCommentToEventController = async (req, res) => {
+  const { eventId } = req.params;
+
+  req.body.event_id = eventId;
+  // req.body.user_id = req.user.id - We will get this when the auth middleware is available
+
+  // Check if event with the id exists
+  const event = await Events.findByPk(eventId);
+  if (!event) {
+    return res.status(404).send({ error: 'Event not found' });
+  }
+
+  try {
+    // The req.body is already validated, if it contains things not needed or invalid types, it would have thrown an error already, therefore no problem in using req.body directly here
+    const comment = await Comments.create(req.body);
+
+    return res.status(201).send(comment);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { getEvents, createEventController, deleteEventController, addCommentToEventController };

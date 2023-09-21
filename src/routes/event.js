@@ -3,7 +3,10 @@ const {
   getEvents,
   createEventController,
   deleteEventController,
+  addCommentToEventController,
 } = require('../controllers/eventController');
+const validate = require('../middlewares/validate')
+const { createCommentValidation } = require('../validations/commentValidation')
 
 const router = express.Router();
 
@@ -23,7 +26,7 @@ router.post('/', createEventController);
 router.delete('/:eventId', deleteEventController);
 
 // Create an event comment
-// router.post("/:eventId/comments", );
+router.post("/:eventId/comments", validate(createCommentValidation), addCommentToEventController);
 
 // get event comments
 // router.get("/:eventId/comments", );
