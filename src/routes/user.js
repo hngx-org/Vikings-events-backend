@@ -82,7 +82,7 @@ router.post('/:userId/interests/:eventId', async (req, res) => {
   }
 });
 
- // Delete interest in an event
+ // Delete interest of an event
  router.delete('/:userId/interests/:eventId', async (req, res) => {
   try {
     const deletedInterest = await deleteInterest(req.params.userId, req.params.eventId);
