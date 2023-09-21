@@ -10,7 +10,7 @@ const router = Router()
 // router.post("/", createEvent);
 
 // Get an event by ID/ get event details
-router.get("/:eventId", getEvent );
+router.get('/:eventId', getEvent)
 
 // Update an event by ID/ update event
 // router.put("/:eventId", );

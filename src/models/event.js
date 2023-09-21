@@ -1,5 +1,4 @@
-import { DataTypes } from "sequelize";
-
+import { DataTypes } from 'sequelize'
 
 const Event = (sequelize, Sequelize) => {
   const Event = sequelize.define('Event', {
@@ -50,8 +49,8 @@ const Event = (sequelize, Sequelize) => {
       comment: 'Url to the thumbnail',
       isUrl: true, // Add validation for URL format
     },
-  });
-  return Event;
-};
+  })
+  return Event
+}
 
-export default Event;
+export default Event
