@@ -1,8 +1,9 @@
 const express = require('express');
-const { getEvents } = require('../controllers/eventController.js');
 const {
+  getEvents,
   createEventController,
-} = require('../controllers/createEventController.js');
+  deleteEventController,
+} = require('../controllers/eventController');
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.post('/', createEventController);
 // router.put("/:eventId", );
 
 // Delete an event by ID/ Delete event
-// router.delete("/:eventId", );
+router.delete('/:eventId', deleteEventController);
 
 // Create an event comment
 // router.post("/:eventId/comments", );
