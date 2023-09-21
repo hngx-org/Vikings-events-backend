@@ -15,7 +15,6 @@ const createUser = async ({ name, email, picture }) => {
   return user;
 };
 
-module.exports = { getUsers, getUserByEmail, createUser };
 // eslint-disable-next-line consistent-return
 const updateUserProfile = async (req, res, next) => {
   const userId = req.params.profileId;
@@ -49,5 +48,9 @@ const updateUserProfile = async (req, res, next) => {
     next(error);
   }
 };
-
-module.exports = { getUsers, updateUserProfile };
+module.exports = {
+  getUsers,
+  getUserByEmail,
+  createUser,
+  updateUserProfile,
+};
