@@ -1,5 +1,11 @@
-const eventRoutes = require('./event.js')
-const userRoutes = require('./user.js')
-const groupRoutes = require('./group.js')
+const eventRoutes = require('./event');
+const userRoutes = require('./user');
+const groupRoutes = require('./group');
+const authRoutes = require('./auth');
 
-module.exports = { eventRoutes, userRoutes, groupRoutes }
+module.exports = {
+  eventRoutes,
+  userRoutes,
+  groupRoutes,
+  authRoutes,
+};

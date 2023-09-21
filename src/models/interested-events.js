@@ -1,12 +1,12 @@
-const { DataTypes, Model } = require('sequelize')
-const sequelize = require('../config/config')
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../config/config');
 
 class InterestedEvents extends Model {}
 
 InterestedEvents.init(
   {
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TEXT,
       allowNull: false,
       references: {
         model: 'User',
@@ -27,7 +27,7 @@ InterestedEvents.init(
     modelName: 'InterestedEvents',
     tableName: 'interested_events',
     timestamps: false,
-  }
-)
+  },
+);
 
-module.exports = InterestedEvents
+module.exports = InterestedEvents;

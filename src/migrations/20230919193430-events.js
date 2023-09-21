@@ -1,5 +1,3 @@
-'use strict'
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -36,9 +34,10 @@ module.exports = {
         type: Sequelize.TIME,
         allowNull: false,
       },
-    })
+    });
   },
 
+  // eslint-disable-next-line no-unused-vars
   async down(queryInterface, Sequelize) {
     /**
      * Add reverting commands here.
@@ -47,4 +46,4 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
   },
-}
+};

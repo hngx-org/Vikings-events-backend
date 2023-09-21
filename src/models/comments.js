@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require('sequelize')
-const sequelize = require('../config/config')
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../config/config');
 
 class Comments extends Model {}
 
@@ -15,7 +15,7 @@ Comments.init(
       type: DataTypes.TEXT,
     },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TEXT,
       references: {
         model: 'User',
         key: 'id',
@@ -34,7 +34,7 @@ Comments.init(
     modelName: 'Comments',
     tableName: 'comments',
     timestamps: false,
-  }
-)
+  },
+);
 
-module.exports = Comments
+module.exports = Comments;
