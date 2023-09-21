@@ -2,6 +2,7 @@
 const Events = require('../models/events');
 const Images = require('../models/images');
 const EventThumbnail = require('../models/event_thumbnail');
+const Comments = require('../models/comments');
 
 const getEvents = async (req, res) => {
   try {
@@ -162,9 +163,43 @@ const updateEventController = async (req, res) => {
     res.status(200).json({ message: 'Event updated successfully' });
   } catch (error) {
     console.error('Error updating event:', error);
-    res.status(500).json({ error: 'An error occurred while updating the event', details: error.message });
+    res
+      .status(500)
+      .json({
+        error: 'An error occurred while updating the event',
+        details: error.message,
+      });
   }
 };
 
+const addCommentToEventController = async (req, res) => {
+  const { eventId } = req.params;
+  const { body } = req.body;
 
-module.exports = { getEvents, createEventController, deleteEventController, updateEventController };
+  // req.body.user_id = req.user.id - We will get this when the auth middleware is available
+
+  // Check if event with the id exists
+  const event = await Events.findByPk(eventId);
+
+  if (!event) {
+    return res.status(404).send({ error: 'Event not found' });
+  }
+
+  try {
+    const newComment = { body, event_id: eventId };
+    const comment = await Comments.create(newComment);
+
+    return res.status(201).send(comment);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  getEvents,
+  createEventController,
+  deleteEventController,
+  updateEventController,
+  addCommentToEventController,
+};

@@ -3,6 +3,7 @@ const {
   getEvents,
   createEventController,
   deleteEventController,
+  addCommentToEventController
 } = require('../controllers/eventController');
 
 const router = express.Router();
@@ -23,7 +24,7 @@ router.post('/', createEventController);
 router.delete('/:eventId', deleteEventController);
 
 // Create an event comment
-// router.post("/:eventId/comments", );
+router.post("/:eventId/comments", addCommentToEventController);
 
 // get event comments
 // router.get("/:eventId/comments", );
