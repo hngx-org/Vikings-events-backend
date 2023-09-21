@@ -6,7 +6,9 @@ const getComments = async (req, res) => {
   res.json({ comments });
 };
 
-const createComment = async (req, res) => {};
+const createComment = async (req, res) => {
+
+};
 
 const likeComment = async (req, res) => {
   try {
