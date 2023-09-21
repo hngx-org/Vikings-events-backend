@@ -14,7 +14,7 @@ cd Vikings-events-backend
 
 git remote add upstream https://github.com/hngx-org/Vikings-events-backend.git  
 
-git pull upstream main
+git pull upstream dev
 
 git checkout <your_branch_name>
 ```
@@ -43,5 +43,5 @@ git pull upstream dev
 
 git push origin <your_branch_name>
 
-# go and make a pull request
+# go and make a pull request to the dev branch
 ```
