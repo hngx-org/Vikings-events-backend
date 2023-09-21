@@ -2,6 +2,7 @@ const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
 
 class UserGroup extends Model {}
+
 UserGroup.init(
   {
     user_id: {
@@ -28,5 +29,8 @@ UserGroup.init(
     timestamps: false,
   },
 );
+
+// Remove the 'id' attribute from the UserGroup model
+UserGroup.removeAttribute('id');
 
 module.exports = UserGroup;

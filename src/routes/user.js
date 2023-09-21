@@ -1,6 +1,10 @@
 const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const {
+  getUser,
+  updateUserProfile,
+} = require('../controllers/userController');
 // const { getUser } = require('../controllers/userController');
 require('../utils/passport')(passport);
 require('dotenv').config();
@@ -24,18 +28,11 @@ router.get(
   },
 );
 
-router.get(
-  '/profile',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    // Access the user information using req.user
-    res.json({ user: req.user });
-  },
-);
+router.get('/', passport.authenticate('jwt', { session: false }), getUser);
 
 // router.get("/:profileId", );
 
-// router.put("/profileId",);
+router.put('/:profileId', passport.authenticate('jwt', { session: false }), updateUserProfile);
 
 // Create interest in an event
 // router.post("/userId/interests/:eventId", );

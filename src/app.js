@@ -14,6 +14,7 @@ const { notFound, errorHandler } = require('./middlewares/error');
 const userRoutes = require('./routes/user');
 const eventRoutes = require('./routes/event');
 const groupRoutes = require('./routes/group');
+const commentRoutes = require('./routes/comment');
 
 // dotenv.config()
 
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
 app.use('/api/events', eventRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/groups', groupRoutes);
+app.use('/api/comments', commentRoutes);
 
 // express session
 app.use(
