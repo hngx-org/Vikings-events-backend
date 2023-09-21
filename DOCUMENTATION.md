@@ -8,7 +8,10 @@ This API allows you to perform get operations on an 'event' resource in a MySQL 
 
 Make a request to this url to https://vikings-events-backend-production.up.railway.app/
 
-```To get event with id 2 test with: https://vikings-events-backend-production.up.railway.app/api/events/2```
+```
+To get event with id 2 test with: 
+https://vikings-events-backend-production.up.railway.app/api/events/2
+```
 
 ## Installation
 
@@ -19,7 +22,7 @@ Make a request to this url to https://vikings-events-backend-production.up.railw
 
 ## Endpoint
 
-### GET /api/:eventId
+### GET /api/events/:eventId
 
 Retrieves an event's data from the database.
 
