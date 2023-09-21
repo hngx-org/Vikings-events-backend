@@ -1,36 +1,35 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
 
-class UserGroup extends Model {}
+class UserEvents extends Model {}
 
-UserGroup.init(
+UserEvents.init(
   {
     user_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: 'User',
         key: 'id',
       },
     },
-    group_id: {
+    event_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Groups',
+        model: 'Events',
         key: 'id',
       },
     },
   },
   {
     sequelize,
-    modelName: 'UserGroups',
-    tableName: 'user_groups',
+    modelName: 'UserEvents',
+    tableName: 'user_events',
     timestamps: false,
   },
 );
 
-// Remove the 'id' attribute from the UserGroup model
-UserGroup.removeAttribute('id');
 
-module.exports = UserGroup;
+
+module.exports = UserEvents;

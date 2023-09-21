@@ -4,6 +4,7 @@ const {
     getUsers,
     getProfile,
   updateUserProfile,
+    getUserEvents,
 } = require('../controllers/userController');
 
 const router = express.Router();
@@ -15,6 +16,9 @@ router.get('/', getUsers);
 // router.post("/login", );
 
 router.get('/:profileId', getProfile);
+
+// get users events
+router.get('/:userId/events',getUserEvents)
 
 router.put('/:profileId', updateUserProfile);
 

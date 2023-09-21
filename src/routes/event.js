@@ -9,13 +9,13 @@ const { getComments } = require('../controllers/commentController');
 const router = express.Router();
 
 // Get all events
-router.get('/', getEvents);
+// router.get('/', getEvents);
 
 // Create an event
 router.post('/', createEventController);
 
 // Get an event by ID/ get event details
-// router.get("/:eventId", );
+router.get('/:eventId', getEvents)
 
 // Update an event by ID/ update event
 // router.put("/:eventId", );

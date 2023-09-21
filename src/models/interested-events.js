@@ -6,7 +6,7 @@ class InterestedEvents extends Model {}
 InterestedEvents.init(
   {
     user_id: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: 'User',
