@@ -1,16 +1,16 @@
 import Router from 'express'
-import { getEvents } from '../controllers/eventController.js'
+import { getEvent } from '../controllers/eventController.js'
 
 const router = Router()
 
 // Get all events
-router.get('/', getEvents)
+// router.get('/', getEvents)
 
 // Create an event
-// router.post("/", );
+// router.post("/", createEvent);
 
 // Get an event by ID/ get event details
-// router.get("/:eventId", );
+router.get("/:eventId", getEvent );
 
 // Update an event by ID/ update event
 // router.put("/:eventId", );

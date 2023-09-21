@@ -4,7 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 
 // import middlewares
-import { notFound, errorHandler } from './middlewares/error.js'
+import { errorHandler, notFound } from './middlewares/error.js'
 
 // import routes
 import { eventRoutes, userRoutes, groupRoutes } from './routes/index.js'
