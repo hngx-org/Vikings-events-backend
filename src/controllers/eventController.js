@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-const { Op } = require('sequelize');
 const Events = require('../models/events');
 const Images = require('../models/images');
 const EventThumbnail = require('../models/event_thumbnail');
@@ -25,18 +24,6 @@ const createEventController = async (req, res) => {
       start_time,
       end_time,
     } = req.body;
-
-    const eventExists = await Events.findOne({
-      where: {
-        title: {
-          [Op.eq]: title,
-        },
-      },
-    });
-
-    if (eventExists) {
-      return res.status(409).json({ error: 'Event with this title already exists' });
-    }
 
     const newEvent = {
       title,
