@@ -22,4 +22,19 @@ const getGroups = async (req, res) => {
   res.json({ groups });
 };
 
-module.exports = { createGroup, getGroups };
+const getGroupDetails = async(req, res) => {
+  const groupId = req.params.groupId;
+  try{
+    const group = await Groups.findByPk(groupId)
+    if(group) {
+      res.json(group);
+    } else {
+      res.status(404).json({ error: 'Group not found'})
+    }
+  } catch (error){
+    console.error(error)
+    res.status(500).json({ error: error.message})
+  }
+}
+
+module.exports = { createGroup, getGroups, getGroupDetails };
