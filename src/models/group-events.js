@@ -6,7 +6,7 @@ class GroupEvents extends Model {}
 GroupEvents.init(
   {
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TEXT,
       allowNull: false,
       references: {
         model: 'User',
