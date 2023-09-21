@@ -11,10 +11,10 @@ const router = express.Router();
 // router.get('/', getEvents);
 
 // Create an event
-router.post('/', createEventControllercreateEvent);
+router.post('/', createEventController);
 
 // Get an event by ID/ get event details
-router.get('/:eventId', getEvent)
+router.get('/:eventId', getEvents)
 
 // Update an event by ID/ update event
 // router.put("/:eventId", );
