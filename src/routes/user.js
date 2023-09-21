@@ -1,16 +1,16 @@
-const express = require('express')
-const { getUser } = require('../controllers/userController.js')
-const { profile } = require('../controllers/userController.js')
+const express = require('express');
+const { getUser } = require('../controllers/userController.js');
+const { profile } = require('../controllers/userController.js');
 
-const router = express.Router()
+const router = express.Router();
 
-router.get('/', getUser)
+router.get('/', getUser);
 
 // router.post("/register", );
 
 // router.post("/login", );
 
-router.get('/:profileId', profile)
+router.get('/:profileId', profile);
 
 // router.put("/:profileId",);
 
@@ -20,4 +20,4 @@ router.get('/:profileId', profile)
 // Delete interest in an event
 // router.delete("/:userId/interests/:eventId", );
 
-module.exports = router
+module.exports = router;

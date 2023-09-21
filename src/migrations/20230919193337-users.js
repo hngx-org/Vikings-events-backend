@@ -1,5 +1,3 @@
-'use strict'
-
 /** @type {import('sequelize-cli').Migration} */
 
 module.exports = {
@@ -22,9 +20,9 @@ module.exports = {
       avatar: {
         type: Sequelize.TEXT,
       },
-    })
+    });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('user')
+    await queryInterface.dropTable('user');
   },
-}
+};

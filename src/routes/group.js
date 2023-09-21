@@ -1,17 +1,17 @@
-const express = require('express')
+const express = require('express');
 
-const { getGroups, groupDetials } = require('../controllers/groupController.js')
+const { getGroups, groupDetials } = require('../controllers/groupController');
 
-const router = express.Router()
+const router = express.Router();
 
 // Create a group
 // router.post("/", );
 
 // get all groups
-router.get('/', getGroups)
+router.get('/', getGroups);
 
 // Get a group detail
-router.get('/:groupId', groupDetials)
+router.get('/:groupId', groupDetials);
 
 // Get a group detail
 // router.put("/:groupId", );
@@ -22,4 +22,4 @@ router.get('/:groupId', groupDetials)
 // Remove user from a group
 // router.delete("/:groupId/members/:userId", );
 
-module.exports = router
+module.exports = router;

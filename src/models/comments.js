@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require('sequelize')
-const sequelize = require('../config/config')
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../config/config');
 
 class Comments extends Model {}
 
@@ -34,7 +34,7 @@ Comments.init(
     modelName: 'Comments',
     tableName: 'comments',
     timestamps: false,
-  }
-)
+  },
+);
 
-module.exports = Comments
+module.exports = Comments;

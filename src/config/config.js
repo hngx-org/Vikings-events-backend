@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
     migrationStorageTableName: 'migrations',
     host: process.env.DB_HOST,
     port: 3306,
-  }
+  },
 );
 
 (async () => {
