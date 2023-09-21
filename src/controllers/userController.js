@@ -1,9 +1,5 @@
 const User = require('../models/users');
 
-const getUser = async (req, res) => {
-  const users = 'All Users';
-  res.json({ users });
-};
 const profile = async (req, res) => {
   const userProfileId = req.params.profileId;
   try {
@@ -19,4 +15,4 @@ const profile = async (req, res) => {
   }
 };
 
-module.exports = { getUser, profile };
+module.exports = { profile };
