@@ -7,7 +7,7 @@ const getUser = async (req, res) => {
 
 // eslint-disable-next-line consistent-return
 const updateUserProfile = async (req, res, next) => {
-  const userId = req.params.id;
+  const userId = req.params.profileId;
   const {
     name,
     email,
@@ -19,7 +19,7 @@ const updateUserProfile = async (req, res, next) => {
       res.status(404).json({ error: 'User not found' });
     }
 
-    const updatedUser = await User.update({
+    const [updatedRowCount] = await User.update({
       name,
       email,
       avatar,
@@ -27,13 +27,14 @@ const updateUserProfile = async (req, res, next) => {
       where: {
         id: userId,
       },
-      returning: true,
     });
 
-    if (updatedUser > 0) {
-      return res.status(200).json({ message: 'User profile updated successfully' });
+    if (updatedRowCount === 0) {
+      return res.status(404).json({ error: 'updated user not found' });
     }
-    return res.status(400).json({ message: 'No change was detected' });
+
+    const updatedUser = await User.findByPk(userId);
+    return res.status(200).json(updatedUser);
   } catch (error) {
     next(error);
   }
