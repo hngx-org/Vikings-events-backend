@@ -20,8 +20,8 @@ const getEvent = async (req, res) => {
     const response = await Event.findOne({ where: { id: eventId } })
 
     if (!response || response.length === 0) {
-      res.status(400).json({
-        status: 400,
+      res.status(404).json({
+        status: '404',
         message: `No event found with the id: ${eventId}`,
       })
     } else {
@@ -31,7 +31,7 @@ const getEvent = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
-    res.status(500).json({ message: 'INTERNAL SERVER ERROR', error })
+    res.status(500).json({status: '500', message: 'INTERNAL SERVER ERROR', error: error })
   }
 }
 export { getEvent }
