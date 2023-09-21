@@ -26,12 +26,21 @@ const isTimeValid = (value, helpers) => {
   return value; 
 };
 
+const currentDateOnly = () => {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
+
 const createEventValidation = {
   body: Joi.object().keys({
     title: Joi.string().required(),
     description: Joi.string().required(),
     location: Joi.string().required(),
-    start_date: Joi.date().min('now').required().iso(),
+    start_date: Joi.date().min(currentDateOnly()).required().iso(),
     end_date: Joi.date().min(Joi.ref('start_date')).required().iso(),
     start_time: Joi.string().custom(isTimeValid, 'Custom Time Validation').required(),
     end_time: Joi.string().custom(isTimeValid, 'Custom Time Validation').required(),
