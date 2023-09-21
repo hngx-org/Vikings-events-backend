@@ -22,7 +22,7 @@ router.get('/:groupId', getGroupDetails);
 router.put('/:groupId');
 
 // Add user to a group
-router.post('/:groupId/members/:userId', addUserToGroup);
+//router.post('/:groupId/members/:userId', addUserToGroup);
 
 // Remove user from a group
 // router.delete("/:groupId/members/:userId", );
