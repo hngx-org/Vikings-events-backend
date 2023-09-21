@@ -1,15 +1,16 @@
 const express = require('express')
 const { getUser } = require('../controllers/userController.js')
+const { profile } = require('../controllers/userController.js')
 
 const router = express.Router()
 
-router.get('/', getUser);
+router.get('/', getUser)
 
 // router.post("/register", );
 
 // router.post("/login", );
 
-// router.get("/:profileId", profile );
+router.get('/:profileId', profile)
 
 // router.put("/:profileId",);
 
