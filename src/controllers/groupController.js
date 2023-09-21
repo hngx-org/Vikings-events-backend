@@ -83,6 +83,11 @@ const getGroupDetails = async (req, res) => {
   groupId = Number(groupId)
 
   try {
+    const group = await Groups.findByPk(groupId);
+    if(!group) {
+      return res.status(404).json({ error: 'Group not found' });
+    }
+
     //Get all the values for normalized tables first
     const [groupEvents, groupUsers, groupImage] = await Promise.all([
       await GroupEvents.findAll({
@@ -113,10 +118,12 @@ const getGroupDetails = async (req, res) => {
 
 
     return res.json({ groupDetails })
-  } catch {
-    return res.status(500).json({ message: "Internal server error" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message, message: "Internal server error" });
   }
 
 }
  
-module.exports = { createGroup, getGroups, getGroupDetails };
+module.exports = {
+  createGroup, getGroups, addUserToGroup, getGroupDetails,
+};
