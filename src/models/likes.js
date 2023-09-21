@@ -29,4 +29,7 @@ Likes.init(
   },
 );
 
+// Remove the 'id' attribute from the UserGroup model
+Likes.removeAttribute('id');
+
 module.exports = Likes;

@@ -12,6 +12,7 @@ const userRoutes = require('./routes/user');
 const eventRoutes = require('./routes/event');
 const groupRoutes = require('./routes/group');
 const { authRoutes } = require('./routes');
+const commentRoutes = require('./routes/comment');
 
 // dotenv.config()
 
@@ -33,6 +34,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/groups', groupRoutes);
+app.use('/api/comments', commentRoutes);
 
 // Error Middlewares
 app.use(notFound);
