@@ -32,5 +32,10 @@ User.init(
     timestamps: false,
   },
 );
+// Association for users to user-events
+User.belongsToMany(Events, {
+  through: 'UserEvents',
+  foreignKey: 'user_id',
+});
 
 module.exports = User;
