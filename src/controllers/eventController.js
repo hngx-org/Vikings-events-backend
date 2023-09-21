@@ -5,7 +5,7 @@ const EventThumbnail = require('../models/event_thumbnail');
 
 const getEvents = async (req, res) => {
   try {
-    const events = await Events.find({ limit: 10 });
+    const events = await Events.findAll({ limit: 10 });
 
     res.send(events);
   } catch (error) {
@@ -123,4 +123,22 @@ const deleteEventController = async (req, res) => {
   }
 };
 
-module.exports = { getEvents, createEventController, deleteEventController };
+const addEventCommentImage = async (req, res) => {
+  const t = await Events.sequelize.transaction();
+  try{
+  const { commentId, eventId } = req.params;
+  } catch(e){
+    console.error('Error deleting event and related data:', error);
+
+    // Roll back the transaction in case of an error
+    await t.rollback();
+
+    return res.status(500).json({
+      error: 'An error occurred while deleting the event and related data.',
+    });
+  }
+};
+
+module.exports = {
+  getEvents, createEventController, deleteEventController, addEventCommentImage,
+};

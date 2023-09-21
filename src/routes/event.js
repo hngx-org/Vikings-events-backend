@@ -3,6 +3,7 @@ const {
   getEvents,
   createEventController,
   deleteEventController,
+  addEventCommentImage,
 } = require('../controllers/eventController');
 
 const router = express.Router();
@@ -29,7 +30,7 @@ router.delete('/:eventId', deleteEventController);
 // router.get("/:eventId/comments", );
 
 // Add an event comment images
-// router.post("/:eventId/comments/:commentId/images", );
+router.post('/:eventId/comments/:commentId/images', addEventCommentImage);
 
 // get event comment image
 // router.get("/:eventId/comments/:commentId/images", );

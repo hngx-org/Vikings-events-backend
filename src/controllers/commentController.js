@@ -37,4 +37,18 @@ const likeComment = async (req, res) => {
   }
 };
 
-module.exports = { getComments, likeComment, createComment };
+const addCommentImage = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const files = req.files[0];
+  } catch (e) {
+    console.error(e);
+    res
+      .status(500)
+      .json({ error: 'An internal error occurred while  uploading image' });
+  }
+};
+
+module.exports = {
+  getComments, likeComment, createComment, addCommentImage,
+};
