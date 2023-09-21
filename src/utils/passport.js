@@ -12,7 +12,7 @@ module.exports = (passport) => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: 'http://localhost:3306/api/users/auth/google/callback',
+        callbackURL: 'https://vikings-events-backend-production-2596.up.railway.app/api/users/auth/google/callback',
         passReqToCallback: true,
       },
       async (request, accessToken, refreshToken, profile, done) => {
