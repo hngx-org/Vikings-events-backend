@@ -5,10 +5,15 @@ const EventThumbnail = require('../models/event_thumbnail');
 
 const getEvents = async (req, res) => {
   try {
-    const events = await Events.find({ limit: 10 });
+    const events = await Events.findAll({ limit: 10 });
 
-    res.send(events);
+    res.status(200).json({
+      events,
+    });
   } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
     console.log(error);
   }
 };
@@ -122,5 +127,44 @@ const deleteEventController = async (req, res) => {
     });
   }
 };
+const updateEventController = async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const {
+      title,
+      description,
+      location,
+      start_date,
+      end_date,
+      start_time,
+      end_time,
+    } = req.body;
 
-module.exports = { getEvents, createEventController, deleteEventController };
+    // Fetch the event by ID
+    const event = await Events.findByPk(eventId);
+
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    // Update event details
+    event.title = title;
+    event.description = description;
+    event.location = location;
+    event.start_date = start_date;
+    event.end_date = end_date;
+    event.start_time = start_time;
+    event.end_time = end_time;
+
+    // Save the updated event
+    await event.save();
+
+    res.status(200).json({ message: 'Event updated successfully' });
+  } catch (error) {
+    console.error('Error updating event:', error);
+    res.status(500).json({ error: 'An error occurred while updating the event', details: error.message });
+  }
+};
+
+
+module.exports = { getEvents, createEventController, deleteEventController, updateEventController };

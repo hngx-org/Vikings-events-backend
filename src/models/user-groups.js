@@ -6,7 +6,7 @@ class UserGroup extends Model {}
 UserGroup.init(
   {
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TEXT,
       allowNull: false,
       references: {
         model: 'User',

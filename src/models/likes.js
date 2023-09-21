@@ -13,7 +13,7 @@ Likes.init(
       },
     },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TEXT,
       references: {
         model: 'User',
         key: 'id',

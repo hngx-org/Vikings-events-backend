@@ -1,3 +1,5 @@
 {
-  "prettier.semi": false
+  "prettier.semi": false,
+  "eslint.execArgv": null,
+  "eslint.enable": false
 }
