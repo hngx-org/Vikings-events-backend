@@ -79,12 +79,12 @@ const getGroups = async (req, res) => {
 };
 
 const getGroupDetails = async (req, res) => {
-  const { groupId } = req.params;
-
+  let { groupId } = req.params;
+  groupId = Number(groupId)
 
   try {
     //Get all the values for normalized tables first
-    const [groupEvents, groupUsers, groupImage] = await Promise.allSettled([
+    const [groupEvents, groupUsers, groupImage] = await Promise.all([
       await GroupEvents.findAll({
         where: {
           group_id: groupId
@@ -101,6 +101,7 @@ const getGroupDetails = async (req, res) => {
         }
       })
     ]);
+    console.log({ groupEvents, groupUsers, groupImage })
 
     await Promise.allSettled([
       await Images.findByPk(groupImage.value.image_id),
