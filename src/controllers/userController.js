@@ -8,22 +8,23 @@ const getUser = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     //  check Id input
-    const { userId } = req.params.userId;
-    if (!userId) {
+    const { profileId } = req.params;
+
+    if (!profileId) {
       return res.status(400).json({ status: 'Failure', error: 'Invalid Id' });
     }
-    const user = await User.findOne({ where: { id: userId } });
+    const user = await User.findByPk(profileId);
     //  check for user
     if (!user) {
       return res
         .status(404)
         .json({ status: 'Failure', error: 'User Not found' });
     }
-    return res.status(200).json({ status: 'Success', data: user });
-  } catch (err) {
     return res
-      .status(500)
-      .json({ status: 'Failure', error: 'Internal Server Error' });
+      .status(200)
+      .json({ status: 'Success', message: 'User found', data: user });
+  } catch (err) {
+    return res.status(500).json({ status: 'Failure', error: err.message });
   }
 };
 
