@@ -1,27 +1,67 @@
-const Comment = require('../models/comments');
+const Comments = require('../models/comments');
+const Likes = require('../models/likes');
 
-async function unlikeComment(req, res) {
+const getComments = async (req, res) => {
+  const comments = 'All comments';
+  res.json({ comments });
+};
+
+const createComment = async (req, res) => {};
+
+const likeComment = async (req, res) => {
   try {
-    const commentId = req.params.commentId;
-    const userId = req.user.id; 
+    const { commentId } = req.params;
+    // const { userId } = req.user;
+    const { userId } = req.params;
 
-    const existingLike = await CommentLike.findOne({
+    //  Check if the user has already liked the comment
+    const existingLike = await Likes.findOne({
       where: { user_id: userId, comment_id: commentId },
     });
 
-    if (!existingLike) {
-      return res.status(400).json({ message: 'You have not liked this comment.' });
+    if (existingLike) {
+      return res
+        .status(400)
+        .json({ error: 'User has already liked the comment' });
     }
 
-    await CommentLike.destroy({ where: { user_id: userId, comment_id: commentId } });
+    // Create a new like record
+    await Likes.create({ user_id: userId, comment_id: commentId });
 
-    await Comment.decrement('likes', { by: 1, where: { id: commentId } });
-
-    return res.status(200).json({ message: 'Comment unliked successfully.' });
+    res.json({ message: 'Comment liked successfully' });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Internal Server Error' });
-  }
-}
+    res
+      .status(500)
+      .json({ error: 'An internal error occurred while liking the comment' });
+  
+    }}
 
-module.exports = { unlikeComment };
+
+  const unlikeComment = async(req, res) => {
+    try {
+      const { commentId ,userId } = req.params;
+  
+      const existingLike = await Likes.findOne({
+        where: { user_id: userId, comment_id: commentId },
+      });
+  
+      if (!existingLike) {
+        return res.status(400).json({ message: 'You have not liked this comment.' });
+      }
+  
+      await Likes.destroy({ where: { user_id: userId, comment_id: commentId } });
+  
+      await Comments.decrement('likes', { by: 1, where: { id: commentId } });
+  
+      return res.status(200).json({ message: 'Comment unliked successfully.' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  }
+  
+  
+
+module.exports = { getComments, likeComment, unlikeComment,createComment };
+
