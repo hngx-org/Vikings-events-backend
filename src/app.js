@@ -1,6 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const passport = require('passport');
+const session = require('express-session');
+require('dotenv').config();
+require('./utils/passport')(passport);
 // const dotenv = require('dotenv');
 
 // import middlewares
@@ -31,6 +35,18 @@ app.use('/api/events', eventRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/groups', groupRoutes);
 app.use('/api/comments', commentRoutes);
+
+// express session
+app.use(
+  session({
+    secret: process.env.JWT_SECRET_KEY,
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Error Middlewares
 app.use(notFound);
