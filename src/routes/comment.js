@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const commentController = require('../controllers/commentController');
+const {createComment, likeComment, unlikeComment} = require('../controllers/commentController');
 
 
 
@@ -13,6 +13,6 @@ router.post('/', createComment);
 router.post('/:commentId/members/:userId/like', likeComment);
 
 //unlike comment
-router.post('/:commentId/members/:userId/unlike', unlikeComment);
+router.delete('/:commentId/members/:userId/unlike', unlikeComment);
 
 module.exports = router;
