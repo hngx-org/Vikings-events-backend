@@ -123,6 +123,7 @@ const getGroupDetails = async (req, res) => {
     ])
 
     const groupDetails = {
+      ...group.dataValues,
       member_count: groupUsers.count,
       group_image: groupImage.url,
       events: events
