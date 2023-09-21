@@ -53,4 +53,11 @@ const Event = (sequelize, Sequelize) => {
   return Event
 }
 
+
+// Association of event to user-events
+Event.belongsToMany(User, {
+  through: 'UserEvents',
+  foreignKey: 'event_id',
+});
+
 export default Event
