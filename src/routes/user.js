@@ -1,13 +1,37 @@
 const express = require('express');
-const { getUser } = require('../controllers/userController');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
+// const { getUser } = require('../controllers/userController');
+require('../utils/passport')(passport);
+require('dotenv').config();
 
 const router = express.Router();
 
-router.get('/', getUser);
+router.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['email', 'profile'] }),
+);
 
-// router.post("/register", );
+router.get(
+  '/auth/google/callback',
+  passport.authenticate('google', { session: false }),
+  (req, res) => {
+    const token = jwt.sign({ user: req.user }, process.env.JWT_SECRET_KEY, {
+      expiresIn: '1h',
+    });
 
-// router.post("/login", );
+    res.json({ token });
+  },
+);
+
+router.get(
+  '/profile',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    // Access the user information using req.user
+    res.json({ user: req.user });
+  },
+);
 
 // router.get("/:profileId", );
 
