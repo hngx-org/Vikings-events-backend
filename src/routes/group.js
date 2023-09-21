@@ -3,6 +3,8 @@ const express = require('express');
 const {
   createGroup,
   getGroups,
+  addUserToGroup,
+  getGroupDetails,
 } = require('../controllers/groupController');
 
 const router = express.Router();
@@ -14,13 +16,13 @@ router.post('/', createGroup);
 router.get('/', getGroups);
 
 // Get a group detail
-// router.get('/:groupId',);
+router.get('/:groupId', getGroupDetails);
 
-// Get a group detail
-// router.put("/:groupId", );
+// Update a group detail
+router.put('/:groupId');
 
 // Add user to a group
-// router.post("/:groupId/members/:userId", );
+router.post('/:groupId/members/:userId', addUserToGroup);
 
 // Remove user from a group
 // router.delete("/:groupId/members/:userId", );
