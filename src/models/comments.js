@@ -19,7 +19,7 @@ Comments.init(
       type: DataTypes.TEXT,
     },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TEXT,
       references: {
         model: 'User',
         key: 'id',

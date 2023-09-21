@@ -3,11 +3,13 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('user_groups', {
       user_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.TEXT,
         references: {
           model: 'user',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       group_id: {
         type: Sequelize.INTEGER,
