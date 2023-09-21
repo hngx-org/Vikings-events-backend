@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 const User = require('../models/users');
 const Events = require('../models/events');
 const InterestedEvents = require('../models/interested-events');
@@ -24,11 +25,18 @@ const getUsers = async (req, res) => {
 
 const getUserByEmail = async (email) => {
   const user = await User.findOne({ where: { email } });
+  if (!user) return null;
   return user.dataValues;
 };
 
-const createUser = async ({ name, email, picture }) => {
-  const user = await User.create({ name, email, avatar: picture });
+const getUserById = async (id) => {
+  const user = await User.findOne({ where: { id } });
+  if (!user) return null;
+  return user.dataValues;
+};
+
+const createUser = async ({ id, name, email, picture }) => {
+  const user = await User.create({ id, name, email, avatar: picture });
   return user;
 };
 
@@ -122,6 +130,7 @@ module.exports = {
   getUsers,
   getProfile,
   getUserByEmail,
+  getUserById,
   createUser,
   updateUserProfile,
   deleteInterestedEvent,

@@ -3,7 +3,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('group_events', {
       user_id: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         references: {
           model: 'user',
           key: 'id',
