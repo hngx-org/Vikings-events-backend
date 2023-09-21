@@ -1,5 +1,3 @@
-'use strict'
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -14,11 +12,13 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       user_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         references: {
           model: 'user',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       event_id: {
         type: Sequelize.INTEGER,
@@ -26,10 +26,13 @@ module.exports = {
           model: 'events',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
-    })
+    });
   },
 
+  // eslint-disable-next-line no-unused-vars
   async down(queryInterface, Sequelize) {
     /**
      * Add reverting commands here.
@@ -38,4 +41,4 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
   },
-}
+};

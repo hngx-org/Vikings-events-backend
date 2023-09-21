@@ -1,5 +1,5 @@
-const { DataTypes, Model } = require('sequelize')
-const sequelize = require('../config/config')
+const { DataTypes, Model } = require('sequelize');
+const sequelize = require('../config/config');
 
 class Likes extends Model {}
 
@@ -13,7 +13,7 @@ Likes.init(
       },
     },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       references: {
         model: 'User',
         key: 'id',
@@ -26,7 +26,10 @@ Likes.init(
     modelName: 'Likes',
     tableName: 'likes',
     timestamps: false,
-  }
-)
+  },
+);
 
-module.exports = Likes
+// Remove the 'id' attribute from the UserGroup model
+Likes.removeAttribute('id');
+
+module.exports = Likes;

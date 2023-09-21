@@ -23,7 +23,22 @@ router.post('/register', async (req, res) => {
     console.error(error.message);
     res.status(500).json({ message: 'User registration failed', error: error.message });
   }
-});
+
+const express = require('express');
+// router.post("/register", );
+const {
+    getUsers,
+    getProfile,
+  updateUserProfile,
+    getUserEvents,
+} = require('../controllers/userController');
+
+const router = express.Router();
+
+router.get('/', getUsers);
+
+// router.post('/register', );
+
 
 // User Login
 router.post('/login', async (req, res) => {
@@ -70,6 +85,12 @@ router.put('/:profileId', async (req, res) => {
   }
 });
 
+router.get('/:profileId', getProfile);
+
+// get users events
+router.get('/:userId/events',getUserEvents)
+
+router.put('/:profileId', updateUserProfile);
 
 // Create interest in an event
 router.post('/:userId/interests/:eventId', async (req, res) => {

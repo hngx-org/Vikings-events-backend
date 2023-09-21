@@ -6,7 +6,7 @@ class GroupEvents extends Model {}
 GroupEvents.init(
   {
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
         model: 'User',
@@ -27,7 +27,7 @@ GroupEvents.init(
     modelName: 'GroupEvents',
     tableName: 'group_events',
     timestamps: false,
-  }
+  },
 );
 
 module.exports = GroupEvents;
