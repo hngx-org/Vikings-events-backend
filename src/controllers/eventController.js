@@ -124,6 +124,50 @@ const deleteEventController = async (req, res) => {
   }
 };
 
+const updateEventController = async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const {
+      title,
+      description,
+      location,
+      start_date,
+      end_date,
+      start_time,
+      end_time,
+    } = req.body;
+
+    // Fetch the event by ID
+    const event = await Events.findByPk(eventId);
+
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    // Update event details
+    event.title = title;
+    event.description = description;
+    event.location = location;
+    event.start_date = start_date;
+    event.end_date = end_date;
+    event.start_time = start_time;
+    event.end_time = end_time;
+
+    // Save the updated event
+    await event.save();
+
+    res.status(200).json({ message: 'Event updated successfully' });
+  } catch (error) {
+    console.error('Error updating event:', error);
+    res
+      .status(500)
+      .json({
+        error: 'An error occurred while updating the event',
+        details: error.message,
+      });
+  }
+};
+
 const addCommentToEventController = async (req, res) => {
   const { eventId } = req.params;
 
@@ -147,4 +191,10 @@ const addCommentToEventController = async (req, res) => {
   }
 };
 
-module.exports = { getEvents, createEventController, deleteEventController, addCommentToEventController };
+module.exports = {
+  getEvents,
+  createEventController,
+  deleteEventController,
+  updateEventController,
+  addCommentToEventController,
+};
