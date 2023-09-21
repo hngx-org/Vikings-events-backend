@@ -5,10 +5,15 @@ const EventThumbnail = require('../models/event_thumbnail');
 
 const getEvents = async (req, res) => {
   try {
-    const events = await Events.find({ limit: 10 });
+    const events = await Events.findAll({ limit: 10 });
 
-    res.send(events);
+    res.status(200).json({
+      events,
+    });
   } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
     console.log(error);
   }
 };
