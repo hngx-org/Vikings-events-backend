@@ -1,11 +1,29 @@
 const Joi = require('joi')
 
 const isTimeValid = (value, helpers) => {
-  const time = new Date(value);
+  const timeParts = value.split(':'); // Time format will be "HH:mm"
+  
+  if (timeParts.length !== 2) {
+    return helpers.error('any.invalid');
+  }
+
+  const [hours, minutes] = timeParts;
+  
+  const parsedHours = parseInt(hours, 10);
+  const parsedMinutes = parseInt(minutes, 10);
+
+  if (isNaN(parsedHours) || parsedHours < 0 || parsedHours > 23 || isNaN(parsedMinutes) || parsedMinutes < 0 || parsedMinutes > 59) {
+    return helpers.error('any.invalid');
+  }
+
+  const time = new Date();
+  time.setHours(parsedHours, parsedMinutes, 0);
+
   if (isNaN(time.getTime())) {
     return helpers.error('any.invalid');
   }
-  return helpers.error('any.invalid');
+
+  return value; 
 };
 
 const createEventValidation = {
