@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 

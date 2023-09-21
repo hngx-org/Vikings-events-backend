@@ -29,4 +29,6 @@ EventThumbnail.init(
   },
 );
 
+EventThumbnail.removeAttribute('id');
+
 module.exports = EventThumbnail;

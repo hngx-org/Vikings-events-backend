@@ -1,22 +1,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('interested_events', {
-      user_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: 'user',
-          },
-          key: 'id',
-        },
-      },
+    await queryInterface.createTable('event_thumbnail', {
       event_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: {
-            tableName: 'events',
-          },
+          model: 'events',
+          key: 'id',
+        },
+      },
+      image_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'images',
           key: 'id',
         },
       },
