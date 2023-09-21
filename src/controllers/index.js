@@ -1,5 +1,7 @@
-exports.getIndex = async (req, res, next) => {
+const getIndex = async (req, res) => {
   res.json({
     message: 'API - 👋🌎🌍🌏',
-  })
-}
+  });
+};
+
+module.exports = { getIndex };
