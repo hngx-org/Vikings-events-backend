@@ -1,5 +1,6 @@
 const Comments = require('../models/comments');
 const Likes = require('../models/likes');
+const User = require('../models/users');
 
 const getComments = async (req, res) => {
   const comments = 'All comments';
@@ -11,8 +12,7 @@ const createComment = async (req, res) => {};
 const likeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
-    // const { userId } = req.user;
-    const { userId } = req.params;
+    const userId  = req.user.id;
 
     //  Check if the user has already liked the comment
     const existingLike = await Likes.findOne({
@@ -28,7 +28,7 @@ const likeComment = async (req, res) => {
     // Create a new like record
     await Likes.create({ user_id: userId, comment_id: commentId });
 
-    res.json({ message: 'Comment liked successfully' });
+    res.json({ message: `Comment liked`  });
   } catch (error) {
     console.error(error);
     res
