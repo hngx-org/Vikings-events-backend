@@ -10,6 +10,8 @@ module.exports = {
           model: 'user',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       group_id: {
         type: Sequelize.INTEGER,

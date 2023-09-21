@@ -7,16 +7,20 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         references: {
-          tableName: 'user',
+          model: 'user',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       comment_id: {
         type: Sequelize.INTEGER,
         references: {
-          tableName: 'comments',
+          model: 'comments',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
     });
   },
