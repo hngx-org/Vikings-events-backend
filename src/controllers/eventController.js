@@ -125,10 +125,10 @@ const deleteEventController = async (req, res) => {
 
 const addEventCommentImage = async (req, res) => {
   const t = await Events.sequelize.transaction();
-  try{
-  const { commentId, eventId } = req.params;
-  } catch(e){
-    console.error('Error deleting event and related data:', error);
+  try {
+    const { commentId, eventId } = req.params;
+  } catch (e) {
+    console.error('Error deleting event and related data:', e);
 
     // Roll back the transaction in case of an error
     await t.rollback();
