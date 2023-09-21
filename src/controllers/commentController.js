@@ -38,5 +38,3 @@ const getComments = async (req, res) => {
 };
 
 module.exports = { getGroups, getComments };
-
-module.exports = { getGroups };
