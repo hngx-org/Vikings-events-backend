@@ -5,8 +5,8 @@ pipeline {
         
             steps {
                 sh "ls"
-                sh "sudo chmod +x ./deploy.sh"
-                sh "./deploy.sh"
+                sh "chmod +x ./deploy.sh"
+                sh "bash ./deploy.sh"
             }
             
         }
