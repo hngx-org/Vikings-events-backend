@@ -31,4 +31,6 @@ InterestedEvents.init(
   },
 );
 
+InterestedEvents.removeAttribute('id');
+
 module.exports = InterestedEvents;
