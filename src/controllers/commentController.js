@@ -179,10 +179,11 @@ const likeComment = async (req, res) => {
     }}
 
 
-  const unlikeComment = async (req, res) => {
+ const unlikeComment = async (req, res) => {
   try {
     const { commentId, userId } = req.params;
-    
+
+
     const existingLike = await Likes.findOne({
       where: { user_id: userId, comment_id: commentId },
     });
