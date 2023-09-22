@@ -27,16 +27,17 @@ const getGroups = async (req, res) => {
 };
 
 const getCommentImages = async (req, res) => {
-  const { comment_id } = req.body;
+  const commentId  = Number(req.params.commentId);
 
-  if(!comment_id) {
-    return res.status(400).json({ message: "`comment_id` is not defined" })
+  
+  if(!commentId) {
+    return res.status(400).json({ message: "`commentId` is not defined" })
   }
 
   try {
     const commentImages = await CommentImages.findAll({
       where: {
-        comment_id
+        comment_id: commentId
       }
     });
     const imageIds = commentImages.map((comment_image) => {
@@ -44,12 +45,18 @@ const getCommentImages = async (req, res) => {
     })
 
     const imagePromises = imageIds.map(async (image_id) => {
-      return await Images.findByPk(image_id)
+      return await Images.findOne({
+        where: {
+          id: image_id
+        }
+      })
     })
 
     const imagesResult = await Promise.allSettled(imagePromises)
+    
+    
     const images = imagesResult.map((image) => {
-      return image.url
+      return image.value.url
     });
     return res.json({ images })
 
@@ -60,6 +67,7 @@ const getCommentImages = async (req, res) => {
 }
 
 // eslint-disable-next-line consistent-return
+
 const getComments = async (req, res) => {
   // We first check if the event exist
   const event = await Events.findByPk(req.params.eventId);
@@ -169,6 +177,5 @@ const likeComment = async (req, res) => {
   }
 };
 
-module.exports = { getComments, likeComment, createComment, getCommentImages, getGroups };
 
-// any == 1
+module.exports = { getComments, getCommentImages, likeComment, createComment };
