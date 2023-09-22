@@ -1,10 +1,9 @@
 const express = require('express');
 // router.post("/register", );
 const {
-    getUsers,
-    getProfile,
+  getUsers,
+  getProfile,
   updateUserProfile,
-    getUserEvents,
 } = require('../controllers/userController');
 
 const router = express.Router();
@@ -18,7 +17,7 @@ router.get('/', getUsers);
 router.get('/:profileId', getProfile);
 
 // get users events
-router.get('/:userId/events',getUserEvents)
+// router.get('/:userId/events',getUserEvents)
 
 router.put('/:profileId', updateUserProfile);
 
