@@ -237,10 +237,10 @@ const addEventCommentImage = async (req, res) => {
       .json({ error: 'An internal error occurred while  uploading image' });
   }
 };
-//get Event details
+// get Event details
 const getEventDetails = async (req, res) => {
   try {
-    const eventId = req.params.eventId;
+    const { eventId } = req.params;
     const event = await Events.findByPk(eventId);
 
     if (!event) {

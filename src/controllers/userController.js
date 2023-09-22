@@ -18,9 +18,25 @@ const getProfile = async (req, res) => {
   }
 };
 
-const getUsers = async (req, res) => {
-  const users = 'All Users';
-  res.json({ users });
+const getUsers = async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+
+    if (!users) {
+      res.status(400).json({ error: 'Something went wrong' });
+    }
+
+    if (users.length < 1) {
+      res.status(200).json({ message: 'No Users have been added yet.' });
+      return;
+    }
+
+    res
+      .status(200)
+      .json({ status: res.statusCode, message: 'All Users', data: users });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const getUserByEmail = async (email) => {
@@ -77,8 +93,8 @@ const updateUserProfile = async (req, res, next) => {
 // removing interest in an event
 const deleteInterestForAnEvent = async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const eventId = req.params.eventId;
+    const { userId } = req.params;
+    const { eventId } = req.params;
 
     // find if the user exists in the database
     const user = await User.findOne({
@@ -152,21 +168,20 @@ const createInterestForAnEvent = async (req, res) => {
 };
 
 // get all interest for an event
-const getAllInterestForAnEvent = async(req,res,next)=>{
-  try{
-    const userId = req.params.userId;
+const getAllInterestForAnEvent = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
 
     // Get all events that the user is interested in
     const userInterests = await InterestedEvents.findAll({
       where: { user_id: userId },
     });
 
-    res.status(200).json(userInterests)
-
-  }catch(error){
-    next(error)
+    res.status(200).json(userInterests);
+  } catch (error) {
+    next(error);
   }
-}
+};
 
 // const getUserEvents = async(req,res,next)=>{
 //   try{

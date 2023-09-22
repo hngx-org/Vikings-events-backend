@@ -16,57 +16,44 @@ cloudinary.config({
   api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
 });
 
-
-
-
 const getGroups = async (req, res) => {
   const groups = 'All Groups';
   res.json({ groups });
 };
 
 const getCommentImages = async (req, res) => {
-  const commentId  = Number(req.params.commentId);
+  const commentId = Number(req.params.commentId);
 
-  
-  if(!commentId) {
-    return res.status(400).json({ message: "`commentId` is not defined" })
+  if (!commentId) {
+    return res.status(400).json({ message: '`commentId` is not defined' });
   }
 
   try {
     const commentImages = await CommentImages.findAll({
       where: {
-        comment_id: commentId
-      }
+        comment_id: commentId,
+      },
     });
 
     if (commentImages.length === 0) {
-      return res.json({ images: [] })
+      return res.json({ images: [] });
     }
-    const imageIds = commentImages.map((comment_image) => {
-      return comment_image.image_id;
-    })
+    const imageIds = commentImages.map((comment_image) => comment_image.image_id);
 
-    const imagePromises = imageIds.map(async (image_id) => {
-      return await Images.findOne({
-        where: {
-          id: image_id
-        }
-      })
-    })
+    const imagePromises = imageIds.map(async (image_id) => await Images.findOne({
+      where: {
+        id: image_id,
+      },
+    }));
 
-    const imagesResult = await Promise.allSettled(imagePromises)
-    
-    
-    const images = imagesResult.map((image) => {
-      return image.value.url
-    });
-    return res.json({ images })
+    const imagesResult = await Promise.allSettled(imagePromises);
 
+    const images = imagesResult.map((image) => image.value.url);
+    return res.json({ images });
   } catch (e) {
-    return res.status(500).json({ message: "Internal server error" })
+    return res.status(500).json({ message: 'Internal server error' });
   }
-  
-}
+};
 
 // eslint-disable-next-line consistent-return
 
@@ -108,7 +95,7 @@ const getComments = async (req, res) => {
 
 const createComment = async (req, res) => {
   try {
-    const eventId = req.params.eventId;
+    const { eventId } = req.params;
     const userId = req.user.id;
     const { body } = req.body;
 
@@ -150,7 +137,6 @@ const createComment = async (req, res) => {
   }
 };
 
-
 const likeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
@@ -170,7 +156,7 @@ const likeComment = async (req, res) => {
     // Create a new like record
     await Likes.create({ user_id: userId, comment_id: commentId });
 
-    res.json({ message: `Comment liked` });
+    res.json({ message: 'Comment liked' });
   } catch (error) {
     console.error(error);
     res
@@ -179,5 +165,6 @@ const likeComment = async (req, res) => {
   }
 };
 
-
-module.exports = { getComments, getCommentImages, likeComment, createComment };
+module.exports = {
+  getComments, getCommentImages, likeComment, createComment,
+};

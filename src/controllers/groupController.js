@@ -6,7 +6,7 @@ const Events = require('../models/events');
 const GroupEvents = require('../models/group-events');
 const User = require('../models/users');
 
-const getEvent = require('../utils/helpers/getEvent')
+const getEvent = require('../utils/helpers/getEvent');
 
 const createGroup = async (req, res) => {
   try {
@@ -97,65 +97,60 @@ const getGroups = async (req, res) => {
 
 const getGroupDetails = async (req, res) => {
   let { groupId } = req.params;
-  groupId = Number(groupId)
+  groupId = Number(groupId);
 
   try {
     const group = await Groups.findByPk(groupId);
-    if(!group) {
+    if (!group) {
       return res.status(404).json({ error: 'Group not found' });
     }
 
-    //Get all the values for normalized tables first
+    // Get all the values for normalized tables first
     const [groupEvents, groupUsers, groupImageId] = await Promise.all([
       await GroupEvents.findAll({
         where: {
-          group_id: groupId
-        }
+          group_id: groupId,
+        },
       }),
       await UserGroup.findAndCountAll({
         where: {
-          group_id: groupId
-        }
+          group_id: groupId,
+        },
       }),
       await GroupImage.findOne({
         where: {
-          group_id: groupId
-        }
-      })
+          group_id: groupId,
+        },
+      }),
     ]);
 
-    const eventIds = groupEvents.map((groupEvent) => {
-      return groupEvent.dataValues.event_id
-    })
-    
+    const eventIds = groupEvents.map((groupEvent) => groupEvent.dataValues.event_id);
+
     const [groupImage, events] = await Promise.all([
       await Images.findOne({
         where: {
-          id: groupImageId.dataValues.image_id
-        }
+          id: groupImageId.dataValues.image_id,
+        },
       }),
-      await Promise.all(eventIds.map(async (id) => await getEvent(id)))
-    ])
+      await Promise.all(eventIds.map(async (id) => await getEvent(id))),
+    ]);
 
     const groupDetails = {
       ...group.dataValues,
       member_count: groupUsers.count,
       group_image: groupImage.url,
-      events: events
-    }
+      events,
+    };
 
-
-    return res.json({ groupDetails })
+    return res.json({ groupDetails });
   } catch (error) {
-    return res.status(500).json({ error: error.message, message: "Internal server error" });
+    return res.status(500).json({ error: error.message, message: 'Internal server error' });
   }
-
-}
- 
+};
 
 const removeUserFromAGroup = async (req, res) => {
-  const userId = req.params.userId;
-  const groupId = req.params.groupId;
+  const { userId } = req.params;
+  const { groupId } = req.params;
 
   try {
     const userExists = await User.findByPk(userId);
@@ -196,8 +191,6 @@ const removeUserFromAGroup = async (req, res) => {
   }
 };
 
-
- 
 module.exports = {
   createGroup,
   getGroups,

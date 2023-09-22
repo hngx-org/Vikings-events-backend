@@ -6,7 +6,7 @@ const {
   addCommentToEventController,
   addEventCommentImage,
   updateEventController,
-  getEventDetails
+  getEventDetails,
 } = require('../controllers/eventController');
 const {
   getComments,

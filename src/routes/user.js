@@ -12,19 +12,19 @@ const { isUserAuthenticated, verify } = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.get('/', getUsers);
+router.get('/', isUserAuthenticated, verify, getUsers);
 
 router.get('/:profileId', getProfile);
-
 
 router.put('/:profileId', updateUserProfile);
 
 // Get all interest in an event
-router.get('/:userId/interests/events',
-isUserAuthenticated,
-verify,
-getAllInterestForAnEvent,
-)
+router.get(
+  '/:userId/interests/events',
+  isUserAuthenticated,
+  verify,
+  getAllInterestForAnEvent,
+);
 
 // Delete interest in an event
 router.delete(
@@ -41,6 +41,5 @@ router.post(
   verify,
   createInterestForAnEvent,
 );
-
 
 module.exports = router;
