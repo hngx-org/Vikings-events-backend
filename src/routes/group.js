@@ -7,12 +7,12 @@ const {
   getGroupDetails,
   removeUserFromAGroup,
 } = require('../controllers/groupController');
-const { isUserAuthenticated, verify } = require('../middlewares/auth');
+const { verify, isUserAuthenticated } = require('../middlewares/auth');
 
 const router = express.Router();
 
 // Create a group
-router.post('/', createGroup);
+router.post('/', verify, isUserAuthenticated, createGroup);
 
 // get all groups
 router.get('/', getGroups);
@@ -24,7 +24,12 @@ router.get('/:groupId', getGroupDetails);
 router.put('/:groupId');
 
 // Add user to a group
-router.post('/:groupId/members/:userId', addUserToGroup);
+router.post(
+  '/:groupId/members/:userId',
+  verify,
+  isUserAuthenticated,
+  addUserToGroup,
+);
 
 // Remove user from a group
 router.delete(
