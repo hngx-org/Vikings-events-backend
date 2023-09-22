@@ -73,6 +73,7 @@ const getGroups = async (req, res) => {
   try {
     const groups = await Groups.findAll();
 
+    // If no group is available
     if (groups.length < 1) {
       return res.status(400).json({ error: 'No group(s) found' });
     }
