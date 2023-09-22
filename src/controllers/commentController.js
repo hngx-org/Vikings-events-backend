@@ -40,6 +40,10 @@ const getCommentImages = async (req, res) => {
         comment_id: commentId
       }
     });
+
+    if (commentImages.length === 0) {
+      return res.json({ images: [] })
+    }
     const imageIds = commentImages.map((comment_image) => {
       return comment_image.image_id;
     })
