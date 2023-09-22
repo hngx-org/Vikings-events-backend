@@ -29,4 +29,6 @@ GroupImage.init(
   },
 );
 
+GroupImage.removeAttribute('id');
+
 module.exports = GroupImage;
