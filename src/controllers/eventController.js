@@ -6,12 +6,15 @@ const CommentImages = require('../models/comment_images');
 const EventThumbnail = require('../models/event_thumbnail');
 const Comments = require('../models/comments');
 const InterestedEvents = require('../models/interested-events');
+const { upload } = require('../services/cloudinary');
+const { getUserById } = require('./userController');
 
-cloudinary.config({
-  cloud_name: 'ol4juwon',
-  api_key: '619781942963636',
-  api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
-});
+// cloudinary.config({
+//   cloud_name: 'ol4juwon',
+//   api_key: '619781942963636',
+//   api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
+// });
+
 const getEvents = async (req, res) => {
   try {
     const events = await Events.findAll({ limit: 10 });
@@ -39,18 +42,43 @@ const createEventController = async (req, res) => {
     } = req.body;
 
     const userId = req.user.id;
+    console.log(userId);
+
+    let user = await getUserById(userId);
 
     const newEvent = {
       title,
       description,
       location,
-      creator_id: userId,
+      creator_id: user.id,
       start_date,
       end_date,
       start_time,
       end_time,
     };
+
+    if (!req.files) return res.status(400).json({ message: 'add event image' });
+
+    // upload the images
+    const urls = await upload(req.files);
+
     const events = await Events.create(newEvent);
+
+    const imageIDs = [];
+
+    // loop to create images
+    for (const url of urls) {
+      const image = await Images.create({ url });
+      imageIDs.push(image.id);
+    }
+
+    // loop to create image comment association
+    for (const imageID of imageIDs) {
+      EventThumbnail.create({
+        comment_id: events.dataValues.id,
+        image_id: imageID,
+      });
+    }
 
     return res.send(events);
   } catch (error) {
@@ -175,12 +203,10 @@ const updateEventController = async (req, res) => {
     res.status(200).json({ message: 'Event updated successfully' });
   } catch (error) {
     console.error('Error updating event:', error);
-    res
-      .status(500)
-      .json({
-        error: 'An error occurred while updating the event',
-        details: error.message,
-      });
+    res.status(500).json({
+      error: 'An error occurred while updating the event',
+      details: error.message,
+    });
   }
 };
 
@@ -200,7 +226,9 @@ const addCommentToEventController = async (req, res) => {
     const newComment = { body, event_id: eventId, user_id: userId };
     const comment = await Comments.create(newComment);
 
-    return res.status(201).send({ message: 'Comment created successfully', comment });
+    return res
+      .status(201)
+      .send({ message: 'Comment created successfully', comment });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -209,6 +237,7 @@ const addCommentToEventController = async (req, res) => {
     });
   }
 };
+
 const addEventCommentImage = async (req, res) => {
   const t = await Images.sequelize.transaction();
   const c = await CommentImages.sequelize.transaction();
@@ -237,6 +266,7 @@ const addEventCommentImage = async (req, res) => {
       .json({ error: 'An internal error occurred while  uploading image' });
   }
 };
+
 //get Event details
 const getEventDetails = async (req, res) => {
   try {
