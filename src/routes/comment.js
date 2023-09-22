@@ -5,12 +5,6 @@ const multer = require('multer');
 let storage = multer.memoryStorage();
 let uploads = multer({ storage }).array('images', 5);
 
-const {
-  createComment,
-  likeComment,
-  // addCommentImage,
-  getCommentImages,
-} = require('../controllers/commentController');
 const { verify } = require('../middlewares/auth');
 const { cloudConfig } = require('../middlewares/cloudinary');
 
