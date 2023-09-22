@@ -4,6 +4,7 @@ const Events = require('../models/events');
 const Images = require('../models/images');
 const CommentImages = require('../models/comment_images');
 const EventThumbnail = require('../models/event_thumbnail');
+const Comments = require('../models/comments');
 const InterestedEvents = require('../models/interested-events');
 
 cloudinary.config({
@@ -174,8 +175,36 @@ const updateEventController = async (req, res) => {
     res.status(200).json({ message: 'Event updated successfully' });
   } catch (error) {
     console.error('Error updating event:', error);
+    res
+      .status(500)
+      .json({
+        error: 'An error occurred while updating the event',
+        details: error.message,
+      });
+  }
+};
+
+const addCommentToEventController = async (req, res) => {
+  const { eventId } = req.params;
+  const { body } = req.body;
+
+  const userId = req.user.id;
+
+  const event = await Events.findByPk(eventId);
+
+  if (!event) {
+    return res.status(404).send({ error: 'Event not found' });
+  }
+
+  try {
+    const newComment = { body, event_id: eventId, user_id: userId };
+    const comment = await Comments.create(newComment);
+
+    return res.status(201).send({ message: 'Comment created successfully', comment });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({
-      error: 'An error occurred while updating the event',
+      error: 'An error occurred while creating the comment',
       details: error.message,
     });
   }
@@ -233,5 +262,6 @@ module.exports = {
   createEventController,
   deleteEventController,
   updateEventController,
+  addCommentToEventController,
   getEventDetails,
 };
