@@ -2,7 +2,6 @@ const express = require('express');
 const {
   createComment,
   likeComment,
-  // addCommentImage,
 } = require('../controllers/commentController');
 const { verify, isUserAuthenticated } = require('../middlewares/auth');
 
@@ -17,7 +16,5 @@ router.post('/', verify, createComment);
 
 // Like a comment
 router.post('/:commentId/like', verify, likeComment);
-
-// router.post('/:commentId/image', addCommentImage);
 
 module.exports = router;
