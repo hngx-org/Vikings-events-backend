@@ -1,6 +1,5 @@
 /* eslint-disable object-curly-newline */
 const User = require('../models/users');
-const UserEvents = require('../models/user-events')
 
 const getProfile = async (req, res) => {
   const userProfileId = req.params.profileId;
@@ -73,25 +72,25 @@ const updateUserProfile = async (req, res, next) => {
   }
 };
 
-const getUserEvents = async(req,res,next)=>{
-  try{
-    const { userId } = req.params;
+// const getUserEvents = async(req,res,next)=>{
+//   try{
+//     const { userId } = req.params;
 
-    const userEvents = await UserEvents.findAll({
-      where: { user_id: userId },
-      include: [
-        { model: User, attributes: ['id', 'name', 'email', 'avatar'] },
-        { model: Event, attributes: ['id', 'title', 'description', 'location', 'start_date', 'end_date', 'start_time', 'end_time', 'thumbnail'] },
-      ],
-    });
+//     const userEvents = await UserEvents.findAll({
+//       where: { user_id: userId },
+//       include: [
+//         { model: User, attributes: ['id', 'name', 'email', 'avatar'] },
+//         { model: Event, attributes: ['id', 'title', 'description', 'location', 'start_date', 'end_date', 'start_time', 'end_time', 'thumbnail'] },
+//       ],
+//     });
 
-    res.json(userEvents);
+//     res.json(userEvents);
 
-  }catch(error){
-    next(error)
-  }
-  
-}
+//   }catch(error){
+//     next(error)
+//   }
+
+// }
 
 module.exports = {
   getUsers,
@@ -100,5 +99,4 @@ module.exports = {
   getUserById,
   createUser,
   updateUserProfile,
-  getUserEvents,
 };

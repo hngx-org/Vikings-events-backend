@@ -1,5 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
+const Events = require('./events');
 
 class User extends Model {}
 
@@ -33,9 +34,9 @@ User.init(
   },
 );
 // Association for users to user-events
-User.belongsToMany(Events, {
-  through: 'UserEvents',
-  foreignKey: 'user_id',
-});
+// User.belongsToMany(Events, {
+//   through: 'UserEvents',
+//   foreignKey: 'user_id',
+// });
 
 module.exports = User;

@@ -21,7 +21,7 @@ Comments.init(
     user_id: {
       type: DataTypes.STRING,
       references: {
-        model: 'User',
+        model: User,
         key: 'id',
       },
     },
