@@ -24,11 +24,7 @@ router.get('/');
 // Create a comment
 router.post('/:eventId', uploads, verify, cloudConfig, createComment);
 
-<<<<<<< HEAD
-// Get all the images for a comment
-=======
 //Get all the images for a comment
->>>>>>> ac63d5d643a81fd59c40d177d566d3e9945d1481
 router.get('/:commentId/images', getCommentImages);
 
 // Like a comment

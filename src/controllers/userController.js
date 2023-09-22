@@ -1,5 +1,9 @@
 /* eslint-disable object-curly-newline */
 const User = require('../models/users');
+const UserGroups = require('../models/user-groups.js');
+const Groups = require('../models/groups');
+const GroupImages = require('../models/group_image');
+const Images = require('../models/images');
 const Events = require('../models/events');
 const InterestedEvents = require('../models/interested-events');
 
@@ -15,6 +19,66 @@ const getProfile = async (req, res) => {
     return res.status(200).json(userProfile);
   } catch (error) {
     return res.status(500).json({ error: 'Unable to fetch user profile' });
+  }
+};
+
+const getUserGroups = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findByPk(userId);
+
+    const img = await GroupImages.findAll();
+
+    if (!user) {
+      res.status(404).json({
+        status: res.statusCode,
+        message: 'User not found',
+        error: `Unable to fetch user with id ${userId}`,
+      });
+      return;
+    }
+
+    const usersGroups = await UserGroups.findAll({
+      where: { user_id: userId },
+    });
+
+    const data = [];
+    const groupId = usersGroups.map((group) => group.group_id);
+
+    // Use Promise.all to await all async operations
+    await Promise.all(
+      groupId.map(async (id) => {
+        const groups = await Groups.findByPk(id);
+
+        const imageObject = await GroupImages.findAll({
+          where: { group_id: id },
+        });
+        console.log('imageObject:', imageObject); // Debugging: Check imageObject
+        const imgId = imageObject.map((img) => img.image_id);
+        console.log('imgId:', imgId); // Debugging: Check imgId
+        const images = await Promise.all(
+          imgId.map(async (id) => {
+            const image = await Images.findByPk(id);
+            console.log('image:', image); // Debugging: Check individual image
+            return image;
+          }),
+        );
+
+        data.push({ groups, images });
+      }),
+    );
+
+    res.status(200).json({
+      status: res.statusCode,
+      message: 'User groups and images retrieved',
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: res.statusCode,
+      message: 'Error fetching user groups and images',
+      error: error.message,
+    });
   }
 };
 
@@ -213,4 +277,5 @@ module.exports = {
   createInterestForAnEvent,
   deleteInterestForAnEvent,
   getAllInterestForAnEvent,
+  getUserGroups,
 };

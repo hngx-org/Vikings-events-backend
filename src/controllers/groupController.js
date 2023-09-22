@@ -7,10 +7,7 @@ const GroupEvents = require('../models/group-events');
 const User = require('../models/users');
 
 const getEvent = require('../utils/helpers/getEvent');
-<<<<<<< HEAD
-=======
 const { upload } = require('../services/cloudinary');
->>>>>>> ac63d5d643a81fd59c40d177d566d3e9945d1481
 
 const createGroup = async (req, res) => {
   try {
@@ -143,13 +140,9 @@ const getGroupDetails = async (req, res) => {
       }),
     ]);
 
-<<<<<<< HEAD
-    const eventIds = groupEvents.map((groupEvent) => groupEvent.dataValues.event_id);
-=======
     const eventIds = groupEvents.map((groupEvent) => {
       return groupEvent.dataValues.event_id;
     });
->>>>>>> ac63d5d643a81fd59c40d177d566d3e9945d1481
 
     const [groupImage, events] = await Promise.all([
       await Images.findOne({
@@ -164,22 +157,14 @@ const getGroupDetails = async (req, res) => {
       ...group.dataValues,
       member_count: groupUsers.count,
       group_image: groupImage.url,
-<<<<<<< HEAD
-      events,
-=======
       events: events,
->>>>>>> ac63d5d643a81fd59c40d177d566d3e9945d1481
     };
 
     return res.json({ groupDetails });
   } catch (error) {
-<<<<<<< HEAD
-    return res.status(500).json({ error: error.message, message: 'Internal server error' });
-=======
     return res
       .status(500)
       .json({ error: error.message, message: 'Internal server error' });
->>>>>>> ac63d5d643a81fd59c40d177d566d3e9945d1481
   }
 };
 
