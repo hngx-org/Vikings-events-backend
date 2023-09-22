@@ -45,7 +45,7 @@ const getComments = async (req, res) => {
 
 const createComment = async (req, res) => {
   try {
-    const eventId = req.params.eventId;
+    const { eventId } = req.params;
     const userId = req.user.id;
     const { body } = req.body;
 
@@ -87,7 +87,6 @@ const createComment = async (req, res) => {
   }
 };
 
-
 const likeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
@@ -107,7 +106,7 @@ const likeComment = async (req, res) => {
     // Create a new like record
     await Likes.create({ user_id: userId, comment_id: commentId });
 
-    res.json({ message: `Comment liked` });
+    res.json({ message: 'Comment liked' });
   } catch (error) {
     console.error(error);
     res

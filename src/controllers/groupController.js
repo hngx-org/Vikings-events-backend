@@ -90,8 +90,8 @@ const getGroupDetails = async (req, res) => {
 };
 
 const removeUserFromAGroup = async (req, res) => {
-  const userId = req.params.userId;
-  const groupId = req.params.groupId;
+  const { userId } = req.params;
+  const { groupId } = req.params;
 
   try {
     const userExists = await User.findByPk(userId);

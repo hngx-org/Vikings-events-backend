@@ -6,7 +6,6 @@ const cookieSession = require('cookie-session');
 
 // import middlewares
 const { notFound, errorHandler } = require('./middlewares/error');
-const { isUserAuthenticated, verify } = require('./middlewares/auth');
 
 // import routes
 const userRoutes = require('./routes/user');
@@ -22,7 +21,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
-//app.use(cookieSession({ httpOnly: true, keys: process.env.JWT_KEY }));
+// app.use(cookieSession({ httpOnly: true, keys: process.env.JWT_KEY }));
 
 app.get('/', (req, res) => {
   res.json({
@@ -33,7 +32,7 @@ app.get('/', (req, res) => {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
-app.use('/api/users', isUserAuthenticated, verify, userRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/groups', groupRoutes);
 app.use('/api/comments', commentRoutes);
 

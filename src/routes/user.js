@@ -1,4 +1,5 @@
 const express = require('express');
+
 // router.post("/register", );
 const {
   getUsers,
@@ -10,7 +11,7 @@ const { isUserAuthenticated, verify } = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.get('/', getUsers);
+router.get('/', isUserAuthenticated, verify, getUsers);
 
 router.get('/:profileId', getProfile);
 // router.get('/:userId', getUserById);

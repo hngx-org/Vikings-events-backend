@@ -174,10 +174,10 @@ const updateEventController = async (req, res) => {
   }
 };
 
-//get Event details
+// get Event details
 const getEventDetails = async (req, res) => {
   try {
-    const eventId = req.params.eventId;
+    const { eventId } = req.params;
     const event = await Events.findByPk(eventId);
 
     if (!event) {
@@ -186,7 +186,7 @@ const getEventDetails = async (req, res) => {
     return res.status(200).json({ event });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({message: "Internal server error."});
+    return res.status(500).json({ message: 'Internal server error.' });
   }
 };
 
@@ -195,5 +195,5 @@ module.exports = {
   createEventController,
   deleteEventController,
   updateEventController,
-  getEventDetails
+  getEventDetails,
 };

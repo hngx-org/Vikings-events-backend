@@ -4,7 +4,7 @@ const {
   createEventController,
   deleteEventController,
   updateEventController,
-  getEventDetails
+  getEventDetails,
 } = require('../controllers/eventController');
 const {
   getComments,

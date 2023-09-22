@@ -53,7 +53,7 @@ const createUser = async ({ id, name, email, picture }) => {
   return user;
 };
 
-//Already Done
+// Already Done
 // const getUserById = async (req, res, next) => {
 //   try {
 //     const { id } = req.params;
