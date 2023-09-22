@@ -1,10 +1,17 @@
 /* eslint-disable no-console */
+const cloudinary = require('cloudinary').v2;
 const Events = require('../models/events');
 const Images = require('../models/images');
+const CommentImages = require('../models/comment_images');
 const EventThumbnail = require('../models/event_thumbnail');
 const InterestedEvents = require('../models/interested-events');
 const { uploadImage } = require('../controllers/imageServiceController');
 
+cloudinary.config({
+  cloud_name: 'ol4juwon',
+  api_key: '619781942963636',
+  api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
+});
 const getEvents = async (req, res) => {
   try {
     const events = await Events.findAll({ limit: 10 });
@@ -197,8 +204,11 @@ const updateEventController = async (req, res) => {
   }
 };
 
-
 module.exports = {
+  getEvents,
+  createEventController,
+  deleteEventController,
+  addEventCommentImage,
   getEvents,
   createEventController,
   deleteEventController,
