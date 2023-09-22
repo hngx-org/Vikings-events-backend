@@ -5,10 +5,10 @@ class GroupImage extends Model {}
 
 GroupImage.init(
   {
-    comment_id: {
+    group_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Comments',
+        model: 'Groups',
         key: 'id',
       },
     },
