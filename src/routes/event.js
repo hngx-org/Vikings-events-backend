@@ -4,6 +4,7 @@ const {
   createEventController,
   deleteEventController,
   addCommentToEventController,
+  addEventCommentImage,
   updateEventController,
   getEventDetails
 } = require('../controllers/eventController');
@@ -22,10 +23,7 @@ router.get('/', getEvents);
 router.post('/', verify, isUserAuthenticated, createEventController);
 
 // Get an event by ID/ get event details
-router.get('/:eventId', getEvents);
-
-// Get event detail
-router.get('events/:eventId', getEventDetails);
+router.get('/:eventId', getEventDetails);
 
 // Update an event by ID/ update event
 router.put('/:eventId', verify, isUserAuthenticated, updateEventController);
@@ -40,7 +38,7 @@ router.post('/:eventId/comments', verify, isUserAuthenticated, createComment);
 router.get('/:eventId/comments', getComments);
 
 // Add an event comment images
-// router.post("/:eventId/comments/:commentId/images", );
+router.post('/:eventId/comments/:commentId/images', addEventCommentImage);
 
 // get event comment image
 // router.get("/:eventId/comments/:commentId/images", );
