@@ -22,7 +22,7 @@ Events.init(
       type: DataTypes.TEXT,
     },
     creator_id: {
-      type: DataTypes.STRING(60),
+      type: DataTypes.STRING,
       references: {
         model: 'users',
         key: 'id',
@@ -36,14 +36,6 @@ Events.init(
     end_date: {
       type: DataTypes.DATE,
       allowNull: false,
-    },
-    creator_id: {
-      type: DataTypes.STRING(60),
-      references: {
-        model: 'users',
-        key: 'id',
-      },
-      allowNull: true, // Add validation for not null
     },
     start_time: {
       type: DataTypes.TIME,

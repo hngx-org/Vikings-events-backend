@@ -1,4 +1,8 @@
 const express = require('express');
+const multer = require('multer');
+let storage = multer.memoryStorage();
+let uploads = multer({ storage }).array('images', 1);
+
 const {
   getEvents,
   createEventController,
@@ -6,13 +10,14 @@ const {
   addCommentToEventController,
   addEventCommentImage,
   updateEventController,
-  getEventDetails
+  getEventDetails,
 } = require('../controllers/eventController');
 const {
   getComments,
   createComment,
 } = require('../controllers/commentController');
 const { isUserAuthenticated, verify } = require('../middlewares/auth');
+const { cloudConfig } = require('../middlewares/cloudinary');
 
 const router = express.Router();
 
@@ -20,7 +25,7 @@ const router = express.Router();
 router.get('/', getEvents);
 
 // Create an event
-router.post('/', verify, isUserAuthenticated, createEventController);
+router.post('/', uploads, verify, cloudConfig, createEventController);
 
 // Get an event by ID/ get event details
 router.get('/:eventId', getEventDetails);
