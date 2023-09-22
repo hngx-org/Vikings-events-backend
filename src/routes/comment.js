@@ -1,4 +1,5 @@
 const express = require('express');
+
 const multer = require("multer");
 
 let storage = multer.memoryStorage();
@@ -14,7 +15,12 @@ const {
 const { verify, isUserAuthenticated } = require('../middlewares/auth');
 const { cloudConfig } = require('../middlewares/cloudinary');
 
+
+const { verify, isUserAuthenticated } = require('../middlewares/auth');
 const router = express.Router();
+const {createComment, likeComment, unlikeComment,addCommentImage, getCommentImages} = require('../controllers/commentController');
+
+
 
 // router.use(verify)
 
@@ -29,6 +35,10 @@ router.get('/:commentId/images', getCommentImages);
 // Like a comment
 router.post('/:commentId/like', verify, likeComment);
 
+//unlike comment
+router.delete('/:commentId/members/:userId/unlike', unlikeComment);
+
 // router.post('/:commentId/image', addCommentImage);
+
 
 module.exports = router;
