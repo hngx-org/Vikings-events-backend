@@ -2,6 +2,7 @@
 const Events = require('../models/events');
 const Images = require('../models/images');
 const EventThumbnail = require('../models/event_thumbnail');
+const InterestedEvents = require('../models/interested-events');
 
 const getEvents = async (req, res) => {
   try {
@@ -14,7 +15,6 @@ const getEvents = async (req, res) => {
     res.status(500).json({
       error: error.message,
     });
-    console.log(error);
   }
 };
 
@@ -30,10 +30,13 @@ const createEventController = async (req, res) => {
       end_time,
     } = req.body;
 
+    const userId = req.user.id;
+
     const newEvent = {
       title,
       description,
       location,
+      creator_id: userId,
       start_date,
       end_date,
       start_time,
@@ -130,6 +133,7 @@ const deleteEventController = async (req, res) => {
 const updateEventController = async (req, res) => {
   try {
     const { eventId } = req.params;
+    const userId = req.user.id;
     const {
       title,
       description,
@@ -151,6 +155,7 @@ const updateEventController = async (req, res) => {
     event.title = title;
     event.description = description;
     event.location = location;
+    event.creator_id = userId;
     event.start_date = start_date;
     event.end_date = end_date;
     event.start_time = start_time;
@@ -162,9 +167,33 @@ const updateEventController = async (req, res) => {
     res.status(200).json({ message: 'Event updated successfully' });
   } catch (error) {
     console.error('Error updating event:', error);
-    res.status(500).json({ error: 'An error occurred while updating the event', details: error.message });
+    res.status(500).json({
+      error: 'An error occurred while updating the event',
+      details: error.message,
+    });
   }
 };
 
+//get Event details
+const getEventDetails = async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+    const event = await Events.findByPk(eventId);
 
-module.exports = { getEvents, createEventController, deleteEventController, updateEventController };
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+    return res.status(200).json({ event });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({message: "Internal server error."});
+  }
+};
+
+module.exports = {
+  getEvents,
+  createEventController,
+  deleteEventController,
+  updateEventController,
+  getEventDetails
+};

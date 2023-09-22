@@ -6,7 +6,7 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false, // The 'creator_id' cannot be null
       references: {
-        model: 'user', // This column references the 'id' column in the 'user' table
+        model: 'users', // This column references the 'id' column in the 'user' table
         key: 'id',
       },
       onUpdate: 'CASCADE', // If the 'id' in 'users' changes, update 'creator_id' in 'events'

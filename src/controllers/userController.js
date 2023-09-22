@@ -75,7 +75,7 @@ const updateUserProfile = async (req, res, next) => {
 };
 
 // removing interest in an event
-const deleteInterestedEvent = async (req, res) => {
+const deleteInterestForAnEvent = async (req, res) => {
   try {
     const userId = req.params.userId;
     const eventId = req.params.eventId;
@@ -126,6 +126,51 @@ const deleteInterestedEvent = async (req, res) => {
   }
 };
 
+// creating interest for an event
+const createInterestForAnEvent = async (req, res) => {
+  try {
+    const userId = req.params.userId || req.user.id;
+
+    // check if the user has already created interest before
+    const userInterest = await InterestedEvents.findOne({
+      where: { user_id: userId, event_id: req.params.eventId },
+    });
+
+    if (userInterest) {
+      throw new Error('User has already created interest for this event');
+    }
+
+    const newInterest = await InterestedEvents.create({
+      user_id: userId,
+      event_id: req.params.eventId,
+    });
+
+    res.status(200).json(newInterest);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+// const getUserEvents = async(req,res,next)=>{
+//   try{
+//     const { userId } = req.params;
+
+//     const userEvents = await UserEvents.findAll({
+//       where: { user_id: userId },
+//       include: [
+//         { model: User, attributes: ['id', 'name', 'email', 'avatar'] },
+//         { model: Event, attributes: ['id', 'title', 'description', 'location', 'start_date', 'end_date', 'start_time', 'end_time', 'thumbnail'] },
+//       ],
+//     });
+
+//     res.json(userEvents);
+
+//   }catch(error){
+//     next(error)
+//   }
+
+// }
+
 module.exports = {
   getUsers,
   getProfile,
@@ -133,5 +178,6 @@ module.exports = {
   getUserById,
   createUser,
   updateUserProfile,
-  deleteInterestedEvent,
+  createInterestForAnEvent,
+  deleteInterestForAnEvent,
 };

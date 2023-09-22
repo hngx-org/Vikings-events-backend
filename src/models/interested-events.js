@@ -1,5 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
+const User = require('./users');
 
 class InterestedEvents extends Model {}
 
@@ -9,7 +10,7 @@ InterestedEvents.init(
       type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: 'User',
+        model: User,
         key: 'id',
       },
     },
@@ -29,5 +30,7 @@ InterestedEvents.init(
     timestamps: false,
   },
 );
+
+InterestedEvents.removeAttribute('id');
 
 module.exports = InterestedEvents;

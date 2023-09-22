@@ -1,5 +1,9 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
+const User = require('./users');
+const Events = require('./events');
+const CommentImages = require('./comment_images');
+const Images = require('./images');
 
 class Comments extends Model {}
 
@@ -17,7 +21,7 @@ Comments.init(
     user_id: {
       type: DataTypes.STRING,
       references: {
-        model: 'User',
+        model: User,
         key: 'id',
       },
     },
