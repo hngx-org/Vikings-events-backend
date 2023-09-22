@@ -4,4 +4,4 @@ git pull origin main
 
 npm i
 
-pm2 start "npm start"
+pm2 restart "npm start"
