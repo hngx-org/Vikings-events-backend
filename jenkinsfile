@@ -4,7 +4,7 @@ pipeline {
         stage("build & deploy backend") {
         
             steps {
-                sh "ls"
+                sh "ls && pwd"
                 sh "chmod +x ./deploy.sh"
                 sh "bash ./deploy.sh"
             }
