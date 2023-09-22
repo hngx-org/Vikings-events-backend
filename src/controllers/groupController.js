@@ -90,5 +90,8 @@ const getGroupDetails = async (req, res) => {
 };
 
 module.exports = {
-  createGroup, getGroups, addUserToGroup, getGroupDetails,
+  createGroup,
+  getGroups,
+  addUserToGroup,
+  getGroupDetails,
 };

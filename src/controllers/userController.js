@@ -15,9 +15,23 @@ const getProfile = async (req, res) => {
   }
 };
 
-const getUsers = async (req, res) => {
-  const users = 'All Users';
-  res.json({ users });
+const getUsers = async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+
+    if (!users) {
+      res.status(400).json({ message: 'Something went wrong' });
+    }
+
+    if (users.length < 1) {
+      res.status(200).json({ message: 'No Users have been added yet.' });
+      return;
+    }
+
+    res.status(200).json({ data: users });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const getUserByEmail = async (email) => {
@@ -30,24 +44,25 @@ const createUser = async ({ name, email, picture }) => {
   return user;
 };
 
-const getUserById = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    if (!id) {
-      res.status(400).json({ message: 'Invalid User ID' });
-    }
+//Already Done
+// const getUserById = async (req, res, next) => {
+//   try {
+//     const { id } = req.params;
+//     if (!id) {
+//       res.status(400).json({ message: 'Invalid User ID' });
+//     }
 
-    const user = await User.findOne({ where: { id } });
-    if (!user) {
-      res.status(404).json({ message: `User with id ${id} not found` });
-    }
-    res.status(200).json(user);
-    //for authentication purposes - generating JWT token
-    return user;
-  } catch (error) {
-    next(error);
-  }
-};
+//     const user = await User.findOne({ where: { id } });
+//     if (!user) {
+//       res.status(404).json({ message: `User with id ${id} not found` });
+//     }
+//     res.status(200).json(user);
+//     //for authentication purposes - generating JWT token
+//     return user;
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 // eslint-disable-next-line consistent-return
 const updateUserProfile = async (req, res, next) => {
@@ -88,5 +103,4 @@ module.exports = {
   getUserByEmail,
   createUser,
   updateUserProfile,
-  getUserById,
 };

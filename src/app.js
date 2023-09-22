@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-const cookieSession = require('cookie-session');
+//const cookieSession = require('cookie-session');
 // const dotenv = require('dotenv');
 
 // import middlewares
@@ -22,7 +22,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
-app.use(cookieSession({ httpOnly: true, keys: process.env.JWT_KEY }));
+//app.use(cookieSession({ httpOnly: true, keys: process.env.JWT_KEY }));
 
 app.get('/', (req, res) => {
   res.json({

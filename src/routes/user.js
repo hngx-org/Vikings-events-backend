@@ -16,7 +16,7 @@ router.get('/', getUsers);
 // router.post("/login", );
 
 router.get('/:profileId', getProfile);
-router.get('/:userId', getUserById);
+// router.get('/:userId', getUserById);
 
 router.put('/:profileId', updateUserProfile);
 
