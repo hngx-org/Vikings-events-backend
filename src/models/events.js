@@ -24,7 +24,7 @@ Events.init(
     creator_id: {
       type: DataTypes.STRING,
       references: {
-        model: 'users',
+        model: 'User',
         key: 'id',
       },
       allowNull: true, // Add validation for not null

@@ -28,19 +28,9 @@ router.get('/:groupId', getGroupDetails);
 router.put('/:groupId');
 
 // Add user to a group
-router.post(
-  '/:groupId/members/:userId',
-  verify,
-  isUserAuthenticated,
-  addUserToGroup,
-);
+router.post('/:groupId/members/:userId', verify, addUserToGroup);
 
 // Remove user from a group
-router.delete(
-  '/:groupId/members/:userId',
-  isUserAuthenticated,
-  verify,
-  removeUserFromAGroup,
-);
+router.delete('/:groupId/members/:userId', verify, removeUserFromAGroup);
 
 module.exports = router;

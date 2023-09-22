@@ -2,6 +2,7 @@
 const cloudinary = require('cloudinary').v2;
 const Events = require('../models/events');
 const Images = require('../models/images');
+const User = require('../models/users');
 const CommentImages = require('../models/comment_images');
 const EventThumbnail = require('../models/event_thumbnail');
 const Comments = require('../models/comments');
@@ -44,7 +45,7 @@ const createEventController = async (req, res) => {
     const userId = req.user.id;
     console.log(userId);
 
-    let user = await getUserById(userId);
+    const user = await User.findByPk(userId);
 
     const newEvent = {
       title,
@@ -80,7 +81,7 @@ const createEventController = async (req, res) => {
       });
     }
 
-    return res.send(events);
+    return res.status(201).json({ ...events.dataValues, urls });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
@@ -166,6 +167,7 @@ const deleteEventController = async (req, res) => {
     });
   }
 };
+
 const updateEventController = async (req, res) => {
   try {
     const { eventId } = req.params;
@@ -187,15 +189,18 @@ const updateEventController = async (req, res) => {
       return res.status(404).json({ error: 'Event not found' });
     }
 
+    if (userId != event.dataValues.creator_id)
+      return res.status(400).json({ error: 'Unauthorized access' });
+
     // Update event details
-    event.title = title;
-    event.description = description;
-    event.location = location;
-    event.creator_id = userId;
-    event.start_date = start_date;
-    event.end_date = end_date;
-    event.start_time = start_time;
-    event.end_time = end_time;
+    event.title = title || event.dataValues.title;
+    event.description = description || event.dataValues.description;
+    event.location = location || event.dataValues.location;
+    event.creator_id = userId || event.dataValues.creator_id;
+    event.start_date = start_date || event.dataValues.start_date;
+    event.end_date = end_date || event.dataValues.end_date;
+    event.start_time = start_time || event.dataValues.start_time;
+    event.end_time = end_time || event.dataValues.end_time;
 
     // Save the updated event
     await event.save();
