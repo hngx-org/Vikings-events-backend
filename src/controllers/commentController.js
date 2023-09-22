@@ -74,3 +74,5 @@ const likeComment = async (req, res) => {
 };
 
 module.exports = { getComments, likeComment, createComment };
+
+// any == 1

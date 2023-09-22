@@ -2,6 +2,7 @@
 const Events = require('../models/events');
 const Images = require('../models/images');
 const EventThumbnail = require('../models/event_thumbnail');
+const InterestedEvents = require('../models/interested-events');
 
 const getEvents = async (req, res) => {
   try {
@@ -162,9 +163,16 @@ const updateEventController = async (req, res) => {
     res.status(200).json({ message: 'Event updated successfully' });
   } catch (error) {
     console.error('Error updating event:', error);
-    res.status(500).json({ error: 'An error occurred while updating the event', details: error.message });
+    res.status(500).json({
+      error: 'An error occurred while updating the event',
+      details: error.message,
+    });
   }
 };
 
-
-module.exports = { getEvents, createEventController, deleteEventController, updateEventController };
+module.exports = {
+  getEvents,
+  createEventController,
+  deleteEventController,
+  updateEventController,
+};

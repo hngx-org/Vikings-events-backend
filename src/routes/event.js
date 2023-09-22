@@ -5,6 +5,7 @@ const {
   deleteEventController,
 } = require('../controllers/eventController');
 const { getComments } = require('../controllers/commentController');
+const { isUserAuthenticated, verify } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -15,7 +16,7 @@ const router = express.Router();
 router.post('/', createEventController);
 
 // Get an event by ID/ get event details
-router.get('/:eventId', getEvents)
+router.get('/:eventId', getEvents);
 
 // Update an event by ID/ update event
 // router.put("/:eventId", );
