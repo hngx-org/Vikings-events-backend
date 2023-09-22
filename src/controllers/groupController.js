@@ -52,16 +52,8 @@ const addUserToGroup = async (req, res) => {
   console.log(req.params);
   try {
     // Find the group and user based on the provided IDs
-    const group = await Groups.findOne({ where: { id: groupId } });
-    const user = await User.findOne({ where: { id: userId } });
-    // const user = await User.findByPk(userId);
-    console.log(group);
-    console.log(user);
-
-    // Check if user and group exists
-    if (!group && !user) {
-      return res.status(404).json({ error: 'Group and user not found' });
-    }
+    const group = await Groups.findByPk(groupId);
+    const user = await User.findByPk(userId);
 
     // Check if group exists
     if (!group) {
@@ -91,7 +83,9 @@ const addUserToGroup = async (req, res) => {
     };
     const userGroup = await UserGroup.create(newUserGroup);
 
-    res.status(201).json({ userGroup });
+    return res
+      .status(201)
+      .json({ message: 'User successfully added to group' });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -106,9 +100,9 @@ const getGroups = async (req, res) => {
       return res.status(400).json({ error: 'No group(s) found' });
     }
 
-    res.status(201).json(groups);
+    return res.status(201).json(groups);
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       error: 'An error occured while fetching groups',
     });
   }
