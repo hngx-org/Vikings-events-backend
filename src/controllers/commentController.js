@@ -4,6 +4,14 @@ const Comments = require('../models/comments');
 const Events = require('../models/events');
 const Images = require('../models/images');
 const Likes = require('../models/likes');
+const cloudinary = require('cloudinary').v2;
+const path = require('path');
+const fs = require('fs');
+cloudinary.config({
+  cloud_name: 'ol4juwon',
+  api_key: '619781942963636',
+  api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
+});
 const User = require('../models/users');
 
 // eslint-disable-next-line consistent-return
