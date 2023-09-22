@@ -3,24 +3,26 @@ const {
   getEvents,
   createEventController,
   deleteEventController,
+  updateEventController,
 } = require('../controllers/eventController');
+const { verify, isUserAuthenticated } = require('../middlewares/auth');
 
 const router = express.Router();
 
 // Get all events
-// router.get('/', getEvents);
+router.get('/', getEvents);
 
 // Create an event
-router.post('/', createEventController);
+router.post('/', verify, isUserAuthenticated, createEventController);
 
 // Get an event by ID/ get event details
-router.get('/:eventId', getEvents)
+router.get('/:eventId', getEvents);
 
 // Update an event by ID/ update event
-// router.put("/:eventId", );
+router.put('/:eventId', verify, isUserAuthenticated, updateEventController);
 
 // Delete an event by ID/ Delete event
-router.delete('/:eventId', deleteEventController);
+router.delete('/:eventId', verify, isUserAuthenticated, deleteEventController);
 
 // Create an event comment
 // router.post("/:eventId/comments", );
