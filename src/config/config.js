@@ -16,7 +16,8 @@ const sequelize = new Sequelize(
 
 (async () => {
   try {
-    await sequelize.authenticate();
+    // Switched it so my db tables will be created automatically on mysql database
+    await sequelize.sync();
     console.log('Database Connection has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
