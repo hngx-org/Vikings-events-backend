@@ -5,6 +5,7 @@ const {
   getGroups,
   addUserToGroup,
   getGroupDetails,
+  removeUserFromAGroup,
 } = require('../controllers/groupController');
 const { verify, isUserAuthenticated } = require('../middlewares/auth');
 
@@ -31,6 +32,11 @@ router.post(
 );
 
 // Remove user from a group
-// router.delete("/:groupId/members/:userId", );
+router.delete(
+  '/:groupId/members/:userId',
+  isUserAuthenticated,
+  verify,
+  removeUserFromAGroup,
+);
 
 module.exports = router;
