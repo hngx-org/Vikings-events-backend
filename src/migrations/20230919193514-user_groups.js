@@ -3,9 +3,9 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('user_groups', {
       user_id: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         references: {
-          model: 'user',
+          model: 'users',
           key: 'id',
         },
         onUpdate: 'CASCADE',

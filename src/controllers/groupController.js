@@ -89,9 +89,53 @@ const getGroupDetails = async (req, res) => {
   }
 };
 
+const removeUserFromAGroup = async (req, res) => {
+  const userId = req.params.userId;
+  const groupId = req.params.groupId;
+
+  try {
+    const userExists = await User.findByPk(userId);
+    if (!userExists) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Check if the group does not exists
+    const groupExists = await Groups.findByPk(groupId);
+    if (!groupExists) {
+      return res.status(404).json({ error: 'Group not found' });
+    }
+
+    // check if the user is in the group
+    const userInGroup = await UserGroup.findOne({
+      where: { user_id: userId, group_id: groupId },
+    });
+    if (!userInGroup) {
+      return res
+        .status(404)
+        .json({ error: 'User is not a member of the group' });
+    }
+
+    // Delete the user from the group
+    const response = await UserGroup.destroy({
+      where: {
+        user_id: userId,
+        group_id: groupId,
+      },
+    });
+
+    return res.json({
+      message: 'Successfully Removed the user from the group',
+      data: response,
+    });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createGroup,
   getGroups,
   addUserToGroup,
   getGroupDetails,
+  removeUserFromAGroup,
 };

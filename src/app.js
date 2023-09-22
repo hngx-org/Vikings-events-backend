@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
-//const cookieSession = require('cookie-session');
+const cookieSession = require('cookie-session');
 // const dotenv = require('dotenv');
 
 // import middlewares
