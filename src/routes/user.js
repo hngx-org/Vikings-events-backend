@@ -12,10 +12,6 @@ const router = express.Router();
 
 router.get('/', getUsers);
 
-// router.post('/register', );
-
-// router.post("/login", );
-
 router.get('/:profileId', getProfile);
 
 // get users events

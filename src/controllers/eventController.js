@@ -197,6 +197,7 @@ const updateEventController = async (req, res) => {
   }
 };
 
+
 module.exports = {
   getEvents,
   createEventController,
