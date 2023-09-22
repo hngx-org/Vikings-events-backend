@@ -1,3 +1,4 @@
+const sequelize = require('../config/config');
 const CommentImages = require('../models/comment_images');
 const Comments = require('../models/comments');
 const Events = require('../models/events');
@@ -20,6 +21,20 @@ const getComments = async (req, res) => {
     const comments = await Comments.findAll({
       where: { event_id: eventId },
       include: [User, Events, Images],
+      attributes: {
+        include: [
+          [
+            // Note the wrapping parentheses in the call below!
+            sequelize.literal(`(
+                    SELECT COUNT(*)
+                    FROM likes
+                    WHERE
+                    likes.comment_id = Comments.id
+                )`),
+            'likesCount',
+          ],
+        ],
+      },
     });
 
     return res.send(comments);
@@ -33,7 +48,7 @@ const createComment = async (req, res) => {};
 const likeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
-    const userId  = req.user.id;
+    const userId = req.user.id;
 
     //  Check if the user has already liked the comment
     const existingLike = await Likes.findOne({
@@ -49,7 +64,7 @@ const likeComment = async (req, res) => {
     // Create a new like record
     await Likes.create({ user_id: userId, comment_id: commentId });
 
-    res.json({ message: `Comment liked`  });
+    res.json({ message: `Comment liked` });
   } catch (error) {
     console.error(error);
     res

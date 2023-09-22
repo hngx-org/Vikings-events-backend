@@ -2,6 +2,7 @@ const CommentImages = require('../src/models/comment_images');
 const Comments = require('../src/models/comments');
 const Events = require('../src/models/events');
 const Images = require('../src/models/images');
+const Likes = require('../src/models/likes');
 const User = require('../src/models/users');
 
 const syncDBRelations = () => {
@@ -18,6 +19,9 @@ const syncDBRelations = () => {
     otherKey: 'image_id',
     foreignKey: 'image_id',
   });
+
+  Comments.hasMany(Likes, { foreignKey: 'comment_id' });
+  Likes.belongsTo(Comments, { foreignKey: 'comment_id' });
 };
 
 module.exports = syncDBRelations;
