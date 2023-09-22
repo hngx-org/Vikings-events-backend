@@ -9,6 +9,7 @@ const Comments = require('../models/comments');
 const InterestedEvents = require('../models/interested-events');
 const { upload } = require('../services/cloudinary');
 const { getUserById } = require('./userController');
+const { Op } = require('sequelize');
 
 // cloudinary.config({
 //   cloud_name: 'ol4juwon',
@@ -18,7 +19,100 @@ const { getUserById } = require('./userController');
 
 const getEvents = async (req, res) => {
   try {
-    const events = await Events.findAll({ limit: 10 });
+    let now = new Date();
+
+    let check = new Date();
+    check.setHours(0, 0, 0, 0);
+
+    const nowTime = now.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    const nowEvents = [];
+    const upcomingEvents = [];
+
+    const events = await Events.findAll({
+      where: {
+        start_date: {
+          [Op.gte]: check, // Events with start_date greater than or equal to now
+        },
+      },
+      order: [['start_date', 'ASC']], // Order events by start_date in ascending order
+    });
+
+    await Promise.all(
+      events.map(async (event) => {
+        const imagesLink = await EventThumbnail.findOne({
+          where: { event_id: event.id },
+        });
+
+        let image = null;
+
+        if (imagesLink) {
+          image = await Images.findByPk(imagesLink.dataValues.image_id);
+          console.log(image.url);
+        }
+
+        const formated = {
+          ...event.dataValues,
+          image: image && image.url,
+        };
+
+        console.log(formated);
+
+        // Convert date strings to JavaScript Date objects
+        const date1 = await convertToDAte(event.start_date);
+        const date2 = await convertToDAte(now);
+
+        // Get the date parts without the time
+
+        const time1 = await convertTo24HourFormat(event.start_time);
+        const time3 = await convertTo24HourFormat(event.end_time);
+        const time2 = await convertTo24HourFormat(nowTime);
+
+        if (
+          date1.getTime() == date2.getTime() &&
+          time1 <= time2 &&
+          time3 >= time2
+        ) {
+          nowEvents.push(formated);
+        } else {
+          upcomingEvents.push(formated);
+        }
+      }),
+    );
+
+    res.status(200).json({
+      events: { nowEvents, upcomingEvents },
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+const getEvents3 = async (req, res) => {
+  try {
+    let events = await Events.findAll({
+      limit: 10,
+    });
+
+    events = events.map(async (event) => {
+      const imagesLink = await EventThumbnail.findOne({
+        where: { event_id: event.id },
+      });
+
+      let image;
+
+      if (imagesLink) {
+        image = await Images.findByPk(imagesLink.dataValues.image_id);
+        console.log(image.url);
+      }
+
+      return { ...event.dataValues, image };
+    });
 
     res.status(200).json({
       events,
@@ -76,7 +170,7 @@ const createEventController = async (req, res) => {
     // loop to create image comment association
     for (const imageID of imageIDs) {
       EventThumbnail.create({
-        comment_id: events.dataValues.id,
+        event_id: events.dataValues.id,
         image_id: imageID,
       });
     }
@@ -286,6 +380,35 @@ const getEventDetails = async (req, res) => {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error.' });
   }
+};
+
+const convertTo24HourFormat = async (timeStr) => {
+  const timeArray = timeStr.split(' ');
+  const isPM = timeArray[1] === 'PM';
+
+  let [hours, minutes] = timeArray[0].split(':').map(Number);
+
+  if (isPM && hours !== 12) {
+    hours += 12;
+  } else if (!isPM && hours === 12) {
+    hours = 0;
+  }
+
+  // Pad single-digit hours and minutes with leading zeros
+  hours = String(hours).padStart(2, '0');
+  minutes = String(minutes).padStart(2, '0');
+
+  return `${hours}:${minutes}`;
+};
+const convertToDAte = async (date) => {
+  const date1 = new Date(date);
+
+  const datePart2 = new Date(
+    date1.getFullYear(),
+    date1.getMonth(),
+    date1.getDate(),
+  );
+  return datePart2;
 };
 
 module.exports = {
