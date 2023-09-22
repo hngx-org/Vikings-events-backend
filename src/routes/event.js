@@ -18,7 +18,7 @@ router.get('/', getEvents);
 router.post('/', verify, isUserAuthenticated, createEventController);
 
 // Get an event by ID/ get event details
-router.get('/:eventId', getEvents);
+router.get('/:eventId', getEventDetails);
 
 // Update an event by ID/ update event
 router.put('/:eventId', verify, isUserAuthenticated, updateEventController);

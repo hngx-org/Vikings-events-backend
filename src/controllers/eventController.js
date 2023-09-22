@@ -3,6 +3,7 @@ const Events = require('../models/events');
 const Images = require('../models/images');
 const EventThumbnail = require('../models/event_thumbnail');
 const InterestedEvents = require('../models/interested-events');
+const { uploadImage } = require('../controllers/imageServiceController');
 
 const getEvents = async (req, res) => {
   try {
@@ -48,6 +49,11 @@ const createEventController = async (req, res) => {
 
     const userId = req.user.id;
 
+    if (!req.file) {
+      return res.status(400).json({ error: 'No image uploaded' });
+    }
+    const imageUrl = await uploadImage(req);
+
     const newEvent = {
       title,
       description,
@@ -57,6 +63,7 @@ const createEventController = async (req, res) => {
       end_date,
       start_time,
       end_time,
+      image_url: imageUrl,
     };
     const events = await Events.create(newEvent);
 
