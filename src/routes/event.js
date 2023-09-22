@@ -5,7 +5,8 @@ const {
   deleteEventController,
   updateEventController,
 } = require('../controllers/eventController');
-const { verify, isUserAuthenticated } = require('../middlewares/auth');
+const { getComments } = require('../controllers/commentController');
+const { isUserAuthenticated, verify } = require('../middlewares/auth');
 
 const router = express.Router();
 
@@ -28,7 +29,7 @@ router.delete('/:eventId', verify, isUserAuthenticated, deleteEventController);
 // router.post("/:eventId/comments", );
 
 // get event comments
-// router.get("/:eventId/comments", );
+router.get('/:eventId/comments', getComments);
 
 // Add an event comment images
 // router.post("/:eventId/comments/:commentId/images", );

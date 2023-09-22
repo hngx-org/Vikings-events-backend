@@ -1,5 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
+const User = require('./users');
 
 class UserGroup extends Model {}
 
@@ -9,7 +10,7 @@ UserGroup.init(
       type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: 'User',
+        model: User,
         key: 'id',
       },
     },

@@ -37,6 +37,14 @@ Events.init(
       type: DataTypes.DATE,
       allowNull: false,
     },
+    creator_id: {
+      type: DataTypes.STRING(60),
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+      allowNull: true, // Add validation for not null
+    },
     start_time: {
       type: DataTypes.TIME,
       allowNull: false,
