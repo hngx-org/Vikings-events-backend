@@ -9,12 +9,13 @@ const User = require('../models/users');
 const cloudinary = require('cloudinary').v2;
 const path = require('path');
 const fs = require('fs');
+const { upload } = require('../services/cloudinary');
 
-cloudinary.config({
-  cloud_name: 'ol4juwon',
-  api_key: '619781942963636',
-  api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
-});
+// cloudinary.config({
+//   cloud_name: 'ol4juwon',
+//   api_key: '619781942963636',
+//   api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
+// });
 
 const getGroups = async (req, res) => {
   const groups = 'All Groups';
@@ -38,17 +39,23 @@ const getCommentImages = async (req, res) => {
     if (commentImages.length === 0) {
       return res.json({ images: [] });
     }
-    const imageIds = commentImages.map((comment_image) => comment_image.image_id);
+    const imageIds = commentImages.map((comment_image) => {
+      return comment_image.image_id;
+    });
 
-    const imagePromises = imageIds.map(async (image_id) => await Images.findOne({
-      where: {
-        id: image_id,
-      },
-    }));
+    const imagePromises = imageIds.map(async (image_id) => {
+      return await Images.findOne({
+        where: {
+          id: image_id,
+        },
+      });
+    });
 
     const imagesResult = await Promise.allSettled(imagePromises);
 
-    const images = imagesResult.map((image) => image.value.url);
+    const images = imagesResult.map((image) => {
+      return image.value.url;
+    });
     return res.json({ images });
   } catch (e) {
     return res.status(500).json({ message: 'Internal server error' });
@@ -116,8 +123,18 @@ const createComment = async (req, res) => {
     const existingEvent = await Events.findOne({
       where: { id: eventId },
     });
+
     if (!existingEvent) {
       return res.status(400).json({ error: 'Event not found' });
+    }
+
+    // upload image if exist
+
+    let urls = null;
+
+    if (req.files) {
+      // upload the images
+      urls = await upload(req.files);
     }
 
     const comment = await Comments.create({
@@ -126,9 +143,28 @@ const createComment = async (req, res) => {
       event_id: eventId,
     });
 
+    // create the comment image
+    if (urls && urls.length >= 1) {
+      const imageIDs = [];
+
+      // loop to create images
+      for (const url of urls) {
+        const image = await Images.create({ url });
+        imageIDs.push(image.id);
+      }
+
+      // loop to create image comment association
+      for (const imageID of imageIDs) {
+        CommentImages.create({
+          comment_id: comment.dataValues.id,
+          image_id: imageID,
+        });
+      }
+    }
+
     return res
       .status(201)
-      .json({ message: 'Comment created successfully', comment });
+      .json({ message: 'Comment created successfully', comment, images: urls });
   } catch (error) {
     console.error(error);
     return res
@@ -165,6 +201,35 @@ const likeComment = async (req, res) => {
   }
 };
 
+const unlikeComment = async (req, res) => {
+  try {
+    const { commentId, userId } = req.params;
+
+    const existingLike = await Likes.findOne({
+      where: { user_id: userId, comment_id: commentId },
+    });
+
+    if (!existingLike) {
+      return res
+        .status(400)
+        .json({ message: 'You have not liked this comment.' });
+    }
+
+    await Likes.destroy({ where: { user_id: userId, comment_id: commentId } });
+
+    // await Comments.decrement('likes', { by: 1, where: { id: commentId } });
+
+    return res.status(200).json({ message: 'Comment unliked successfully.' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 module.exports = {
-  getComments, getCommentImages, likeComment, createComment,
+  getComments,
+  getCommentImages,
+  likeComment,
+  unlikeComment,
+  createComment,
 };

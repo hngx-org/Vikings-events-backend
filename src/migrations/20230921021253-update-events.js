@@ -9,8 +9,6 @@ module.exports = {
         model: 'users', // This column references the 'id' column in the 'user' table
         key: 'id',
       },
-      onUpdate: 'CASCADE', // If the 'id' in 'users' changes, update 'creator_id' in 'events'
-      onDelete: 'CASCADE', // If a user is deleted, set 'creator_id' in 'events' to NULL
     });
   },
 

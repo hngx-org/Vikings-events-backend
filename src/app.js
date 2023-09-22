@@ -19,8 +19,8 @@ const { upload } = require('./utils/multer');
 dotenv.config();
 
 const app = express();
-app.use('/uploads', express.static('uploads'));
-app.use(upload.single('file'));
+// app.use('/uploads', express.static('uploads'));
+// app.use(upload.single('file'));
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
