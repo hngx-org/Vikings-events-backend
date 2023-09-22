@@ -5,8 +5,6 @@ const Events = require('../models/events');
 const Images = require('../models/images');
 const Likes = require('../models/likes');
 const User = require('../models/users');
-const CommentImages = require('../models/comment_images');
-const Images = require('../models/images');
 
 const cloudinary = require('cloudinary').v2;
 const path = require('path');
