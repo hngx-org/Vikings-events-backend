@@ -6,7 +6,70 @@ const Images = require('../models/images');
 const Likes = require('../models/likes');
 const User = require('../models/users');
 
+const cloudinary = require('cloudinary').v2;
+const path = require('path');
+const fs = require('fs');
+
+cloudinary.config({
+  cloud_name: 'ol4juwon',
+  api_key: '619781942963636',
+  api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
+});
+
+
+
+
+const getGroups = async (req, res) => {
+  const groups = 'All Groups';
+  res.json({ groups });
+};
+
+const getCommentImages = async (req, res) => {
+  const commentId  = Number(req.params.commentId);
+
+  
+  if(!commentId) {
+    return res.status(400).json({ message: "`commentId` is not defined" })
+  }
+
+  try {
+    const commentImages = await CommentImages.findAll({
+      where: {
+        comment_id: commentId
+      }
+    });
+
+    if (commentImages.length === 0) {
+      return res.json({ images: [] })
+    }
+    const imageIds = commentImages.map((comment_image) => {
+      return comment_image.image_id;
+    })
+
+    const imagePromises = imageIds.map(async (image_id) => {
+      return await Images.findOne({
+        where: {
+          id: image_id
+        }
+      })
+    })
+
+    const imagesResult = await Promise.allSettled(imagePromises)
+    
+    
+    const images = imagesResult.map((image) => {
+      return image.value.url
+    });
+    return res.json({ images })
+
+  } catch (e) {
+    return res.status(500).json({ message: "Internal server error" })
+  }
+  
+}
+
 // eslint-disable-next-line consistent-return
+
 const getComments = async (req, res) => {
   // We first check if the event exist
   const event = await Events.findByPk(req.params.eventId);
@@ -116,29 +179,33 @@ const likeComment = async (req, res) => {
     }}
 
 
-  const unlikeComment = async(req, res) => {
-    try {
-      const { commentId ,userId } = req.params;
-  
-      const existingLike = await Likes.findOne({
-        where: { user_id: userId, comment_id: commentId },
-      });
-  
-      if (!existingLike) {
-        return res.status(400).json({ message: 'You have not liked this comment.' });
-      }
-  
-      await Likes.destroy({ where: { user_id: userId, comment_id: commentId } });
-      // await Comments.decrement('likes', { by: 1, where: { id: commentId } });
-  
-      return res.status(200).json({ message: 'Comment unliked successfully.' });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Internal Server Error' });
+  const unlikeComment = async (req, res) => {
+  try {
+    const { commentId, userId } = req.params;
+    
+    const existingLike = await Likes.findOne({
+      where: { user_id: userId, comment_id: commentId },
+    });
+
+    if (!existingLike) {
+      return res
+        .status(400)
+        .json({ message: 'You have not liked this comment.' });
     }
+
+    await Likes.destroy({ where: { user_id: userId, comment_id: commentId } });
+
+    // await Comments.decrement('likes', { by: 1, where: { id: commentId } });
+
+    return res.status(200).json({ message: 'Comment unliked successfully.' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal Server Error' });
   }
+};
   
   
 
-module.exports = { getComments, likeComment, unlikeComment,createComment };
+
+module.exports = { getComments,  getCommentImages,likeComment, unlikeComment,createComment };
 

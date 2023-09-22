@@ -3,6 +3,8 @@ const {
   getEvents,
   createEventController,
   deleteEventController,
+  addCommentToEventController,
+  addEventCommentImage,
   updateEventController,
   getEventDetails
 } = require('../controllers/eventController');
@@ -36,7 +38,7 @@ router.post('/:eventId/comments', verify, isUserAuthenticated, createComment);
 router.get('/:eventId/comments', getComments);
 
 // Add an event comment images
-// router.post("/:eventId/comments/:commentId/images", );
+router.post('/:eventId/comments/:commentId/images', addEventCommentImage);
 
 // get event comment image
 // router.get("/:eventId/comments/:commentId/images", );
