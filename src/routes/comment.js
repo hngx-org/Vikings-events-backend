@@ -2,19 +2,22 @@ const express = require('express');
 const {
   createComment,
   likeComment,
-  addCommentImage,
+  // addCommentImage,
 } = require('../controllers/commentController');
+const { verify, isUserAuthenticated } = require('../middlewares/auth');
 
 const router = express.Router();
+
+// router.use(verify)
 
 router.get('/');
 
 // Create a comment
-router.post('/', createComment);
+router.post('/', verify, createComment);
 
 // Like a comment
-router.post('/:commentId/members/:userId/like', likeComment);
+router.post('/:commentId/like', verify, likeComment);
 
-router.post('/:commentId/image', addCommentImage);
+// router.post('/:commentId/image', addCommentImage);
 
 module.exports = router;

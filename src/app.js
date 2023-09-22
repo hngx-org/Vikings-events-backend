@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
 // const dotenv = require('dotenv');
 
 // import middlewares
@@ -23,6 +24,7 @@ app.use(upload.single('file'));
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(cookieSession({ httpOnly: true, keys: process.env.JWT_KEY }));
 
 app.get('/', (req, res) => {
@@ -32,11 +34,11 @@ app.get('/', (req, res) => {
 });
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/events', eventRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/groups', groupRoutes);
-app.use('/api/comments', commentRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/events', eventRoutes);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/groups', groupRoutes);
+app.use('/api/v1/comments', commentRoutes);
 
 // Error Middlewares
 app.use(notFound);

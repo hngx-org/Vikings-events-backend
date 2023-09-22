@@ -1,4 +1,21 @@
+/* eslint-disable object-curly-newline */
 const User = require('../models/users');
+const InterestedEvents = require('../models/interested-events');
+
+const getProfile = async (req, res) => {
+  const userProfileId = req.params.profileId;
+  try {
+    const userProfile = await User.findByPk(userProfileId);
+
+    if (!userProfile) {
+      return res.status(404).json({ error: 'User profile not found' });
+    }
+
+    return res.status(200).json(userProfile);
+  } catch (error) {
+    return res.status(500).json({ error: 'Unable to fetch user profile' });
+  }
+};
 
 const getUsers = async (req, res) => {
   const users = 'All Users';
@@ -7,11 +24,18 @@ const getUsers = async (req, res) => {
 
 const getUserByEmail = async (email) => {
   const user = await User.findOne({ where: { email } });
+  if (!user) return null;
   return user.dataValues;
 };
 
-const createUser = async ({ name, email, picture }) => {
-  const user = await User.create({ name, email, avatar: picture });
+const getUserById = async (id) => {
+  const user = await User.findOne({ where: { id } });
+  if (!user) return null;
+  return user.dataValues;
+};
+
+const createUser = async ({ id, name, email, picture }) => {
+  const user = await User.create({ id, name, email, avatar: picture });
   return user;
 };
 
@@ -48,9 +72,57 @@ const updateUserProfile = async (req, res, next) => {
     next(error);
   }
 };
+
+const createInterestForAnEvent = async (req, res) => {
+  try {
+    const userId = req.params.userId || req.user.id;
+
+    // check if the user has already created interest before
+    const userInterest = await InterestedEvents.findOne({
+      where: { user_id: userId, event_id: req.params.eventId },
+    });
+
+    if (userInterest) {
+      throw new Error('User has already created interest for this event');
+    }
+
+    const newInterest = await InterestedEvents.create({
+      user_id: userId,
+      event_id: req.params.eventId,
+    });
+
+    res.status(200).json(newInterest);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+};
+
+// const getUserEvents = async(req,res,next)=>{
+//   try{
+//     const { userId } = req.params;
+
+//     const userEvents = await UserEvents.findAll({
+//       where: { user_id: userId },
+//       include: [
+//         { model: User, attributes: ['id', 'name', 'email', 'avatar'] },
+//         { model: Event, attributes: ['id', 'title', 'description', 'location', 'start_date', 'end_date', 'start_time', 'end_time', 'thumbnail'] },
+//       ],
+//     });
+
+//     res.json(userEvents);
+
+//   }catch(error){
+//     next(error)
+//   }
+
+// }
+
 module.exports = {
   getUsers,
+  getProfile,
   getUserByEmail,
+  getUserById,
   createUser,
   updateUserProfile,
+  createInterestForAnEvent,
 };

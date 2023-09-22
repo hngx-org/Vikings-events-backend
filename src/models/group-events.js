@@ -1,15 +1,16 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
+const User = require('./users');
 
 class GroupEvents extends Model {}
 
 GroupEvents.init(
   {
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: 'User',
+        model: User,
         key: 'id',
       },
     },

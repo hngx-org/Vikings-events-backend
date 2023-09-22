@@ -1,5 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
+const User = require('./users');
 
 class Likes extends Model {}
 
@@ -13,9 +14,9 @@ Likes.init(
       },
     },
     user_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       references: {
-        model: 'User',
+        model: User,
         key: 'id',
       },
     },
