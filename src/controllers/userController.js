@@ -151,6 +151,23 @@ const createInterestForAnEvent = async (req, res) => {
   }
 };
 
+// get all interest for an event
+const getAllInterestForAnEvent = async(req,res,next)=>{
+  try{
+    const userId = req.params.userId;
+
+    // Get all events that the user is interested in
+    const userInterests = await InterestedEvents.findAll({
+      where: { user_id: userId },
+    });
+
+    res.status(200).json(userInterests)
+
+  }catch(error){
+    next(error)
+  }
+}
+
 // const getUserEvents = async(req,res,next)=>{
 //   try{
 //     const { userId } = req.params;
@@ -180,4 +197,5 @@ module.exports = {
   updateUserProfile,
   createInterestForAnEvent,
   deleteInterestForAnEvent,
+  getAllInterestForAnEvent,
 };
