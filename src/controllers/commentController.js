@@ -4,6 +4,14 @@ const Comments = require('../models/comments');
 const Events = require('../models/events');
 const Images = require('../models/images');
 const Likes = require('../models/likes');
+const cloudinary = require('cloudinary').v2;
+const path = require('path');
+const fs = require('fs');
+cloudinary.config({
+  cloud_name: 'ol4juwon',
+  api_key: '619781942963636',
+  api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
+});
 const User = require('../models/users');
 
 // eslint-disable-next-line consistent-return
@@ -45,7 +53,7 @@ const getComments = async (req, res) => {
 
 const createComment = async (req, res) => {
   try {
-    const { eventId } = req.params;
+    const eventId = req.params.eventId;
     const userId = req.user.id;
     const { body } = req.body;
 
@@ -87,6 +95,7 @@ const createComment = async (req, res) => {
   }
 };
 
+
 const likeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
@@ -106,7 +115,7 @@ const likeComment = async (req, res) => {
     // Create a new like record
     await Likes.create({ user_id: userId, comment_id: commentId });
 
-    res.json({ message: 'Comment liked' });
+    res.json({ message: `Comment liked` });
   } catch (error) {
     console.error(error);
     res
