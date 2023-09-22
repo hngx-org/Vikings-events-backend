@@ -1,6 +1,13 @@
 const Comments = require('../models/comments');
 const Likes = require('../models/likes');
-
+const cloudinary = require('cloudinary').v2;
+const path = require('path');
+const fs = require('fs');
+cloudinary.config({
+  cloud_name: 'ol4juwon',
+  api_key: '619781942963636',
+  api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
+});
 const getComments = async (req, res) => {
   const comments = 'All comments';
   res.json({ comments });
@@ -39,8 +46,13 @@ const likeComment = async (req, res) => {
 
 const addCommentImage = async (req, res) => {
   try {
+    console.log("error");
     const { commentId } = req.params;
-    const files = req.files[0];
+    const files = req.file;
+    console.log({files});
+    const result = await cloudinary.uploader.upload(req.file.path);
+    console.log({result});
+    return res.status(200).json({data: {url: ""}})
   } catch (e) {
     console.error(e);
     res

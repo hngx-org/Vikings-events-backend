@@ -1,11 +1,18 @@
 /* eslint-disable no-console */
+const cloudinary = require('cloudinary').v2;
 const Events = require('../models/events');
 const Images = require('../models/images');
+const CommentImages = require('../models/comment_images');
 const EventThumbnail = require('../models/event_thumbnail');
 
+cloudinary.config({
+  cloud_name: 'ol4juwon',
+  api_key: '619781942963636',
+  api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
+});
 const getEvents = async (req, res) => {
   try {
-    const events = await Events.findAll({ limit: 10 });
+    const events = await Events.find({ limit: 10 });
 
     res.send(events);
   } catch (error) {
@@ -124,18 +131,28 @@ const deleteEventController = async (req, res) => {
 };
 
 const addEventCommentImage = async (req, res) => {
-  const t = await Events.sequelize.transaction();
+  const t = await Images.sequelize.transaction();
+  const c = await CommentImages.sequelize.transaction();
   try {
+    console.log('error');
     const { commentId, eventId } = req.params;
+    const files = req.file;
+    console.log({ files });
+    const result = await cloudinary.uploader.upload(req.file.path);
+    console.log({ result });
+    const imageID = await Images.create({ url: result.secure_url });
+    console.log(imageID.dataValues.id);
+    await CommentImages.create({ image_id: imageID.dataValues.id, comment_id: commentId });
+    t.commit();
+    c.commit();
+    return res.status(200).json({ data: 'image added successfully' });
   } catch (e) {
-    console.error('Error deleting event and related data:', e);
-
-    // Roll back the transaction in case of an error
-    await t.rollback();
-
-    return res.status(500).json({
-      error: 'An error occurred while deleting the event and related data.',
-    });
+    t.rollback();
+    c.rollback();
+    console.error(e);
+    res
+      .status(500)
+      .json({ error: 'An internal error occurred while  uploading image' });
   }
 };
 

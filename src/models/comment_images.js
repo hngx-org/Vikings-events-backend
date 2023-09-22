@@ -24,7 +24,7 @@ CommentImages.init(
   {
     sequelize,
     modelName: 'CommentImages',
-    tableName: 'comments_images',
+    tableName: 'comment_images',
     timestamps: false,
   },
 );
