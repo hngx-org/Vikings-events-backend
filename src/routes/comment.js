@@ -2,8 +2,11 @@ const express = require('express');
 const {
   createComment,
   likeComment,
+<<<<<<< HEAD
   // addCommentImage,
   getCommentImages,
+=======
+>>>>>>> parent of f0098de (Merge branch 'dev' of https://github.com/hngx-org/Vikings-events-backend into justinndidit2-updated)
 } = require('../controllers/commentController');
 const { verify, isUserAuthenticated } = require('../middlewares/auth');
 
