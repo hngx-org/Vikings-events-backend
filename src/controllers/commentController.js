@@ -198,18 +198,18 @@ const likeComment = async (req, res) => {
     res
       .status(500)
       .json({ error: 'An internal error occurred while liking the comment' });
-  
-    }}
+  }
+};
 
-
- const unlikeComment = async (req, res) => {
+const unlikeComment = async (req, res) => {
   try {
     const { commentId, userId } = req.params;
-
 
     const existingLike = await Likes.findOne({
       where: { user_id: userId, comment_id: commentId },
     });
+
+    console.log(existingLike);
 
     if (!existingLike) {
       return res
@@ -219,15 +219,17 @@ const likeComment = async (req, res) => {
 
     await Likes.destroy({ where: { user_id: userId, comment_id: commentId } });
 
-    // await Comments.decrement('likes', { by: 1, where: { id: commentId } });
-
     return res.status(200).json({ message: 'Comment unliked successfully.' });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-  
-  
-module.exports = { getComments,  getCommentImages,likeComment, unlikeComment,createComment };
 
+module.exports = {
+  getComments,
+  getCommentImages,
+  likeComment,
+  unlikeComment,
+  createComment,
+};

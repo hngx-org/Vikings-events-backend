@@ -22,7 +22,7 @@ const {
 router.get('/');
 
 // Create a comment
-router.post('/', uploads, verify, cloudConfig, createComment);
+router.post('/:eventId', uploads, verify, cloudConfig, createComment);
 
 //Get all the images for a comment
 router.get('/:commentId/images', getCommentImages);
@@ -31,7 +31,7 @@ router.get('/:commentId/images', getCommentImages);
 router.post('/:commentId/like', verify, likeComment);
 
 //unlike comment
-router.delete('/:commentId/members/:userId/unlike', unlikeComment);
+router.delete('/:commentId/members/:userId/unlike', verify, unlikeComment);
 
 // router.post('/:commentId/image', addCommentImage);
 
