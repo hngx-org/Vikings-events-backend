@@ -43,7 +43,50 @@ const getComments = async (req, res) => {
   }
 };
 
-const createComment = async (req, res) => {};
+const createComment = async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+    const userId = req.user.id;
+    const { body } = req.body;
+
+    // Check if user id and event id are provided
+    if (!eventId || !userId) {
+      return res
+        .status(400)
+        .json({ error: 'Please provide event id and user id' });
+    }
+
+    // check if user exists
+    const user = await User.findOne({ where: { id: userId } });
+    if (!user) {
+      return res.status(404).json({ error: 'User does not exist' });
+    }
+
+    // Check if event exists
+    const existingEvent = await Events.findOne({
+      where: { id: eventId },
+    });
+    if (!existingEvent) {
+      return res.status(400).json({ error: 'Event not found' });
+    }
+
+    const comment = await Comments.create({
+      body,
+      user_id: userId,
+      event_id: eventId,
+    });
+
+    return res
+      .status(201)
+      .json({ message: 'Comment created successfully', comment });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: 'An error occurred while creating the comment' });
+  }
+};
+
 
 const likeComment = async (req, res) => {
   try {
