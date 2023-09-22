@@ -3,10 +3,10 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     // Add the new 'creator_id' column to the 'events' table
     await queryInterface.addColumn('events', 'creator_id', {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       allowNull: false, // The 'creator_id' cannot be null
       references: {
-        model: 'user', // This column references the 'id' column in the 'user' table
+        model: 'users', // This column references the 'id' column in the 'user' table
         key: 'id',
       },
       onUpdate: 'CASCADE', // If the 'id' in 'users' changes, update 'creator_id' in 'events'

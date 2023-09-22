@@ -1,15 +1,16 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
+const User = require('./users');
 
 class UserGroup extends Model {}
 
 UserGroup.init(
   {
     user_id: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
       references: {
-        model: 'User',
+        model: User,
         key: 'id',
       },
     },

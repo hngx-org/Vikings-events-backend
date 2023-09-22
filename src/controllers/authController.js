@@ -1,10 +1,11 @@
-const { getUserByEmail, createUser } = require('./userController');
+/* eslint-disable object-curly-newline */
+const { createUser, getUserById } = require('./userController');
 const { signToken } = require('../middlewares/auth');
 
-const getToken = async ({ email, picture, name }) => {
-  let user = await getUserByEmail(email);
+const getToken = async ({ googleId, email, picture, name }) => {
+  let user = await getUserById(googleId);
   if (!user) {
-    user = await createUser({ email, picture, name });
+    user = await createUser({ id: googleId, email, picture, name });
   }
 
   const token = await signToken({ id: user.id, email: user.email });

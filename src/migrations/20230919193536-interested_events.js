@@ -3,10 +3,10 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('interested_events', {
       user_id: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING,
         references: {
           model: {
-            tableName: 'user',
+            tableName: 'users',
           },
           key: 'id',
         },
