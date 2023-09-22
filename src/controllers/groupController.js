@@ -151,4 +151,5 @@ module.exports = {
   getGroups,
   addUserToGroup,
   getGroupDetails,
+  removeUserFromAGroup,
 };
