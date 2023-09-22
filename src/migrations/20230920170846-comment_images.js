@@ -9,6 +9,8 @@ module.exports = {
           model: 'comments',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       image_id: {
         type: Sequelize.INTEGER,
@@ -17,6 +19,8 @@ module.exports = {
           model: 'images',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
     });
   },
@@ -29,5 +33,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
+    await queryInterface.dropTable('comment_images');
   },
 };

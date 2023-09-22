@@ -1,6 +1,9 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
 
+const Comments = require('./comments');
+const Images = require('./images');
+
 class CommentImages extends Model {}
 
 CommentImages.init(
@@ -24,9 +27,11 @@ CommentImages.init(
   {
     sequelize,
     modelName: 'CommentImages',
-    tableName: 'comments_images',
+    tableName: 'comment_images',
     timestamps: false,
   },
 );
+
+// CommentImages.removeAttribute('id');
 
 module.exports = CommentImages;

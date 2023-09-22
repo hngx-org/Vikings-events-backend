@@ -1,5 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
+const User = require('./users');
 
 class GroupEvents extends Model {}
 

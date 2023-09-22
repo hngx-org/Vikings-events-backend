@@ -1,15 +1,27 @@
 /* eslint-disable no-console */
+const cloudinary = require('cloudinary').v2;
 const Events = require('../models/events');
 const Images = require('../models/images');
+const CommentImages = require('../models/comment_images');
 const EventThumbnail = require('../models/event_thumbnail');
+const InterestedEvents = require('../models/interested-events');
 
+cloudinary.config({
+  cloud_name: 'ol4juwon',
+  api_key: '619781942963636',
+  api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
+});
 const getEvents = async (req, res) => {
   try {
-    const events = await Events.find({ limit: 10 });
+    const events = await Events.findAll({ limit: 10 });
 
-    res.send(events);
+    res.status(200).json({
+      events,
+    });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      error: error.message,
+    });
   }
 };
 
@@ -25,10 +37,13 @@ const createEventController = async (req, res) => {
       end_time,
     } = req.body;
 
+    const userId = req.user.id;
+
     const newEvent = {
       title,
       description,
       location,
+      creator_id: userId,
       start_date,
       end_date,
       start_time,
@@ -122,5 +137,101 @@ const deleteEventController = async (req, res) => {
     });
   }
 };
+const updateEventController = async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const userId = req.user.id;
+    const {
+      title,
+      description,
+      location,
+      start_date,
+      end_date,
+      start_time,
+      end_time,
+    } = req.body;
 
-module.exports = { getEvents, createEventController, deleteEventController };
+    // Fetch the event by ID
+    const event = await Events.findByPk(eventId);
+
+    if (!event) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    // Update event details
+    event.title = title;
+    event.description = description;
+    event.location = location;
+    event.creator_id = userId;
+    event.start_date = start_date;
+    event.end_date = end_date;
+    event.start_time = start_time;
+    event.end_time = end_time;
+
+    // Save the updated event
+    await event.save();
+
+    res.status(200).json({ message: 'Event updated successfully' });
+  } catch (error) {
+    console.error('Error updating event:', error);
+    res.status(500).json({
+      error: 'An error occurred while updating the event',
+      details: error.message,
+    });
+  }
+};
+const addEventCommentImage = async (req, res) => {
+  const t = await Images.sequelize.transaction();
+  const c = await CommentImages.sequelize.transaction();
+  try {
+    console.log('error');
+    const { commentId, eventId } = req.params;
+    const files = req.file;
+    console.log({ files });
+    const result = await cloudinary.uploader.upload(req.file.path);
+    console.log({ result });
+    const imageID = await Images.create({ url: result.secure_url });
+    console.log(imageID.dataValues.id);
+    await CommentImages.create({
+      image_id: imageID.dataValues.id,
+      comment_id: commentId,
+    });
+    t.commit();
+    c.commit();
+    return res.status(200).json({ data: 'image added successfully' });
+  } catch (e) {
+    t.rollback();
+    c.rollback();
+    console.error(e);
+    res
+      .status(500)
+      .json({ error: 'An internal error occurred while  uploading image' });
+  }
+};
+//get Event details
+const getEventDetails = async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+    const event = await Events.findByPk(eventId);
+
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+    return res.status(200).json({ event });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error.' });
+  }
+};
+
+module.exports = {
+  getEvents,
+  createEventController,
+  deleteEventController,
+  addEventCommentImage,
+  getEvents,
+  createEventController,
+  deleteEventController,
+  updateEventController,
+  getEventDetails,
+};
