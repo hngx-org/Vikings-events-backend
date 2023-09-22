@@ -15,7 +15,6 @@ const getEvents = async (req, res) => {
     res.status(500).json({
       error: error.message,
     });
-    console.log(error);
   }
 };
 
@@ -31,10 +30,13 @@ const createEventController = async (req, res) => {
       end_time,
     } = req.body;
 
+    const userId = req.user.id;
+
     const newEvent = {
       title,
       description,
       location,
+      creator_id: userId,
       start_date,
       end_date,
       start_time,
@@ -131,6 +133,7 @@ const deleteEventController = async (req, res) => {
 const updateEventController = async (req, res) => {
   try {
     const { eventId } = req.params;
+    const userId = req.user.id;
     const {
       title,
       description,
@@ -152,6 +155,7 @@ const updateEventController = async (req, res) => {
     event.title = title;
     event.description = description;
     event.location = location;
+    event.creator_id = userId;
     event.start_date = start_date;
     event.end_date = end_date;
     event.start_time = start_time;
