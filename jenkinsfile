@@ -5,8 +5,8 @@ pipeline {
         
             steps {
                 sh "ls"
-                sh "pwd"
-                sh "sudo bash /home/ubuntu/Vikings-events-backend/deploy.sh"
+                sh "sudo chmod +x ./deploy.sh"
+                sh "./deploy.sh"
             }
             
         }
