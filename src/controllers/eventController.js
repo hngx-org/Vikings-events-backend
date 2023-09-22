@@ -3,6 +3,7 @@ const Events = require('../models/events');
 const Images = require('../models/images');
 const EventThumbnail = require('../models/event_thumbnail');
 const Comments = require('../models/comments');
+const InterestedEvents = require('../models/interested-events');
 
 const getEvents = async (req, res) => {
   try {
@@ -15,7 +16,6 @@ const getEvents = async (req, res) => {
     res.status(500).json({
       error: error.message,
     });
-    console.log(error);
   }
 };
 
@@ -31,10 +31,13 @@ const createEventController = async (req, res) => {
       end_time,
     } = req.body;
 
+    const userId = req.user.id;
+
     const newEvent = {
       title,
       description,
       location,
+      creator_id: userId,
       start_date,
       end_date,
       start_time,
@@ -131,6 +134,7 @@ const deleteEventController = async (req, res) => {
 const updateEventController = async (req, res) => {
   try {
     const { eventId } = req.params;
+    const userId = req.user.id;
     const {
       title,
       description,
@@ -152,6 +156,7 @@ const updateEventController = async (req, res) => {
     event.title = title;
     event.description = description;
     event.location = location;
+    event.creator_id = userId;
     event.start_date = start_date;
     event.end_date = end_date;
     event.start_time = start_time;
@@ -176,9 +181,8 @@ const addCommentToEventController = async (req, res) => {
   const { eventId } = req.params;
   const { body } = req.body;
 
-  // req.body.user_id = req.user.id - We will get this when the auth middleware is available
+  const userId = req.user.id;
 
-  // Check if event with the id exists
   const event = await Events.findByPk(eventId);
 
   if (!event) {
@@ -186,13 +190,32 @@ const addCommentToEventController = async (req, res) => {
   }
 
   try {
-    const newComment = { body, event_id: eventId };
+    const newComment = { body, event_id: eventId, user_id: userId };
     const comment = await Comments.create(newComment);
 
-    return res.status(201).send(comment);
+    return res.status(201).send({ message: 'Comment created successfully', comment });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: error.message });
+    res.status(500).json({
+      error: 'An error occurred while creating the comment',
+      details: error.message,
+    });
+  }
+};
+
+//get Event details
+const getEventDetails = async (req, res) => {
+  try {
+    const eventId = req.params.eventId;
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+    return res.status(200).json({ event });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({message: "Internal server error."});
   }
 };
 
@@ -202,4 +225,5 @@ module.exports = {
   deleteEventController,
   updateEventController,
   addCommentToEventController,
+  getEventDetails
 };
