@@ -209,6 +209,8 @@ const unlikeComment = async (req, res) => {
       where: { user_id: userId, comment_id: commentId },
     });
 
+    console.log(existingLike);
+
     if (!existingLike) {
       return res
         .status(400)
@@ -216,8 +218,6 @@ const unlikeComment = async (req, res) => {
     }
 
     await Likes.destroy({ where: { user_id: userId, comment_id: commentId } });
-
-    // await Comments.decrement('likes', { by: 1, where: { id: commentId } });
 
     return res.status(200).json({ message: 'Comment unliked successfully.' });
   } catch (error) {
