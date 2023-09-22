@@ -28,16 +28,16 @@ router.get('/', getEvents);
 router.post('/', uploads, verify, cloudConfig, createEventController);
 
 // Get an event by ID/ get event details
-router.get('/:eventId', getEventDetails);
+router.get('/:eventId', verify, getEventDetails);
 
 // Update an event by ID/ update event
-router.put('/:eventId', verify, isUserAuthenticated, updateEventController);
+router.put('/:eventId', verify, updateEventController);
 
 // Delete an event by ID/ Delete event
-router.delete('/:eventId', verify, isUserAuthenticated, deleteEventController);
+router.delete('/:eventId', verify, deleteEventController);
 
 // Create an event comment
-router.post('/:eventId/comments', verify, isUserAuthenticated, createComment);
+router.post('/:eventId/comments', verify, createComment);
 
 // get event comments
 router.get('/:eventId/comments', getComments);
