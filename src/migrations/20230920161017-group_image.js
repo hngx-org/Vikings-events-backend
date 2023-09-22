@@ -8,6 +8,8 @@ module.exports = {
           model: 'comments',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       image_id: {
         type: Sequelize.INTEGER,

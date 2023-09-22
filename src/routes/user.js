@@ -1,25 +1,39 @@
 const express = require('express');
+// router.post("/register", );
 const {
-  getUser,
+  getUsers,
+  getProfile,
   updateUserProfile,
+  deleteInterestForAnEvent,
+  createInterestForAnEvent,
 } = require('../controllers/userController');
+const { isUserAuthenticated, verify } = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.get('/', getUser);
+router.get('/', getUsers);
 
-// router.post('/register', );
+router.get('/:profileId', getProfile);
 
-// router.post("/login", );
-
-// router.get("/:profileId", );
+// get users events
+// router.get('/:userId/events',getUserEvents)
 
 router.put('/:profileId', updateUserProfile);
 
-// Create interest in an event
-// router.post("/userId/interests/:eventId", );
-
 // Delete interest in an event
-// router.delete("/:userId/interests/:eventId", );
+router.delete(
+  '/:userId/interests/:eventId',
+  isUserAuthenticated,
+  verify,
+  deleteInterestForAnEvent,
+);
+
+// Create interest in an event
+router.post(
+  '/:userId/interests/:eventId',
+  isUserAuthenticated,
+  verify,
+  createInterestForAnEvent,
+);
 
 module.exports = router;

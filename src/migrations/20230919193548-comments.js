@@ -12,11 +12,13 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       user_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         references: {
-          model: 'user',
+          model: 'users',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       event_id: {
         type: Sequelize.INTEGER,
@@ -24,6 +26,8 @@ module.exports = {
           model: 'events',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
     });
   },

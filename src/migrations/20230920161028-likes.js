@@ -3,11 +3,13 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('likes', {
       user_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         references: {
-          model: 'user',
+          model: 'users',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       comment_id: {
         type: Sequelize.INTEGER,
@@ -15,6 +17,8 @@ module.exports = {
           model: 'comments',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
     });
   },
