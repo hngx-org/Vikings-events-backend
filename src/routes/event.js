@@ -3,6 +3,8 @@ const {
   getEvents,
   createEventController,
   deleteEventController,
+  addCommentToEventController,
+  addEventCommentImage,
   updateEventController,
   getEventDetails,
 } = require('../controllers/eventController');
