@@ -4,7 +4,8 @@ pipeline {
         stage("build & deploy backend") {
         
             steps {
-                sh "whoami"
+                sh "ls"
+                sh "pwd"
                 sh "sudo bash /home/ubuntu/Vikings-events-backend/deploy.sh"
             }
             
