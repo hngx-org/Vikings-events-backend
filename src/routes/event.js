@@ -4,7 +4,7 @@ const {
   createEventController,
   deleteEventController,
   updateEventController,
-  getEventDetails
+  getEventDetails,
 } = require('../controllers/eventController');
 const { getComments } = require('../controllers/commentController');
 const { isUserAuthenticated, verify } = require('../middlewares/auth');
@@ -19,9 +19,6 @@ router.post('/', verify, isUserAuthenticated, createEventController);
 
 // Get an event by ID/ get event details
 router.get('/:eventId', getEvents);
-
-// Get event detail
-router.get('events/:eventId', getEventDetails);
 
 // Update an event by ID/ update event
 router.put('/:eventId', verify, isUserAuthenticated, updateEventController);
