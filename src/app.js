@@ -16,7 +16,7 @@ const { authRoutes } = require('./routes');
 const commentRoutes = require('./routes/comment');
 const { upload } = require('./utils/multer');
 
-// dotenv.config()
+dotenv.config();
 
 const app = express();
 app.use('/uploads', express.static('uploads'));
