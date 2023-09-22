@@ -178,7 +178,7 @@ const updateEventController = async (req, res) => {
 const getEventDetails = async (req, res) => {
   try {
     const eventId = req.params.eventId;
-    const event = await Event.findByPk(eventId);
+    const event = await Events.findByPk(eventId);
 
     if (!event) {
       return res.status(404).json({ message: 'Event not found' });
