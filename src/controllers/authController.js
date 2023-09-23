@@ -45,16 +45,16 @@ const handleLoginController = async (req, res) => {
 };
 
 const handleLogoutController = async (req, res) => {
-    try {
-       await clearSession(req);
+  try {
+    await clearSession(req);
 
-       res.clearCookie('token');
+    res.clearCookie('token');
 
-      res.json({ message: 'Logout successful' });
-    } catch (error) {
-      console.error('Logout error:', error);
-      res.status(500).json({ error: 'Logout failed' });
-    }
-}
+    res.json({ message: 'Logout successful' });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({ error: 'Logout failed' });
+  }
+};
 
 module.exports = { handleLoginController, handleLogoutController };

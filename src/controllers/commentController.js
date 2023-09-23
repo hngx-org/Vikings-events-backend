@@ -171,7 +171,7 @@ const likeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
     // const userId = req.user.id;
-    const userId = req.params.userId;
+    const { userId } = req.params;
 
     //  Check if the user has already liked the comment
     const existingLike = await Likes.findOne({
