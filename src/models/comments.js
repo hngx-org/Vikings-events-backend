@@ -13,7 +13,7 @@ Comments.init(
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
-      defaultValue: Sequelize.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
     },
     body: {
       type: DataTypes.TEXT,

@@ -9,7 +9,7 @@ Groups.init(
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
-      defaultValue: Sequelize.UUIDV4,
+      defaultValue: DataTypes.UUIDV4,
     },
     title: {
       type: DataTypes.TEXT,
