@@ -32,7 +32,7 @@ Comments.init(
         key: 'id',
       },
     },
-  
+
   },
   {
     sequelize,

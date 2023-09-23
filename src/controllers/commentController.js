@@ -39,23 +39,17 @@ const getCommentImages = async (req, res) => {
     if (commentImages.length === 0) {
       return res.json({ images: [] });
     }
-    const imageIds = commentImages.map((comment_image) => {
-      return comment_image.image_id;
-    });
+    const imageIds = commentImages.map((comment_image) => comment_image.image_id);
 
-    const imagePromises = imageIds.map(async (image_id) => {
-      return await Images.findOne({
-        where: {
-          id: image_id,
-        },
-      });
-    });
+    const imagePromises = imageIds.map(async (image_id) => await Images.findOne({
+      where: {
+        id: image_id,
+      },
+    }));
 
     const imagesResult = await Promise.allSettled(imagePromises);
 
-    const images = imagesResult.map((image) => {
-      return image.value.url;
-    });
+    const images = imagesResult.map((image) => image.value.url);
     return res.json({ images });
   } catch (e) {
     return res.status(500).json({ message: 'Internal server error' });
@@ -102,7 +96,7 @@ const getComments = async (req, res) => {
 
 const createComment = async (req, res) => {
   try {
-    const eventId = req.params.eventId;
+    const { eventId } = req.params;
     const userId = req.user.id;
     const { body } = req.body;
 

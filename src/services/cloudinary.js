@@ -5,14 +5,14 @@ const path = require('path');
 exports.upload = async (files) => {
   try {
     const urls = [];
-    let dtauri = new DataUri();
+    const dtauri = new DataUri();
     console.log(dtauri);
     for (const file of files) {
-      let dataUri = dtauri.format(path.extname(file.originalname), file.buffer);
+      const dataUri = dtauri.format(path.extname(file.originalname), file.buffer);
 
-      let final_file = dataUri.content;
+      const final_file = dataUri.content;
 
-      let image = await cloudinary.v2.uploader.upload_large(final_file);
+      const image = await cloudinary.v2.uploader.upload_large(final_file);
 
       urls.push(image.secure_url);
     }
