@@ -93,37 +93,6 @@ const getEvents = async (req, res) => {
   }
 };
 
-const getEvents3 = async (req, res) => {
-  try {
-    let events = await Events.findAll({
-      limit: 10,
-    });
-
-    events = events.map(async (event) => {
-      const imagesLink = await EventThumbnail.findOne({
-        where: { event_id: event.id },
-      });
-
-      let image;
-
-      if (imagesLink) {
-        image = await Images.findByPk(imagesLink.dataValues.image_id);
-        console.log(image.url);
-      }
-
-      return { ...event.dataValues, image };
-    });
-
-    res.status(200).json({
-      events,
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: error.message,
-    });
-  }
-};
-
 const createEventController = async (req, res) => {
   try {
     const {

@@ -41,6 +41,13 @@ const createGroup = async (req, res) => {
       });
     }
 
+    const newUserGroup = {
+      user_id: req.user.id,
+      group_id: newGroup.id,
+    };
+
+    await UserGroup.create(newUserGroup);
+
     return res.status(201).json({ ...newGroup.dataValues, url: urls });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -81,7 +88,7 @@ const addUserToGroup = async (req, res) => {
       user_id: userId,
       group_id: groupId,
     };
-    const userGroup = await UserGroup.create(newUserGroup);
+    await UserGroup.create(newUserGroup);
 
     return res
       .status(201)
@@ -140,7 +147,9 @@ const getGroupDetails = async (req, res) => {
       }),
     ]);
 
-    const eventIds = groupEvents.map((groupEvent) => groupEvent.dataValues.event_id);
+    const eventIds = groupEvents.map(
+      (groupEvent) => groupEvent.dataValues.event_id,
+    );
 
     const [groupImage, events] = await Promise.all([
       await Images.findOne({
