@@ -28,7 +28,7 @@ router.post('/:eventId', uploads, verify, cloudConfig, createComment);
 router.get('/:commentId/images', getCommentImages);
 
 // Like a comment
-router.post('/:commentId/like', verify, likeComment);
+router.post('/:commentId/members/:userId/like', likeComment);
 
 // unlike comment
 router.delete('/:commentId/members/:userId/unlike', verify, unlikeComment);

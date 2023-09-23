@@ -88,7 +88,7 @@ const getComments = async (req, res) => {
       },
     });
 
-    return res.send(comments);
+    return res.status(200).json({ comments });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
@@ -170,7 +170,8 @@ const createComment = async (req, res) => {
 const likeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
-    const userId = req.user.id;
+    // const userId = req.user.id;
+    const userId = req.params.userId;
 
     //  Check if the user has already liked the comment
     const existingLike = await Likes.findOne({
@@ -186,7 +187,35 @@ const likeComment = async (req, res) => {
     // Create a new like record
     await Likes.create({ user_id: userId, comment_id: commentId });
 
-    res.json({ message: 'Comment liked' });
+    // find comment
+    const comment = await Comments.findOne({
+      where: { id: commentId },
+      attributes: {
+        include: [
+          [
+            // Note the wrapping parentheses in the call below!
+            sequelize.literal(`(
+                    SELECT COUNT(*)
+                    FROM likes
+                    WHERE
+                    likes.comment_id = Comments.id
+                )`),
+            'likesCount',
+          ],
+        ],
+      },
+    });
+
+    const response = {
+      comment: {
+        id: commentId,
+        likesCount: comment.dataValues.likesCount,
+      },
+      message: 'Comment liked',
+      status: 'success',
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
     console.error(error);
     res
@@ -203,8 +232,6 @@ const unlikeComment = async (req, res) => {
       where: { user_id: userId, comment_id: commentId },
     });
 
-    console.log(existingLike);
-
     if (!existingLike) {
       return res
         .status(400)
@@ -213,7 +240,34 @@ const unlikeComment = async (req, res) => {
 
     await Likes.destroy({ where: { user_id: userId, comment_id: commentId } });
 
-    return res.status(200).json({ message: 'Comment unliked successfully.' });
+    const comment = await Comments.findOne({
+      where: { id: commentId },
+      attributes: {
+        include: [
+          [
+            // Note the wrapping parentheses in the call below!
+            sequelize.literal(`(
+                    SELECT COUNT(*)
+                    FROM likes
+                    WHERE
+                    likes.comment_id = Comments.id
+                )`),
+            'likesCount',
+          ],
+        ],
+      },
+    });
+
+    const response = {
+      comment: {
+        id: commentId,
+        likesCount: comment.dataValues.likesCount,
+      },
+      message: 'Comment unliked',
+      status: 'success',
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal Server Error' });
