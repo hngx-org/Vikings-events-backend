@@ -6,8 +6,7 @@ class Groups extends Model {}
 Groups.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
     },

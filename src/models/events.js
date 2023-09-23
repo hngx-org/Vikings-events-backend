@@ -6,8 +6,7 @@ class Events extends Model {}
 Events.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
     },
@@ -22,7 +21,7 @@ Events.init(
       type: DataTypes.TEXT,
     },
     creator_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       references: {
         model: 'User',
         key: 'id',

@@ -7,7 +7,7 @@ class GroupEvents extends Model {}
 GroupEvents.init(
   {
     group_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: 'Groups',
@@ -15,7 +15,7 @@ GroupEvents.init(
       },
     },
     event_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: 'Events',

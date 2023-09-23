@@ -7,8 +7,7 @@ class Images extends Model {}
 Images.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
     },
