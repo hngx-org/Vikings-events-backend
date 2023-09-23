@@ -54,60 +54,16 @@ const createGroup = async (req, res) => {
   }
 };
 
-const addUserToGroup = async (req, res) => {
-  const { groupId, userId } = req.params;
-  console.log(req.params);
-  try {
-    // Find the group and user based on the provided IDs
-    const group = await Groups.findByPk(groupId);
-    const user = await User.findByPk(userId);
-
-    // Check if group exists
-    if (!group) {
-      return res.status(404).json({ error: 'Group not found' });
-    }
-
-    // Check if user exists
-    if (!user) {
-      return res.status(404).json({ error: 'User does not exist' });
-    }
-
-    // Check if the user is already a member of the group
-    const existingMember = await UserGroup.findOne({
-      where: { user_id: userId, group_id: groupId },
-    });
-
-    if (existingMember) {
-      return res
-        .status(400)
-        .json({ error: 'User is already a member of the group' });
-    }
-
-    //  Create a new UserGroup entry to represent the user's membership in the group
-    const newUserGroup = {
-      user_id: userId,
-      group_id: groupId,
-    };
-    await UserGroup.create(newUserGroup);
-
-    return res
-      .status(201)
-      .json({ message: 'User successfully added to group' });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-};
-
 const getGroups = async (req, res) => {
   try {
     const groups = await Groups.findAll();
 
     // If no group is available
     if (groups.length < 1) {
-      return res.status(400).json({ error: 'No group(s) found' });
+      return res.status(200).json({ groups: [] });
     }
 
-    return res.status(201).json(groups);
+    return res.status(201).json({ groups });
   } catch (error) {
     return res.status(500).json({
       error: 'An error occured while fetching groups',
@@ -120,7 +76,6 @@ const getGroups = async (req, res) => {
 
 const getGroupDetails = async (req, res) => {
   let { groupId } = req.params;
-  groupId = Number(groupId);
 
   try {
     const group = await Groups.findByPk(groupId);
@@ -172,6 +127,50 @@ const getGroupDetails = async (req, res) => {
     return res
       .status(500)
       .json({ error: error.message, message: 'Internal server error' });
+  }
+};
+
+const addUserToGroup = async (req, res) => {
+  const { groupId, userId } = req.params;
+  console.log(req.params);
+  try {
+    // Find the group and user based on the provided IDs
+    const group = await Groups.findByPk(groupId);
+    const user = await User.findByPk(userId);
+
+    // Check if group exists
+    if (!group) {
+      return res.status(404).json({ error: 'Group not found' });
+    }
+
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ error: 'User does not exist' });
+    }
+
+    // Check if the user is already a member of the group
+    const existingMember = await UserGroup.findOne({
+      where: { user_id: userId, group_id: groupId },
+    });
+
+    if (existingMember) {
+      return res
+        .status(400)
+        .json({ error: 'User is already a member of the group' });
+    }
+
+    //  Create a new UserGroup entry to represent the user's membership in the group
+    const newUserGroup = {
+      user_id: userId,
+      group_id: groupId,
+    };
+    await UserGroup.create(newUserGroup);
+
+    return res
+      .status(201)
+      .json({ message: 'User successfully added to group' });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 };
 
