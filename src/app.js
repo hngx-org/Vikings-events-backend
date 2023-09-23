@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
-// const dotenv = require('dotenv');
+const dotenv = require('dotenv');
 
 // import middlewares
 const { notFound, errorHandler } = require('./middlewares/error');
@@ -14,11 +14,13 @@ const eventRoutes = require('./routes/event');
 const groupRoutes = require('./routes/group');
 const { authRoutes } = require('./routes');
 const commentRoutes = require('./routes/comment');
+const { upload } = require('./utils/multer');
 
-// dotenv.config()
+dotenv.config();
 
 const app = express();
-
+// app.use('/uploads', express.static('uploads'));
+// app.use(upload.single('file'));
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());

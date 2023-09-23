@@ -4,7 +4,9 @@ pipeline {
         stage("build & deploy backend") {
         
             steps {
-                sh "bash /home/ubuntu/Vikings-events-backend/deploy.sh"
+                sh "ls"
+                sh "chmod +x ./deploy.sh"
+                sh "bash ./deploy.sh"
             }
             
         }

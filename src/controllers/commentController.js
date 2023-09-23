@@ -6,7 +6,64 @@ const Images = require('../models/images');
 const Likes = require('../models/likes');
 const User = require('../models/users');
 
+const cloudinary = require('cloudinary').v2;
+const path = require('path');
+const fs = require('fs');
+const { upload } = require('../services/cloudinary');
+
+// cloudinary.config({
+//   cloud_name: 'ol4juwon',
+//   api_key: '619781942963636',
+//   api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
+// });
+
+const getGroups = async (req, res) => {
+  const groups = 'All Groups';
+  res.json({ groups });
+};
+
+const getCommentImages = async (req, res) => {
+  const commentId = Number(req.params.commentId);
+
+  if (!commentId) {
+    return res.status(400).json({ message: '`commentId` is not defined' });
+  }
+
+  try {
+    const commentImages = await CommentImages.findAll({
+      where: {
+        comment_id: commentId,
+      },
+    });
+
+    if (commentImages.length === 0) {
+      return res.json({ images: [] });
+    }
+    const imageIds = commentImages.map((comment_image) => {
+      return comment_image.image_id;
+    });
+
+    const imagePromises = imageIds.map(async (image_id) => {
+      return await Images.findOne({
+        where: {
+          id: image_id,
+        },
+      });
+    });
+
+    const imagesResult = await Promise.allSettled(imagePromises);
+
+    const images = imagesResult.map((image) => {
+      return image.value.url;
+    });
+    return res.json({ images });
+  } catch (e) {
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 // eslint-disable-next-line consistent-return
+
 const getComments = async (req, res) => {
   // We first check if the event exist
   const event = await Events.findByPk(req.params.eventId);
@@ -66,8 +123,18 @@ const createComment = async (req, res) => {
     const existingEvent = await Events.findOne({
       where: { id: eventId },
     });
+
     if (!existingEvent) {
       return res.status(400).json({ error: 'Event not found' });
+    }
+
+    // upload image if exist
+
+    let urls = null;
+
+    if (req.files) {
+      // upload the images
+      urls = await upload(req.files);
     }
 
     const comment = await Comments.create({
@@ -76,9 +143,28 @@ const createComment = async (req, res) => {
       event_id: eventId,
     });
 
+    // create the comment image
+    if (urls && urls.length >= 1) {
+      const imageIDs = [];
+
+      // loop to create images
+      for (const url of urls) {
+        const image = await Images.create({ url });
+        imageIDs.push(image.id);
+      }
+
+      // loop to create image comment association
+      for (const imageID of imageIDs) {
+        CommentImages.create({
+          comment_id: comment.dataValues.id,
+          image_id: imageID,
+        });
+      }
+    }
+
     return res
       .status(201)
-      .json({ message: 'Comment created successfully', comment });
+      .json({ message: 'Comment created successfully', comment, images: urls });
   } catch (error) {
     console.error(error);
     return res
@@ -86,7 +172,6 @@ const createComment = async (req, res) => {
       .json({ error: 'An error occurred while creating the comment' });
   }
 };
-
 
 const likeComment = async (req, res) => {
   try {
@@ -116,4 +201,35 @@ const likeComment = async (req, res) => {
   }
 };
 
-module.exports = { getComments, likeComment, createComment };
+const unlikeComment = async (req, res) => {
+  try {
+    const { commentId, userId } = req.params;
+
+    const existingLike = await Likes.findOne({
+      where: { user_id: userId, comment_id: commentId },
+    });
+
+    console.log(existingLike);
+
+    if (!existingLike) {
+      return res
+        .status(400)
+        .json({ message: 'You have not liked this comment.' });
+    }
+
+    await Likes.destroy({ where: { user_id: userId, comment_id: commentId } });
+
+    return res.status(200).json({ message: 'Comment unliked successfully.' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+module.exports = {
+  getComments,
+  getCommentImages,
+  likeComment,
+  unlikeComment,
+  createComment,
+};

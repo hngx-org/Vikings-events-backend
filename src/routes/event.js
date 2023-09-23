@@ -1,16 +1,23 @@
 const express = require('express');
+const multer = require('multer');
+let storage = multer.memoryStorage();
+let uploads = multer({ storage }).array('images', 1);
+
 const {
   getEvents,
   createEventController,
   deleteEventController,
+  addCommentToEventController,
+  addEventCommentImage,
   updateEventController,
-  getEventDetails
+  getEventDetails,
 } = require('../controllers/eventController');
 const {
   getComments,
   createComment,
 } = require('../controllers/commentController');
 const { isUserAuthenticated, verify } = require('../middlewares/auth');
+const { cloudConfig } = require('../middlewares/cloudinary');
 
 const router = express.Router();
 
@@ -18,25 +25,25 @@ const router = express.Router();
 router.get('/', getEvents);
 
 // Create an event
-router.post('/', verify, isUserAuthenticated, createEventController);
+router.post('/', uploads, verify, cloudConfig, createEventController);
 
 // Get an event by ID/ get event details
-router.get('/:eventId', getEventDetails);
+router.get('/:eventId', verify, getEventDetails);
 
 // Update an event by ID/ update event
-router.put('/:eventId', verify, isUserAuthenticated, updateEventController);
+router.put('/:eventId', verify, updateEventController);
 
 // Delete an event by ID/ Delete event
-router.delete('/:eventId', verify, isUserAuthenticated, deleteEventController);
+router.delete('/:eventId', verify, deleteEventController);
 
 // Create an event comment
-router.post('/:eventId/comments', verify, isUserAuthenticated, createComment);
+router.post('/:eventId/comments', verify, createComment);
 
 // get event comments
 router.get('/:eventId/comments', getComments);
 
 // Add an event comment images
-// router.post("/:eventId/comments/:commentId/images", );
+router.post('/:eventId/comments/:commentId/images', addEventCommentImage);
 
 // get event comment image
 // router.get("/:eventId/comments/:commentId/images", );
