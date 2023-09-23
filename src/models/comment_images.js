@@ -9,14 +9,14 @@ class CommentImages extends Model {}
 CommentImages.init(
   {
     comment_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
         model: 'Comments',
         key: 'id',
       },
     },
     image_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
         model: 'Images',
         key: 'id',

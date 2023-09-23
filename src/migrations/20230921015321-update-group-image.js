@@ -6,7 +6,7 @@ module.exports = {
 
     // Add the new 'user_id' column
     await queryInterface.addColumn('group_image', 'group_id', {
-      type: Sequelize.INTEGER,
+      type: Sequelize.UUID,
       references: {
         model: 'groups',
         key: 'id',

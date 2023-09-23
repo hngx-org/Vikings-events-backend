@@ -7,7 +7,7 @@ class InterestedEvents extends Model {}
 InterestedEvents.init(
   {
     user_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: User,
@@ -15,7 +15,7 @@ InterestedEvents.init(
       },
     },
     event_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: 'Events',

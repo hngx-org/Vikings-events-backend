@@ -1,4 +1,4 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('../config/config');
 const Events = require('./events');
 
@@ -7,10 +7,11 @@ class User extends Model {}
 User.init(
   {
     id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       unique: true,
       allowNull: false,
       primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
     },
     name: {
       type: DataTypes.TEXT,
