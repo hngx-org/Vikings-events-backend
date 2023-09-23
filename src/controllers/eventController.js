@@ -7,6 +7,8 @@ const User = require('../models/users');
 const CommentImages = require('../models/comment_images');
 const EventThumbnail = require('../models/event_thumbnail');
 const Comments = require('../models/comments');
+const GroupEvents = require('../models/group-events');
+
 const InterestedEvents = require('../models/interested-events');
 const { upload } = require('../services/cloudinary');
 const { getUserById } = require('./userController');
@@ -103,6 +105,7 @@ const createEventController = async (req, res) => {
       end_date,
       start_time,
       end_time,
+      group_id,
     } = req.body;
 
     const userId = req.user.id;
@@ -143,10 +146,11 @@ const createEventController = async (req, res) => {
         image_id: imageID,
       });
     }
-    if (group_id) {
+
+    if (group_id != 'null') {
       await GroupEvents.create({
         group_id,
-        event_id: events.dataValues.id,
+        event_id: events.id,
       });
     }
 
