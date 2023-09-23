@@ -3,7 +3,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('interested_events', {
       user_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.UUID,
         references: {
           model: {
             tableName: 'users',
@@ -14,7 +14,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       event_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: {
             tableName: 'events',

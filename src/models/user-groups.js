@@ -7,7 +7,7 @@ class UserGroup extends Model {}
 UserGroup.init(
   {
     user_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: User,
@@ -15,7 +15,7 @@ UserGroup.init(
       },
     },
     group_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: 'Groups',
