@@ -1,4 +1,4 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('../config/config');
 const Comments = require('./comments');
 
@@ -10,6 +10,7 @@ Images.init(
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
     },
     url: {
       type: DataTypes.TEXT,

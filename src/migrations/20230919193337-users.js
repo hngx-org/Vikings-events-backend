@@ -8,6 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID,
         unique: true,
+        defaultValue: Sequelize.UUIDV4,
       },
       name: {
         allowNull: false,

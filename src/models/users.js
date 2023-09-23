@@ -1,4 +1,4 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('../config/config');
 const Events = require('./events');
 
@@ -11,6 +11,7 @@ User.init(
       unique: true,
       allowNull: false,
       primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
     },
     name: {
       type: DataTypes.TEXT,

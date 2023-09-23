@@ -1,4 +1,4 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('../config/config');
 const User = require('./users');
 const Events = require('./events');
@@ -13,6 +13,7 @@ Comments.init(
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
     },
     body: {
       type: DataTypes.TEXT,

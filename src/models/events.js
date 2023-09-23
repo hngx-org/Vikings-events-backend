@@ -1,4 +1,4 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('../config/config');
 
 class Events extends Model {}
@@ -9,6 +9,7 @@ Events.init(
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
+      defaultValue: Sequelize.UUIDV4,
     },
     title: {
       type: DataTypes.TEXT,
