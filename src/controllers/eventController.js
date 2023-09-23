@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const cloudinary = require('cloudinary').v2;
+const { Op } = require('sequelize');
 const Events = require('../models/events');
 const Images = require('../models/images');
 const User = require('../models/users');
@@ -9,7 +10,6 @@ const Comments = require('../models/comments');
 const InterestedEvents = require('../models/interested-events');
 const { upload } = require('../services/cloudinary');
 const { getUserById } = require('./userController');
-const { Op } = require('sequelize');
 
 // cloudinary.config({
 //   cloud_name: 'ol4juwon',
@@ -19,9 +19,9 @@ const { Op } = require('sequelize');
 
 const getEvents = async (req, res) => {
   try {
-    let now = new Date();
+    const now = new Date();
 
-    let check = new Date();
+    const check = new Date();
     check.setHours(0, 0, 0, 0);
 
     const nowTime = now.toLocaleTimeString([], {
@@ -172,6 +172,12 @@ const createEventController = async (req, res) => {
       EventThumbnail.create({
         event_id: events.dataValues.id,
         image_id: imageID,
+      });
+    }
+    if (group_id) {
+      await GroupEvents.create({
+        group_id,
+        event_id: events.dataValues.id,
       });
     }
 
@@ -366,10 +372,10 @@ const addEventCommentImage = async (req, res) => {
   }
 };
 
-//get Event details
+// get Event details
 const getEventDetails = async (req, res) => {
   try {
-    const eventId = req.params.eventId;
+    const { eventId } = req.params;
     const event = await Events.findByPk(eventId);
 
     if (!event) {

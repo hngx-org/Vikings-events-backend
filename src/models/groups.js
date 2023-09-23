@@ -1,4 +1,4 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('../config/config');
 
 class Groups extends Model {}
@@ -6,10 +6,10 @@ class Groups extends Model {}
 Groups.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
     },
     title: {
       type: DataTypes.TEXT,

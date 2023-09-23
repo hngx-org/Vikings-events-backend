@@ -3,7 +3,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('group_image', {
       comment_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'comments',
           key: 'id',
@@ -12,7 +12,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       image_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'images',
           key: 'id',

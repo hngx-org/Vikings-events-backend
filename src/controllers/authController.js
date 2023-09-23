@@ -1,6 +1,8 @@
 /* eslint-disable object-curly-newline */
 const { createUser, getUserById } = require('./userController');
 const { signToken } = require('../middlewares/auth');
+const { clearSession } = require('../utils/session');
+const { revokeGoogleToken } = require('../utils/googleAuth');
 
 const getToken = async ({ googleId, email, picture, name }) => {
   let user = await getUserById(googleId);
@@ -46,4 +48,17 @@ const handleLoginController = async (req, res) => {
   }
 };
 
-module.exports = { handleLoginController };
+const handleLogoutController = async (req, res) => {
+  try {
+    await clearSession(req);
+
+    res.clearCookie('token');
+
+    res.json({ message: 'Logout successful' });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({ error: 'Logout failed' });
+  }
+};
+
+module.exports = { handleLoginController, handleLogoutController };

@@ -1,7 +1,8 @@
 const express = require('express');
 const multer = require('multer');
-let storage = multer.memoryStorage();
-let uploads = multer({ storage }).array('images', 1);
+
+const storage = multer.memoryStorage();
+const uploads = multer({ storage }).array('images', 1);
 
 const {
   getEvents,
