@@ -27,8 +27,6 @@ const getUserGroups = async (req, res) => {
     const { userId } = req.params;
     const user = await User.findByPk(userId);
 
-    const img = await GroupImages.findAll();
-
     if (!user) {
       res.status(404).json({
         status: res.statusCode,
@@ -45,7 +43,6 @@ const getUserGroups = async (req, res) => {
     const data = [];
     const groupId = usersGroups.map((group) => group.group_id);
 
-    // Use Promise.all to await all async operations
     await Promise.all(
       groupId.map(async (id) => {
         const groups = await Groups.findByPk(id);
@@ -53,13 +50,12 @@ const getUserGroups = async (req, res) => {
         const imageObject = await GroupImages.findAll({
           where: { group_id: id },
         });
-        console.log('imageObject:', imageObject); // Debugging: Check imageObject
+
         const imgId = imageObject.map((img) => img.image_id);
-        console.log('imgId:', imgId); // Debugging: Check imgId
+
         const images = await Promise.all(
           imgId.map(async (id) => {
             const image = await Images.findByPk(id);
-            console.log('image:', image); // Debugging: Check individual image
             return image;
           }),
         );
@@ -71,7 +67,7 @@ const getUserGroups = async (req, res) => {
     res.status(200).json({
       status: res.statusCode,
       message: 'User groups and images retrieved',
-      data: data,
+      data,
     });
   } catch (error) {
     res.status(500).json({

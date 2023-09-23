@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const cloudinary = require('cloudinary').v2;
+const { Op } = require('sequelize');
 const Events = require('../models/events');
 const Images = require('../models/images');
 const User = require('../models/users');
@@ -9,7 +10,6 @@ const Comments = require('../models/comments');
 const InterestedEvents = require('../models/interested-events');
 const { upload } = require('../services/cloudinary');
 const { getUserById } = require('./userController');
-const { Op } = require('sequelize');
 
 // cloudinary.config({
 //   cloud_name: 'ol4juwon',
@@ -19,9 +19,9 @@ const { Op } = require('sequelize');
 
 const getEvents = async (req, res) => {
   try {
-    let now = new Date();
+    const now = new Date();
 
-    let check = new Date();
+    const check = new Date();
     check.setHours(0, 0, 0, 0);
 
     const nowTime = now.toLocaleTimeString([], {
@@ -72,9 +72,9 @@ const getEvents = async (req, res) => {
         const time2 = await convertTo24HourFormat(nowTime);
 
         if (
-          date1.getTime() == date2.getTime() &&
-          time1 <= time2 &&
-          time3 >= time2
+          date1.getTime() == date2.getTime()
+          && time1 <= time2
+          && time3 >= time2
         ) {
           nowEvents.push(formated);
         } else {
@@ -283,8 +283,7 @@ const updateEventController = async (req, res) => {
       return res.status(404).json({ error: 'Event not found' });
     }
 
-    if (userId != event.dataValues.creator_id)
-      return res.status(400).json({ error: 'Unauthorized access' });
+    if (userId != event.dataValues.creator_id) return res.status(400).json({ error: 'Unauthorized access' });
 
     // Update event details
     event.title = title || event.dataValues.title;
@@ -366,7 +365,7 @@ const addEventCommentImage = async (req, res) => {
   }
 };
 
-//get Event details
+// get Event details
 const getEventDetails = async (req, res) => {
   try {
     const { eventId } = req.params;

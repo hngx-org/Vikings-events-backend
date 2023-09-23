@@ -36,7 +36,7 @@ const createGroup = async (req, res) => {
     // loop to create image comment association
     for (const imageID of imageIDs) {
       GroupImage.create({
-        comment_id: newGroup.dataValues.id,
+        group_id: newGroup.dataValues.id,
         image_id: imageID,
       });
     }
@@ -140,9 +140,7 @@ const getGroupDetails = async (req, res) => {
       }),
     ]);
 
-    const eventIds = groupEvents.map((groupEvent) => {
-      return groupEvent.dataValues.event_id;
-    });
+    const eventIds = groupEvents.map((groupEvent) => groupEvent.dataValues.event_id);
 
     const [groupImage, events] = await Promise.all([
       await Images.findOne({
@@ -157,7 +155,7 @@ const getGroupDetails = async (req, res) => {
       ...group.dataValues,
       member_count: groupUsers.count,
       group_image: groupImage.url,
-      events: events,
+      events,
     };
 
     return res.json({ groupDetails });
