@@ -1,5 +1,3 @@
-'use strict'
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addColumn('group_events', 'group_id', {
@@ -11,10 +9,10 @@ module.exports = {
       },
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
-    })
+    });
 
     // Step 2: Remove the old 'event_id' column
-    await queryInterface.removeColumn('group_events', 'event_id')
+    await queryInterface.removeColumn('group_events', 'event_id');
   },
 
   async down(queryInterface, Sequelize) {
@@ -25,4 +23,4 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
   },
-}
+};
