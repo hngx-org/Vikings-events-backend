@@ -60,7 +60,11 @@ const getUserGroups = async (req, res) => {
           }),
         );
 
-        data.push({ groups, images });
+        const memberCount = await UserGroups.count({
+          where: { group_id: id },
+        });
+
+        data.push({ groups, images, memberCount });
       }),
     );
 
