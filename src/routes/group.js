@@ -1,7 +1,8 @@
 const express = require('express');
 const multer = require('multer');
-let storage = multer.memoryStorage();
-let uploads = multer({ storage }).array('images', 1);
+
+const storage = multer.memoryStorage();
+const uploads = multer({ storage }).array('images', 1);
 
 const {
   createGroup,
@@ -23,6 +24,7 @@ router.get('/', getGroups);
 
 // Get a group detail
 router.get('/:groupId', getGroupDetails);
+// router.get('/groupId/events', getGroupEvents);
 
 // Update a group detail
 router.put('/:groupId');

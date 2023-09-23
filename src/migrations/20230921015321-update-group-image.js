@@ -2,7 +2,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     // Remove the existing 'comment_id' column
-    await queryInterface.removeColumn('group_image', 'comment_id')
+    await queryInterface.removeColumn('group_image', 'comment_id');
 
     // Add the new 'user_id' column
     await queryInterface.addColumn('group_image', 'group_id', {
@@ -13,11 +13,11 @@ module.exports = {
       },
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
-    })
+    });
   },
 
   async down(queryInterface, Sequelize) {
-    //reverse changes (remove 'user_id' column)
+    // reverse changes (remove 'user_id' column)
     // await queryInterface.removeColumn('group_image', 'group_id')
   },
-}
+};
