@@ -213,6 +213,17 @@ const createInterestForAnEvent = async (req, res) => {
   try {
     const userId = req.params.userId || req.user.id;
 
+    const event = await Events.findOne({ where: { id: req.params.eventId } });
+    const user = await User.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (!event) {
+      throw new Error('Event not found');
+    }
+
     // check if the user has already created interest before
     const userInterest = await InterestedEvents.findOne({
       where: { user_id: userId, event_id: req.params.eventId },
