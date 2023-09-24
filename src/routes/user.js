@@ -15,10 +15,10 @@ const router = express.Router();
 
 router.get('/', verify, getUsers);
 
-router.get('/:profileId', getProfile);
-router.get('/:userId/groups', getUserGroups);
+router.get('/:profileId', verify, getProfile);
+router.get('/:userId/groups', verify, getUserGroups);
 
-router.put('/:profileId', updateUserProfile);
+router.put('/:profileId', verify, updateUserProfile);
 
 // Get all interest in an event
 router.get(
