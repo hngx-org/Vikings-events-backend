@@ -75,9 +75,9 @@ const getEvents = async (req, res) => {
         const time2 = await convertTo24HourFormat(nowTime);
 
         if (
-          date1.getTime() == date2.getTime() &&
-          time1 <= time2 &&
-          time3 >= time2
+          date1.getTime() == date2.getTime()
+          && time1 <= time2
+          && time3 >= time2
         ) {
           nowEvents.push(formated);
         } else {
@@ -263,8 +263,7 @@ const updateEventController = async (req, res) => {
       return res.status(404).json({ error: 'Event not found' });
     }
 
-    if (userId != event.dataValues.creator_id)
-      return res.status(400).json({ error: 'Unauthorized access' });
+    if (userId != event.dataValues.creator_id) return res.status(400).json({ error: 'Unauthorized access' });
 
     // Update event details
     event.title = title || event.dataValues.title;
@@ -353,7 +352,7 @@ const getEventDetails = async (req, res) => {
     const event = await Events.findByPk(eventId);
     const comments = await Comments.findAll({
       where: { event_id: eventId },
-      include: [ Images],
+      include: [Images],
       attributes: {
         include: [
           [
