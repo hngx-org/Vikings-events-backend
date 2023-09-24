@@ -1,10 +1,10 @@
 const sequelize = require('../config/config');
 const CommentImages = require('../models/comment_images');
-const Comments = require('../models/comments');
-const Events = require('../models/events');
-const Images = require('../models/images');
+const Comments = require('../models/5-comments');
+const Events = require('../models/3-events');
+const Images = require('../models/4-images');
 const Likes = require('../models/likes');
-const User = require('../models/users');
+const User = require('../models/1-users');
 const EventThumbnail = require('../models/event_thumbnail');
 
 const cloudinary = require('cloudinary').v2;
@@ -45,11 +45,12 @@ const getCommentImages = async (req, res) => {
     );
 
     const imagePromises = imageIds.map(
-      async (image_id) => await Images.findOne({
-        where: {
-          id: image_id,
-        },
-      }),
+      async (image_id) =>
+        await Images.findOne({
+          where: {
+            id: image_id,
+          },
+        }),
     );
 
     const imagesResult = await Promise.allSettled(imagePromises);
@@ -64,25 +65,12 @@ const getCommentImages = async (req, res) => {
 // eslint-disable-next-line consistent-return
 
 const getComments = async (req, res) => {
-  // We first check if the event exist
-  const event = await Events.findByPk(req.params.eventId);
-
-  let eventThumb = await EventThumbnail.findOne({
-    where: { event_id: event.id },
-  });
-
-  eventThumb = await Images.findByPk(eventThumb.dataValues.image_id);
-
-  if (!event) {
-    return res.status(500).send({ error: 'Event Not found' });
-  }
-
   try {
-    const eventId = event.dataValues.id;
+    const eventId = req.params.eventId;
 
     const comments = await Comments.findAll({
       where: { event_id: eventId },
-      include: [User],
+      include: [User, Images, Events],
       attributes: {
         include: [
           [
@@ -99,29 +87,8 @@ const getComments = async (req, res) => {
       },
     });
 
-    const commentsRe = await Promise.all(
-      comments.map(async (comment) => {
-        const commentImg = await CommentImages.findAll({
-          where: {
-            comment_id: comment.id,
-          },
-        });
-
-        const images = [];
-
-        for (let i = 0; i < commentImg.length; i++) {
-          const imge = commentImg[i];
-          const res = await Images.findByPk(imge.dataValues.image_id);
-          images.push(res.dataValues.url);
-        }
-
-        return { ...comment.dataValues, images };
-      }),
-    );
-
     return res.status(200).json({
-      event: { ...event.dataValues, eventThumb },
-      comments: commentsRe,
+      comments,
     });
   } catch (error) {
     res.status(500).send({ error: error.message });
@@ -349,5 +316,5 @@ module.exports = {
   likeComment,
   unlikeComment,
   createComment,
-  deleteComment
+  deleteComment,
 };

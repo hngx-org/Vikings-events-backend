@@ -1,7 +1,7 @@
-const Event = require('../../models/events');
+const Event = require('../../models/3-events');
 const EventThumbnail = require('../../models/event_thumbnail');
-const Images = require('../../models/images');
-const Comments = require('../../models/comments');
+const Images = require('../../models/4-images');
+const Comments = require('../../models/5-comments');
 
 const getEvent = async (event_id) => {
   try {
