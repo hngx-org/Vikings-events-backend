@@ -276,7 +276,14 @@ const getAllInterestForAnEvent = async (req, res, next) => {
 
     // Group events by day
     eventsWithDates.forEach((event) => {
-      const eventDate = event.start_date;
+      let eventDate = event.start_date;
+
+      const dateParts = eventDate.split('-');
+      const year = parseInt(dateParts[0]);
+      const month = parseInt(dateParts[1]) - 1; // Month is zero-based (0-11)
+      const day1 = parseInt(dateParts[2]);
+
+      eventDate = new Date(year, month, day1);
       const day = eventDate.getDate();
 
       if (!eventsByDay[day]) {
