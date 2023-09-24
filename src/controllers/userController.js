@@ -1,11 +1,11 @@
 /* eslint-disable object-curly-newline */
 const { Op } = require('sequelize');
-const User = require('../models/users');
+const User = require('../models/1-users');
 const UserGroups = require('../models/user-groups.js');
-const Groups = require('../models/groups');
+const Groups = require('../models/2-groups');
 const GroupImages = require('../models/group_image');
-const Images = require('../models/images');
-const Events = require('../models/events');
+const Images = require('../models/4-images');
+const Events = require('../models/3-events');
 const InterestedEvents = require('../models/interested-events');
 const sequelize = require('../config/config');
 
@@ -212,6 +212,17 @@ const deleteInterestForAnEvent = async (req, res) => {
 const createInterestForAnEvent = async (req, res) => {
   try {
     const userId = req.params.userId || req.user.id;
+
+    const event = await Events.findOne({ where: { id: req.params.eventId } });
+    const user = await User.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (!event) {
+      throw new Error('Event not found');
+    }
 
     // check if the user has already created interest before
     const userInterest = await InterestedEvents.findOne({

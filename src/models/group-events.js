@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
-const User = require('./users');
+const Groups = require('./2-groups');
+const Events = require('./3-events');
 
 class GroupEvents extends Model {}
 
@@ -10,7 +11,7 @@ GroupEvents.init(
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: 'Groups',
+        model: Groups,
         key: 'id',
       },
     },
@@ -18,7 +19,7 @@ GroupEvents.init(
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: 'Events',
+        model: Events,
         key: 'id',
       },
     },

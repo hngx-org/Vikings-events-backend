@@ -1,5 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
+const Events = require('./3-events');
+const Images = require('./4-images');
 
 class EventThumbnail extends Model {}
 
@@ -8,14 +10,14 @@ EventThumbnail.init(
     event_id: {
       type: DataTypes.UUID,
       references: {
-        model: 'Events',
+        model: Events,
         key: 'id',
       },
     },
     image_id: {
       type: DataTypes.UUID,
       references: {
-        model: 'Images',
+        model: Images,
         key: 'id',
       },
     },

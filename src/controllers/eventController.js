@@ -2,17 +2,17 @@
 const sequelize = require('../config/config');
 const cloudinary = require('cloudinary').v2;
 const { Op } = require('sequelize');
-const Events = require('../models/events');
-const Images = require('../models/images');
-const User = require('../models/users');
 const CommentImages = require('../models/comment_images');
 const EventThumbnail = require('../models/event_thumbnail');
-const Comments = require('../models/comments');
 const GroupEvents = require('../models/group-events');
 
 const InterestedEvents = require('../models/interested-events');
 const { upload } = require('../services/cloudinary');
 const { getUserById } = require('./userController');
+const Events = require('../models/3-events');
+const User = require('../models/1-users');
+const Images = require('../models/4-images');
+const Comments = require('../models/5-comments');
 
 // cloudinary.config({
 //   cloud_name: 'ol4juwon',
