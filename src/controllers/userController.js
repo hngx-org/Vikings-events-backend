@@ -1,11 +1,13 @@
 /* eslint-disable object-curly-newline */
-const User = require('../models/users');
+const { Op } = require('sequelize');
+const User = require('../models/1-users');
 const UserGroups = require('../models/user-groups.js');
-const Groups = require('../models/groups');
+const Groups = require('../models/2-groups');
 const GroupImages = require('../models/group_image');
-const Images = require('../models/images');
-const Events = require('../models/events');
+const Images = require('../models/4-images');
+const Events = require('../models/3-events');
 const InterestedEvents = require('../models/interested-events');
+const sequelize = require('../config/config');
 
 const getProfile = async (req, res) => {
   const userProfileId = req.params.profileId;
@@ -211,6 +213,17 @@ const createInterestForAnEvent = async (req, res) => {
   try {
     const userId = req.params.userId || req.user.id;
 
+    const event = await Events.findOne({ where: { id: req.params.eventId } });
+    const user = await User.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (!event) {
+      throw new Error('Event not found');
+    }
+
     // check if the user has already created interest before
     const userInterest = await InterestedEvents.findOne({
       where: { user_id: userId, event_id: req.params.eventId },
@@ -235,37 +248,67 @@ const createInterestForAnEvent = async (req, res) => {
 const getAllInterestForAnEvent = async (req, res, next) => {
   try {
     const { userId } = req.params;
+    const { year, month } = req.query;
 
-    // Get all events that the user is interested in
-    const userInterests = await InterestedEvents.findAll({
-      where: { user_id: userId },
+    if (!year || !month) {
+      return res
+        .status(400)
+        .json({ message: 'Year and month query parameters are required.' });
+    }
+    const { InterestedEvents } = sequelize.models;
+
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0);
+
+    // Get all event_ids that the user is interested in
+    const userEvents = await InterestedEvents.findAll({
+      attributes: ['event_id'],
+      where: {
+        user_id: userId,
+      },
     });
 
-    res.status(200).json(userInterests);
+    const eventIds = userEvents.map((userEvent) => userEvent.event_id);
+
+    // Retrieve events for the interested event_ids within the specified date range
+    const eventsWithDates = await Events.findAll({
+      where: {
+        id: {
+          [Op.in]: eventIds,
+        },
+        start_date: {
+          [Op.between]: [startDate, endDate],
+        },
+      },
+    });
+
+    // Create an object to store events for each day of the month
+    const eventsByDay = {};
+
+    // Group events by day
+    eventsWithDates.forEach((event) => {
+      let eventDate = event.start_date;
+
+      const dateParts = eventDate.split('-');
+      const year = parseInt(dateParts[0]);
+      const month = parseInt(dateParts[1]) - 1; // Month is zero-based (0-11)
+      const day1 = parseInt(dateParts[2]);
+
+      eventDate = new Date(year, month, day1);
+      const day = eventDate.getDate();
+
+      if (!eventsByDay[day]) {
+        eventsByDay[day] = [];
+      }
+
+      eventsByDay[day].push(event);
+    });
+
+    res.status(200).json(eventsByDay);
   } catch (error) {
     next(error);
   }
 };
-
-// const getUserEvents = async(req,res,next)=>{
-//   try{
-//     const { userId } = req.params;
-
-//     const userEvents = await UserEvents.findAll({
-//       where: { user_id: userId },
-//       include: [
-//         { model: User, attributes: ['id', 'name', 'email', 'avatar'] },
-//         { model: Event, attributes: ['id', 'title', 'description', 'location', 'start_date', 'end_date', 'start_time', 'end_time', 'thumbnail'] },
-//       ],
-//     });
-
-//     res.json(userEvents);
-
-//   }catch(error){
-//     next(error)
-//   }
-
-// }
 
 module.exports = {
   getUsers,

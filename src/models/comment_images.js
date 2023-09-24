@@ -1,8 +1,8 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../config/config');
 
-const Comments = require('./comments');
-const Images = require('./images');
+const Comments = require('./5-comments');
+const Images = require('./4-images');
 
 class CommentImages extends Model {}
 
@@ -11,14 +11,14 @@ CommentImages.init(
     comment_id: {
       type: DataTypes.UUID,
       references: {
-        model: 'Comments',
+        model: Comments,
         key: 'id',
       },
     },
     image_id: {
       type: DataTypes.UUID,
       references: {
-        model: 'Images',
+        model: Images,
         key: 'id',
       },
     },

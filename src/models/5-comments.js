@@ -1,9 +1,9 @@
 const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('../config/config');
-const User = require('./users');
-const Events = require('./events');
+const User = require('./1-users');
+const Events = require('./3-events');
 const CommentImages = require('./comment_images');
-const Images = require('./images');
+const Images = require('./4-images');
 
 class Comments extends Model {}
 
@@ -28,7 +28,7 @@ Comments.init(
     event_id: {
       type: DataTypes.UUID,
       references: {
-        model: 'Events',
+        model: Events,
         key: 'id',
       },
     },

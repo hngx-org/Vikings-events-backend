@@ -15,6 +15,8 @@ const {
   unlikeComment,
   addCommentImage,
   getCommentImages,
+  getComments,
+  deleteComment,
 } = require('../controllers/commentController');
 
 // router.use(verify)
@@ -25,13 +27,16 @@ router.get('/');
 router.post('/:eventId', uploads, verify, cloudConfig, createComment);
 
 // Get all the images for a comment
-router.get('/:commentId/images', getCommentImages);
+router.get('/:eventId', verify, getComments);
 
 // Like a comment
-router.post('/:commentId/members/:userId/like', likeComment);
+router.post('/:commentId/members/:userId/like', verify, likeComment);
 
 // unlike comment
 router.delete('/:commentId/members/:userId/unlike', verify, unlikeComment);
+
+// delete comment
+router.delete('/:commentId', verify, deleteComment);
 
 // router.post('/:commentId/image', addCommentImage);
 

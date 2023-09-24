@@ -23,10 +23,6 @@ Events.init(
     },
     creator_id: {
       type: DataTypes.UUID,
-      references: {
-        model: 'User',
-        key: 'id',
-      },
       allowNull: true, // Add validation for not null
     },
     start_date: {

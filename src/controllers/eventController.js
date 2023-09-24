@@ -2,15 +2,17 @@
 const sequelize = require('../config/config');
 const cloudinary = require('cloudinary').v2;
 const { Op } = require('sequelize');
-const Events = require('../models/events');
-const Images = require('../models/images');
-const User = require('../models/users');
 const CommentImages = require('../models/comment_images');
 const EventThumbnail = require('../models/event_thumbnail');
-const Comments = require('../models/comments');
+const GroupEvents = require('../models/group-events');
+
 const InterestedEvents = require('../models/interested-events');
 const { upload } = require('../services/cloudinary');
 const { getUserById } = require('./userController');
+const Events = require('../models/3-events');
+const User = require('../models/1-users');
+const Images = require('../models/4-images');
+const Comments = require('../models/5-comments');
 
 // cloudinary.config({
 //   cloud_name: 'ol4juwon',
@@ -94,37 +96,6 @@ const getEvents = async (req, res) => {
   }
 };
 
-const getEvents3 = async (req, res) => {
-  try {
-    let events = await Events.findAll({
-      limit: 10,
-    });
-
-    events = events.map(async (event) => {
-      const imagesLink = await EventThumbnail.findOne({
-        where: { event_id: event.id },
-      });
-
-      let image;
-
-      if (imagesLink) {
-        image = await Images.findByPk(imagesLink.dataValues.image_id);
-        console.log(image.url);
-      }
-
-      return { ...event.dataValues, image };
-    });
-
-    res.status(200).json({
-      events,
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: error.message,
-    });
-  }
-};
-
 const createEventController = async (req, res) => {
   try {
     const {
@@ -135,6 +106,7 @@ const createEventController = async (req, res) => {
       end_date,
       start_time,
       end_time,
+      group_id,
     } = req.body;
 
     const userId = req.user.id;
@@ -170,15 +142,16 @@ const createEventController = async (req, res) => {
 
     // loop to create image comment association
     for (const imageID of imageIDs) {
-      EventThumbnail.create({
+      await EventThumbnail.create({
         event_id: events.dataValues.id,
         image_id: imageID,
       });
     }
-    if (group_id) {
+
+    if (group_id != 'null') {
       await GroupEvents.create({
         group_id,
-        event_id: events.dataValues.id,
+        event_id: events.id,
       });
     }
 
@@ -379,7 +352,7 @@ const getEventDetails = async (req, res) => {
     const event = await Events.findByPk(eventId);
     const comments = await Comments.findAll({
       where: { event_id: eventId },
-      include: [ Images],
+      include: [Images],
       attributes: {
         include: [
           [

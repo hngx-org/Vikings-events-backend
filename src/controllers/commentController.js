@@ -1,10 +1,11 @@
 const sequelize = require('../config/config');
 const CommentImages = require('../models/comment_images');
-const Comments = require('../models/comments');
-const Events = require('../models/events');
-const Images = require('../models/images');
+const Comments = require('../models/5-comments');
+const Events = require('../models/3-events');
+const Images = require('../models/4-images');
 const Likes = require('../models/likes');
-const User = require('../models/users');
+const User = require('../models/1-users');
+const EventThumbnail = require('../models/event_thumbnail');
 
 const cloudinary = require('cloudinary').v2;
 const path = require('path');
@@ -39,13 +40,18 @@ const getCommentImages = async (req, res) => {
     if (commentImages.length === 0) {
       return res.json({ images: [] });
     }
-    const imageIds = commentImages.map((comment_image) => comment_image.image_id);
+    const imageIds = commentImages.map(
+      (comment_image) => comment_image.image_id,
+    );
 
-    const imagePromises = imageIds.map(async (image_id) => await Images.findOne({
-      where: {
-        id: image_id,
-      },
-    }));
+    const imagePromises = imageIds.map(
+      async (image_id) =>
+        await Images.findOne({
+          where: {
+            id: image_id,
+          },
+        }),
+    );
 
     const imagesResult = await Promise.allSettled(imagePromises);
 
@@ -59,19 +65,12 @@ const getCommentImages = async (req, res) => {
 // eslint-disable-next-line consistent-return
 
 const getComments = async (req, res) => {
-  // We first check if the event exist
-  const event = await Events.findByPk(req.params.eventId);
-
-  if (!event) {
-    return res.status(500).send({ error: 'Event Not found' });
-  }
-
   try {
-    const eventId = event.dataValues.id;
+    const eventId = req.params.eventId;
 
     const comments = await Comments.findAll({
       where: { event_id: eventId },
-      include: [User, Events, Images],
+      include: [User, Images, Events],
       attributes: {
         include: [
           [
@@ -88,7 +87,9 @@ const getComments = async (req, res) => {
       },
     });
 
-    return res.status(200).json({ comments });
+    return res.status(200).json({
+      comments,
+    });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
@@ -274,10 +275,46 @@ const unlikeComment = async (req, res) => {
   }
 };
 
+const deleteComment = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+
+    //  Check if the comment exists
+    const comment = await Comments.findOne({
+      where: { id: commentId },
+    });
+
+    if (!comment) {
+      return res
+        .status(400)
+        .json({ error: 'There is no comment available with this id' });
+    }
+
+    // Delete a comment
+    await Comments.destroy({ where: { id: commentId } });
+
+    const response = {
+      comment: {
+        id: commentId,
+      },
+      message: 'Comment deleted',
+      status: 'success',
+    };
+
+    return res.status(200).json(response);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: 'An internal error occurred while deleting the comment' });
+  }
+};
+
 module.exports = {
   getComments,
   getCommentImages,
   likeComment,
   unlikeComment,
   createComment,
+  deleteComment,
 };
