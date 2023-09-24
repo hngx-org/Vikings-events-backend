@@ -9,7 +9,7 @@ This API allows you to perform get operations on an 'event' resource in a MySQL 
 Make a request to this url to https://vikings-events-backend-production.up.railway.app/
 
 ```
-To get event with id 2 test with: 
+To get event with id 2 test with:
 https://vikings-events-backend-production.up.railway.app/api/events/2
 ```
 
@@ -21,6 +21,28 @@ https://vikings-events-backend-production.up.railway.app/api/events/2
 4. Start the server using `npm run dev`.
 
 ## Endpoint
+
+### GET /api/v1/users
+
+Retrieves all users from the database.
+
+**Request:**
+
+No body required but the route requires authorization.
+
+**Response:**
+
+Returns all User data:
+
+```
+{
+    "status" : status_code,
+    "message: : string,
+    "data" : {
+        ${all_users_data}
+    }
+}
+```
 
 ### GET /api/events/:eventId
 
@@ -59,7 +81,6 @@ Returns the person's data:
 
 In the case of an error or a `404 request` the API responds with a defined status code and an error message. The API will return:
 
-
 ```
 {
 "status": status_code,
@@ -73,6 +94,7 @@ In the case of an error or a `404 request` the API responds with a defined statu
 2. To retrieve the data of an event with an id of "1" from the database, you would send a `GET` request as such: `http://localhost:{PORT}/api/events/1`. No body is required. The event id is passed as a parameter in the url.
 
 You should receive a json as such:
+
 ```
 {
     "status": status_code,

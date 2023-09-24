@@ -6,19 +6,27 @@ const {
   updateUserProfile,
   deleteInterestForAnEvent,
   createInterestForAnEvent,
+  getAllInterestForAnEvent,
+  getUserGroups,
 } = require('../controllers/userController');
 const { isUserAuthenticated, verify } = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.get('/', getUsers);
+router.get('/', isUserAuthenticated, verify, getUsers);
 
 router.get('/:profileId', getProfile);
-
-// get users events
-// router.get('/:userId/events',getUserEvents)
+router.get('/:userId/groups', getUserGroups);
 
 router.put('/:profileId', updateUserProfile);
+
+// Get all interest in an event
+router.get(
+  '/:userId/interests/events',
+  isUserAuthenticated,
+  verify,
+  getAllInterestForAnEvent,
+);
 
 // Delete interest in an event
 router.delete(

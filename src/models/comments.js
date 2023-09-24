@@ -1,4 +1,4 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('../config/config');
 const User = require('./users');
 const Events = require('./events');
@@ -10,23 +10,23 @@ class Comments extends Model {}
 Comments.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
     },
     body: {
       type: DataTypes.TEXT,
     },
     user_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
       references: {
         model: User,
         key: 'id',
       },
     },
     event_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
         model: 'Events',
         key: 'id',

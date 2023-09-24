@@ -1,4 +1,4 @@
-const { DataTypes, Model } = require('sequelize');
+const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('../config/config');
 
 class Events extends Model {}
@@ -6,10 +6,10 @@ class Events extends Model {}
 Events.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
     },
     title: {
       type: DataTypes.TEXT,
@@ -22,9 +22,9 @@ Events.init(
       type: DataTypes.TEXT,
     },
     creator_id: {
-      type: DataTypes.STRING(60),
+      type: DataTypes.UUID,
       references: {
-        model: 'users',
+        model: 'User',
         key: 'id',
       },
       allowNull: true, // Add validation for not null
@@ -36,14 +36,6 @@ Events.init(
     end_date: {
       type: DataTypes.DATE,
       allowNull: false,
-    },
-    creator_id: {
-      type: DataTypes.STRING(60),
-      references: {
-        model: 'users',
-        key: 'id',
-      },
-      allowNull: true, // Add validation for not null
     },
     start_time: {
       type: DataTypes.TIME,

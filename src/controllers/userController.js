@@ -1,5 +1,9 @@
 /* eslint-disable object-curly-newline */
 const User = require('../models/users');
+const UserGroups = require('../models/user-groups.js');
+const Groups = require('../models/groups');
+const GroupImages = require('../models/group_image');
+const Images = require('../models/images');
 const Events = require('../models/events');
 const InterestedEvents = require('../models/interested-events');
 
@@ -18,9 +22,85 @@ const getProfile = async (req, res) => {
   }
 };
 
-const getUsers = async (req, res) => {
-  const users = 'All Users';
-  res.json({ users });
+const getUserGroups = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      res.status(404).json({
+        status: res.statusCode,
+        message: 'User not found',
+        error: `Unable to fetch user with id ${userId}`,
+      });
+      return;
+    }
+
+    const usersGroups = await UserGroups.findAll({
+      where: { user_id: userId },
+    });
+
+    const data = [];
+    const groupId = usersGroups.map((group) => group.group_id);
+
+    await Promise.all(
+      groupId.map(async (id) => {
+        const groups = await Groups.findByPk(id);
+
+        const imageObject = await GroupImages.findAll({
+          where: { group_id: id },
+        });
+
+        const imgId = imageObject.map((img) => img.image_id);
+
+        const images = await Promise.all(
+          imgId.map(async (id) => {
+            const image = await Images.findByPk(id);
+            return image;
+          }),
+        );
+
+        const memberCount = await UserGroups.count({
+          where: { group_id: id },
+        });
+
+        data.push({ groups, images, memberCount });
+      }),
+    );
+
+    res.status(200).json({
+      status: res.statusCode,
+      message: 'User groups and images retrieved',
+      data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: res.statusCode,
+      message: 'Error fetching user groups and images',
+      error: error.message,
+    });
+  }
+};
+
+const getUsers = async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+
+    if (!users) {
+      res.status(400).json({ error: 'Something went wrong' });
+    }
+
+    if (users.length < 1) {
+      res.status(200).json({ message: 'No Users have been added yet.' });
+      return;
+    }
+
+    res
+      .status(200)
+      .json({ status: res.statusCode, message: 'All Users', data: users });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const getUserByEmail = async (email) => {
@@ -77,8 +157,8 @@ const updateUserProfile = async (req, res, next) => {
 // removing interest in an event
 const deleteInterestForAnEvent = async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const eventId = req.params.eventId;
+    const { userId } = req.params;
+    const { eventId } = req.params;
 
     // find if the user exists in the database
     const user = await User.findOne({
@@ -151,6 +231,22 @@ const createInterestForAnEvent = async (req, res) => {
   }
 };
 
+// get all interest for an event
+const getAllInterestForAnEvent = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    // Get all events that the user is interested in
+    const userInterests = await InterestedEvents.findAll({
+      where: { user_id: userId },
+    });
+
+    res.status(200).json(userInterests);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // const getUserEvents = async(req,res,next)=>{
 //   try{
 //     const { userId } = req.params;
@@ -180,4 +276,6 @@ module.exports = {
   updateUserProfile,
   createInterestForAnEvent,
   deleteInterestForAnEvent,
+  getAllInterestForAnEvent,
+  getUserGroups,
 };

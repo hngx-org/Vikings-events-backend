@@ -5,15 +5,15 @@ class GroupImage extends Model {}
 
 GroupImage.init(
   {
-    comment_id: {
-      type: DataTypes.INTEGER,
+    group_id: {
+      type: DataTypes.UUID,
       references: {
-        model: 'Comments',
+        model: 'Groups',
         key: 'id',
       },
     },
     image_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
         model: 'Images',
         key: 'id',
@@ -28,5 +28,7 @@ GroupImage.init(
     timestamps: false,
   },
 );
+
+GroupImage.removeAttribute('id');
 
 module.exports = GroupImage;

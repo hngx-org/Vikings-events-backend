@@ -3,14 +3,14 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('event_thumbnail', {
       event_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'events',
           key: 'id',
         },
       },
       image_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'images',
           key: 'id',

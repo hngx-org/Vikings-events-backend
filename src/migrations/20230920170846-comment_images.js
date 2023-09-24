@@ -3,7 +3,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('comment_images', {
       comment_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         references: {
           model: 'comments',
@@ -13,7 +13,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       image_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         references: {
           model: 'images',
