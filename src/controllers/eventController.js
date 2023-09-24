@@ -135,10 +135,10 @@ const createEventController = async (req, res) => {
       end_date,
       start_time,
       end_time,
+      group_id,
     } = req.body;
 
     const userId = req.user.id;
-    console.log(userId);
 
     const user = await User.findByPk(userId);
 
@@ -156,9 +156,9 @@ const createEventController = async (req, res) => {
     if (!req.files) return res.status(400).json({ message: 'add event image' });
 
     // upload the images
-    const urls = await upload(req.files);
-
     const events = await Events.create(newEvent);
+
+    const urls = await upload(req.files);
 
     const imageIDs = [];
 
@@ -170,11 +170,12 @@ const createEventController = async (req, res) => {
 
     // loop to create image comment association
     for (const imageID of imageIDs) {
-      EventThumbnail.create({
+      await EventThumbnail.create({
         event_id: events.dataValues.id,
         image_id: imageID,
       });
     }
+
     if (group_id) {
       await GroupEvents.create({
         group_id,
@@ -380,7 +381,6 @@ const getEventDetails = async (req, res) => {
     const event = await Events.findByPk(eventId);
     const comments = await Comments.findAll({
       where: { event_id: eventId },
-      include: [ Images],
       attributes: {
         include: [
           [
