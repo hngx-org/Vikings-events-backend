@@ -62,22 +62,23 @@ const getEvents = async (req, res) => {
           image: image && image.url,
         };
 
-        console.log(formated);
+        console.log('date', event.start_date, now);
 
         // Convert date strings to JavaScript Date objects
         const date1 = await convertToDAte(event.start_date);
         const date2 = await convertToDAte(now);
 
         // Get the date parts without the time
+        console.log('time', event.start_time, event.end_time, nowTime);
 
         const time1 = await convertTo24HourFormat(event.start_time);
         const time3 = await convertTo24HourFormat(event.end_time);
         const time2 = await convertTo24HourFormat(nowTime);
 
         if (
-          date1.getTime() == date2.getTime()
-          && time1 <= time2
-          && time3 >= time2
+          date1.getTime() == date2.getTime() &&
+          time1 <= time2 &&
+          time3 >= time2
         ) {
           nowEvents.push(formated);
         } else {
@@ -263,7 +264,8 @@ const updateEventController = async (req, res) => {
       return res.status(404).json({ error: 'Event not found' });
     }
 
-    if (userId != event.dataValues.creator_id) return res.status(400).json({ error: 'Unauthorized access' });
+    if (userId != event.dataValues.creator_id)
+      return res.status(400).json({ error: 'Unauthorized access' });
 
     // Update event details
     event.title = title || event.dataValues.title;
@@ -387,8 +389,11 @@ const getEventDetails = async (req, res) => {
 };
 
 const convertTo24HourFormat = async (timeStr) => {
+  if (!timeStr) return `00:00`;
   const timeArray = timeStr.split(' ');
   const isPM = timeArray[1] === 'PM';
+
+  if (!timeArray[0]) return `00:00`;
 
   let [hours, minutes] = timeArray[0].split(':').map(Number);
 
