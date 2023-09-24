@@ -2,10 +2,10 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('group_events', {
-      user_id: {
+      group_id: {
         type: Sequelize.UUID,
         references: {
-          model: 'users',
+          model: 'groups',
           key: 'id',
         },
         onUpdate: 'CASCADE',

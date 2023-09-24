@@ -22,7 +22,7 @@ const handleLoginController = async (req, res) => {
     if (!user) {
       return res.status(500).json({
         successful: false,
-        mesaage: 'Unable to login now',
+        message: 'Unable to login now',
       });
     }
 
