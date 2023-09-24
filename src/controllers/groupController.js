@@ -1,10 +1,10 @@
-const Groups = require('../models/groups');
+const Groups = require('../models/2-groups');
 const GroupImage = require('../models/group_image');
 const UserGroup = require('../models/user-groups');
-const Images = require('../models/images');
-const Events = require('../models/events');
+const Images = require('../models/4-images');
+const Events = require('../models/3-events');
 const GroupEvents = require('../models/group-events');
-const User = require('../models/users');
+const User = require('../models/1-users');
 
 const getEvent = require('../utils/helpers/getEvent');
 const { upload } = require('../services/cloudinary');
