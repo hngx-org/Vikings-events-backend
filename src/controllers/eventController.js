@@ -141,7 +141,7 @@ const createEventController = async (req, res) => {
 
     // loop to create image comment association
     for (const imageID of imageIDs) {
-      EventThumbnail.create({
+      await EventThumbnail.create({
         event_id: events.dataValues.id,
         image_id: imageID,
       });
