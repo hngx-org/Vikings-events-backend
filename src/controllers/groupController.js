@@ -75,7 +75,7 @@ const getGroups = async (req, res) => {
 };
 
 const getGroupDetails = async (req, res) => {
-  let { groupId } = req.params;
+  const { groupId } = req.params;
 
   try {
     const group = await Groups.findByPk(groupId);
