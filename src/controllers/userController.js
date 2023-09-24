@@ -1,11 +1,11 @@
 /* eslint-disable object-curly-newline */
 const { Op } = require('sequelize');
-const User = require('../models/users');
+const User = require('../models/1-users');
 const UserGroups = require('../models/user-groups.js');
-const Groups = require('../models/groups');
+const Groups = require('../models/2-groups');
 const GroupImages = require('../models/group_image');
-const Images = require('../models/images');
-const Events = require('../models/events');
+const Images = require('../models/4-images');
+const Events = require('../models/3-events');
 const InterestedEvents = require('../models/interested-events');
 const sequelize = require('../config/config');
 

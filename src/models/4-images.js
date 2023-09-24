@@ -1,6 +1,6 @@
 const { DataTypes, Model, Sequelize } = require('sequelize');
 const sequelize = require('../config/config');
-const Comments = require('./comments');
+const Comments = require('./5-comments');
 
 class Images extends Model {}
 
