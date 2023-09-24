@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+const sequelize = require('../config/config');
 const cloudinary = require('cloudinary').v2;
 const { Op } = require('sequelize');
 const Events = require('../models/events');
@@ -350,11 +351,36 @@ const getEventDetails = async (req, res) => {
   try {
     const { eventId } = req.params;
     const event = await Events.findByPk(eventId);
+    const comments = await Comments.findAll({
+      where: { event_id: eventId },
+      include: [ Images],
+      attributes: {
+        include: [
+          [
+            // Note the wrapping parentheses in the call below!
+            sequelize.literal(`(
+                    SELECT COUNT(*)
+                    FROM likes
+                    WHERE
+                    likes.comment_id = Comments.id
+                )`),
+            'likesCount',
+          ],
+        ],
+      },
+    });
 
     if (!event) {
       return res.status(404).json({ message: 'Event not found' });
     }
-    return res.status(200).json({ event });
+
+    const response = {
+      event,
+      comments,
+      message: 'Event fetched successfully',
+      status: 'Success',
+    };
+    return res.status(200).json(response);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error.' });
