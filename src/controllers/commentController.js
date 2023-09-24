@@ -45,12 +45,11 @@ const getCommentImages = async (req, res) => {
     );
 
     const imagePromises = imageIds.map(
-      async (image_id) =>
-        await Images.findOne({
-          where: {
-            id: image_id,
-          },
-        }),
+      async (image_id) => await Images.findOne({
+        where: {
+          id: image_id,
+        },
+      }),
     );
 
     const imagesResult = await Promise.allSettled(imagePromises);
@@ -102,17 +101,17 @@ const getComments = async (req, res) => {
 
     const commentsRe = await Promise.all(
       comments.map(async (comment) => {
-        let commentImg = await CommentImages.findAll({
+        const commentImg = await CommentImages.findAll({
           where: {
             comment_id: comment.id,
           },
         });
 
-        let images = [];
+        const images = [];
 
         for (let i = 0; i < commentImg.length; i++) {
           const imge = commentImg[i];
-          let res = await Images.findByPk(imge.dataValues.image_id);
+          const res = await Images.findByPk(imge.dataValues.image_id);
           images.push(res.dataValues.url);
         }
 
@@ -206,7 +205,7 @@ const likeComment = async (req, res) => {
   try {
     const { commentId } = req.params;
     // const userId = req.user.id;
-    const userId = req.params.userId;
+    const { userId } = req.params;
 
     //  Check if the user has already liked the comment
     const existingLike = await Likes.findOne({
