@@ -14,6 +14,7 @@ UserGroup.init(
         model: User,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
     group_id: {
       type: DataTypes.UUID,
@@ -22,6 +23,7 @@ UserGroup.init(
         model: Groups,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
   },
   {

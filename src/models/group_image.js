@@ -13,6 +13,7 @@ GroupImage.init(
         model: Groups,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
     image_id: {
       type: DataTypes.UUID,
@@ -20,6 +21,7 @@ GroupImage.init(
         model: Images,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
   },
 

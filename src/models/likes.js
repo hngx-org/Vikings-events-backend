@@ -13,6 +13,7 @@ Likes.init(
         model: Comments,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
     user_id: {
       type: DataTypes.UUID,
@@ -20,6 +21,7 @@ Likes.init(
         model: User,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
   },
 

@@ -163,81 +163,17 @@ const createEventController = async (req, res) => {
 };
 
 const deleteEventController = async (req, res) => {
-  // Extract the event ID from the request parameters
-  const eventIdToDelete = req.params.eventId;
-  const t = await Events.sequelize.transaction();
+  const { eventId } = req.params;
 
   try {
-    const relatedImageEvent = await EventThumbnail.findOne({
-      where: {
-        event_id: eventIdToDelete,
-      },
-      transaction: t, // Associate the transaction with the query
-    });
+    const response = await Events.destroy({ where: { id: eventId } });
 
-    console.log(relatedImageEvent);
-
-    // Find related data (images and image_event) associated with the event
-
-    let relatedImage;
-
-    if (relatedImageEvent) {
-      relatedImage = await Images.findOne({
-        where: {
-          id: relatedImageEvent.image_id,
-        },
-        transaction: t, // Associate the transaction with the query
-      });
-    }
-
-    console.log(relatedImageEvent, relatedImage);
-
-    // Delete related data (within the transaction), if it exists
-    if (relatedImage) {
-      await Images.destroy({
-        where: {
-          eventId: relatedImage.id,
-        },
-        transaction: t, // Associate the transaction with the delete operation
-      });
-    }
-
-    if (relatedImageEvent) {
-      await EventThumbnail.destroy({
-        where: {
-          id: relatedImageEvent.id,
-        },
-        transaction: t, // Associate the transaction with the delete operation
-      });
-    }
-
-    // Step 3: Delete the event itself (within the transaction)
-    const deletedRows = await Events.destroy({
-      where: {
-        id: eventIdToDelete,
-      },
-      transaction: t, // Associate the transaction with the delete operation
-    });
-
-    // Commit the transaction if everything succeeds
-    await t.commit();
-
-    if (deletedRows === 1) {
-      return res.status(200).json({
-        message: `Event with ID ${eventIdToDelete} and its related data have been deleted successfully.`,
-      });
-    }
-    return res
-      .status(404)
-      .json({ message: `Event with ID ${eventIdToDelete} was not found.` });
+    res.json({ message: 'Event deleted successfully', data: 1 });
   } catch (error) {
-    console.error('Error deleting event and related data:', error);
-
-    // Roll back the transaction in case of an error
-    await t.rollback();
-
-    return res.status(500).json({
-      error: 'An error occurred while deleting the event and related data.',
+    console.error('Error deleting event:', error);
+    res.status(500).json({
+      error: 'An error occurred while deleting the event',
+      details: error.message,
     });
   }
 };
