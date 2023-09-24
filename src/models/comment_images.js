@@ -14,6 +14,7 @@ CommentImages.init(
         model: Comments,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
     image_id: {
       type: DataTypes.UUID,
@@ -21,6 +22,7 @@ CommentImages.init(
         model: Images,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
   },
 

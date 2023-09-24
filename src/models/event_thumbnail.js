@@ -13,6 +13,7 @@ EventThumbnail.init(
         model: Events,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
     image_id: {
       type: DataTypes.UUID,
@@ -20,6 +21,7 @@ EventThumbnail.init(
         model: Images,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
   },
 

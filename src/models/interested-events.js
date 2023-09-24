@@ -14,6 +14,7 @@ InterestedEvents.init(
         model: User,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
     event_id: {
       type: DataTypes.UUID,
@@ -22,6 +23,7 @@ InterestedEvents.init(
         model: Events,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
   },
   {

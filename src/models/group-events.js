@@ -14,6 +14,7 @@ GroupEvents.init(
         model: Groups,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
     event_id: {
       type: DataTypes.UUID,
@@ -22,6 +23,7 @@ GroupEvents.init(
         model: Events,
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
   },
   {
