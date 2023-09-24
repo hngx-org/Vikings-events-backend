@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
-// const dotenv = require('dotenv');
+const dotenv = require('dotenv');
 
 // import middlewares
 const { notFound, errorHandler } = require('./middlewares/error');

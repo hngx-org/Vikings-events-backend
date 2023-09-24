@@ -23,7 +23,7 @@ router.put('/:profileId', updateUserProfile);
 // Delete interest in an event
 router.delete(
   '/:userId/interests/:eventId',
-  isUserAuthenticated,
+
   verify,
   deleteInterestForAnEvent,
 );
@@ -31,7 +31,7 @@ router.delete(
 // Create interest in an event
 router.post(
   '/:userId/interests/:eventId',
-  isUserAuthenticated,
+
   verify,
   createInterestForAnEvent,
 );
