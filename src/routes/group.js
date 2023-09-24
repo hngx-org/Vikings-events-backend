@@ -20,10 +20,10 @@ const router = express.Router();
 router.post('/', uploads, verify, cloudConfig, createGroup);
 
 // get all groups
-router.get('/', getGroups);
+router.get('/', verify, getGroups);
 
 // Get a group detail
-router.get('/:groupId', getGroupDetails);
+router.get('/:groupId', verify, getGroupDetails);
 // router.get('/groupId/events', getGroupEvents);
 
 // Update a group detail
