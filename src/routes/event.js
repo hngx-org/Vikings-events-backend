@@ -41,7 +41,7 @@ router.delete('/:eventId', verify, deleteEventController);
 router.post('/:eventId/comments', verify, createComment);
 
 // get event comments
-router.get('/:eventId/comments', getComments);
+router.get('/:eventId/comments', verify, getComments);
 
 // Add an event comment images
 router.post('/:eventId/comments/:commentId/images', addEventCommentImage);

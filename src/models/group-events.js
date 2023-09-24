@@ -31,4 +31,6 @@ GroupEvents.init(
   },
 );
 
+GroupEvents.removeAttribute('id');
+
 module.exports = GroupEvents;

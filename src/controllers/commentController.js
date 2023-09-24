@@ -5,6 +5,7 @@ const Events = require('../models/events');
 const Images = require('../models/images');
 const Likes = require('../models/likes');
 const User = require('../models/users');
+const EventThumbnail = require('../models/event_thumbnail');
 
 const cloudinary = require('cloudinary').v2;
 const path = require('path');
@@ -39,13 +40,18 @@ const getCommentImages = async (req, res) => {
     if (commentImages.length === 0) {
       return res.json({ images: [] });
     }
-    const imageIds = commentImages.map((comment_image) => comment_image.image_id);
+    const imageIds = commentImages.map(
+      (comment_image) => comment_image.image_id,
+    );
 
-    const imagePromises = imageIds.map(async (image_id) => await Images.findOne({
-      where: {
-        id: image_id,
-      },
-    }));
+    const imagePromises = imageIds.map(
+      async (image_id) =>
+        await Images.findOne({
+          where: {
+            id: image_id,
+          },
+        }),
+    );
 
     const imagesResult = await Promise.allSettled(imagePromises);
 
@@ -62,6 +68,12 @@ const getComments = async (req, res) => {
   // We first check if the event exist
   const event = await Events.findByPk(req.params.eventId);
 
+  let eventThumb = await EventThumbnail.findOne({
+    where: { event_id: event.id },
+  });
+
+  eventThumb = await Images.findByPk(eventThumb.dataValues.image_id);
+
   if (!event) {
     return res.status(500).send({ error: 'Event Not found' });
   }
@@ -71,7 +83,7 @@ const getComments = async (req, res) => {
 
     const comments = await Comments.findAll({
       where: { event_id: eventId },
-      include: [User, Events, Images],
+      include: [User],
       attributes: {
         include: [
           [
@@ -88,7 +100,30 @@ const getComments = async (req, res) => {
       },
     });
 
-    return res.status(200).json({ comments });
+    const commentsRe = await Promise.all(
+      comments.map(async (comment) => {
+        let commentImg = await CommentImages.findAll({
+          where: {
+            comment_id: comment.id,
+          },
+        });
+
+        let images = [];
+
+        for (let i = 0; i < commentImg.length; i++) {
+          const imge = commentImg[i];
+          let res = await Images.findByPk(imge.dataValues.image_id);
+          images.push(res.dataValues.url);
+        }
+
+        return { ...comment.dataValues, images };
+      }),
+    );
+
+    return res.status(200).json({
+      event: { ...event.dataValues, eventThumb },
+      comments: commentsRe,
+    });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }

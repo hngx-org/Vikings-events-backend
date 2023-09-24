@@ -2,10 +2,10 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('group_image', {
-      comment_id: {
+      group_id: {
         type: Sequelize.UUID,
         references: {
-          model: 'comments',
+          model: 'groups',
           key: 'id',
         },
         onUpdate: 'CASCADE',
