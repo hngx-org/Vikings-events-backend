@@ -1,4 +1,6 @@
 # VIKINGS EVENTS BACKEND
+## Documentation
+- [Link to API endpoints documentation](https://hackmd.io/g5p4dZC5T3OZdkC4XgINig)
 ## Installation
 
 required: [Node](https://nodejs.org/dist/latest-v12.x/) plus [npm](https://docs.npmjs.com/) and [Git](https://git-scm.com/downloads)
@@ -45,3 +47,5 @@ git push origin <your_branch_name>
 
 # go and make a pull request to the dev branch
 ```
+
+
