@@ -16,6 +16,15 @@ const { authRoutes } = require('./routes');
 const commentRoutes = require('./routes/comment');
 const { upload } = require('./utils/multer');
 
+
+// Swagger
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const path = require('path');
+const filePath = path.resolve(__dirname, 'swagger.yml'); 
+
+const swaggerDoc = YAML.load(filePath);
+
 dotenv.config();
 
 const app = express();
@@ -32,6 +41,8 @@ app.get('/', (req, res) => {
     message: 'API - 👋🌎🌍🌏',
   });
 });
+
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
 // Routes
 app.use('/api/v1/auth', authRoutes);
