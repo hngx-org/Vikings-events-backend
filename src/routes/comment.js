@@ -24,7 +24,7 @@ const {
 router.get('/');
 
 // Create a comment
-router.post('/:eventId', uploads, verify, cloudConfig, createComment);
+router.post('/:eventId/comments', uploads, verify, cloudConfig, createComment);
 
 // Get all the images for a comment
 router.get('/:eventId', verify, getComments);

@@ -15,7 +15,6 @@ const {
 } = require('../controllers/eventController');
 const {
   getComments,
-  createComment,
 } = require('../controllers/commentController');
 const { isUserAuthenticated, verify } = require('../middlewares/auth');
 const { cloudConfig } = require('../middlewares/cloudinary');
@@ -38,7 +37,7 @@ router.put('/:eventId', verify, updateEventController);
 router.delete('/:eventId', verify, deleteEventController);
 
 // Create an event comment
-router.post('/:eventId/comments', verify, createComment);
+// router.post('/:eventId/comments', verify, createComment);
 
 // get event comments
 router.get('/:eventId/comments', verify, getComments);

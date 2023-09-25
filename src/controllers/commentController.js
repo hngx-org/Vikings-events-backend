@@ -18,11 +18,6 @@ const { upload } = require('../services/cloudinary');
 //   api_secret: '8ZuIWrywiz5m6_6mLq_AYuHDeUo',
 // });
 
-const getGroups = async (req, res) => {
-  const groups = 'All Groups';
-  res.json({ groups });
-};
-
 const getCommentImages = async (req, res) => {
   const commentId = Number(req.params.commentId);
 

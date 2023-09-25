@@ -1,0 +1,394 @@
+openapi: 3.0.0
+info:
+  title: Events App
+  version: 1.0.0
+servers:
+  - url: http://13.51.241.113:5000
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  - name: Auth
+  - name: Groups
+  - name: Events
+  - name: Users
+paths:
+  /api/v1/groups:
+    get:
+      tags:
+        - Groups
+      summary: Get all groups ✅
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/groups/:
+    post:
+      tags:
+        - Groups
+      summary: Create Group ✅
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: princeibs group
+                name:
+                  type: string
+                  example: my group
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/groups/79f62d89-9f70-40b6-8353-d9f5d3e7b99a:
+    get:
+      tags:
+        - Groups
+      summary: Get group details
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Groups
+      summary: Update group details
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/groups/79f62d89-9f70-40b6-8353-d9f5d3e7b99a/members/erhiogererieket:
+    post:
+      tags:
+        - Groups
+      summary: Add user to group ✅
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Groups
+      summary: Remove user from group ✅
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/erhiogererieket/groups:
+    get:
+      tags:
+        - Users
+      summary: Get User groups ✅
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users:
+    get:
+      tags:
+        - Users
+      summary: Get all users ✅
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/erhiogererieket:
+    get:
+      tags:
+        - Users
+      summary: Get profile info ✅
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Users
+      summary: Update user profile
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/erhiogererieket/interests/events/:
+    get:
+      tags:
+        - Users
+      summary: Get all interests in events
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/erhiogererieket/interests/b46ebd67-18b2-4980-87a5-b8da9624524a:
+    post:
+      tags:
+        - Users
+      summary: Interest in Event ✅
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Users
+      summary: Remove interest from event ✅
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/auth:
+    post:
+      tags:
+        - Auth
+      summary: 1. Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                googleId: erhiogererieket
+                email: not.found@gmail.com
+                picture: mypicture.png
+                name: Ayo Bryson
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/events:
+    post:
+      tags:
+        - Events
+      summary: 4. Create Event ✅
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Testing 1
+                images:
+                  type: string
+                  format: binary
+                location:
+                  type: string
+                  example: Unknown
+                description:
+                  type: string
+                  example: An unknown event
+                start_date:
+                  type: string
+                  example: '2023-09-23'
+                end_date:
+                  type: string
+                  example: '2023-09-24'
+                start_time:
+                  type: string
+                  example: '18:51:00'
+                end_time:
+                  type: string
+                  example: '18:52:00'
+                group_id:
+                  type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Events
+      summary: 5. Get all events ✅
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/events/b46ebd67-18b2-4980-87a5-b8da9624524a:
+    get:
+      tags:
+        - Events
+      summary: 6. Get event details ✅
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/events/1b369ca8-75cb-4c09-92c7-ed33d101d53a:
+    put:
+      tags:
+        - Events
+      summary: 7. Update event details ✅
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                location: Unknown
+                title: Submission day
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Events
+      summary: 8. Delete Event
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Events
+      summary: 11. Add Image to comment 👀
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/events/b46ebd67-18b2-4980-87a5-b8da9624524a/comments:
+    post:
+      tags:
+        - Events
+      summary: 9. Add Comment to Event ✅
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                body: Comment from new endpoint
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - Events
+      summary: 10. Get event comments ✅
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/comments/b46ebd67-18b2-4980-87a5-b8da9624524a:
+    get:
+      tags:
+        - Comments
+      summary: 12. Get comment images
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/comments/547a2c7a-8c20-4824-aef6-40f0b20624b5/members/erhiogererieket/like:
+    post:
+      tags:
+        - Comments
+      summary: 13. Like comment ✅
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/comments/547a2c7a-8c20-4824-aef6-40f0b20624b5/members/erhiogererieket/unlike:
+    delete:
+      tags:
+        - Comments
+      summary: 14. Un-like comment ✅
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/comments/b563fc8f-5c78-4812-ba48-e4d270ba23e9:
+    delete:
+      tags:
+        - Comments
+      summary: Delete Comment 👀
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
